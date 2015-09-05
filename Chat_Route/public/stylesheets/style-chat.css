@@ -1,0 +1,115 @@
+@import
+	url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+
+body {
+	background-color: white;
+	font-family: 'Source Sans Pro', sans-serif;
+	color: black;
+}
+
+h1 {
+	font-family: Broadway;
+	background-color: #993300;
+	color: white;
+	font-size: 25px;
+	text-align: center;
+}
+
+#m {
+	width: 350px;
+	height: 60px;
+	font-size: 15px;
+	font-family: 'Source Sans Pro', sans-serif;
+	border: 2px solid black;
+	box-sizing: border-box;
+	float: left;
+	margin: 0 20px 0 0;
+}
+
+#div_msg {
+	position: fixed;
+	bottom: 20px;
+	left: 10px;
+}
+
+ul {
+	background-color: white;
+	font-size: 15px;
+	width: 350px;
+	height: 440px;
+	border: 2px solid black;
+	box-sizing: border-box;
+	overflow-Y: scroll;
+	padding: 0;
+	margin: 0;
+	max-width: 100%;
+	position: relative;
+	word-break: break-all;
+}
+
+ul li:nth-child(odd) {
+	background-color: white;
+}
+
+ul li:nth-child(even) {
+	background-color: #ddd;
+}
+
+.column #messages {
+	float: left;
+	margin: 0 20px 0 0;
+}
+
+#p1 {
+	font-size: 25px;
+	font-weight: bold;
+	height: 25px;
+	padding-left: 6em;
+}
+
+span.tab {
+	padding: 0 125px; /* Or desired space*/
+}
+
+#button {
+	background-color: #3366FF;
+	color: white;
+	display: inline-block;
+	cursor: pointer;
+	border-radius: 10px; font-size : 15px;
+	padding: 7px 7px;
+	text-decoration: none;
+	font-weight: bold;
+	width: 80px;
+	float: left;
+	position: absolute;
+	bottom: 45px;
+	left: 380px;
+	font-size: 15px;
+}
+
+#buttonHistory {
+	background-color: #3366FF;
+	color: white;
+	display: inline-block;
+	cursor: pointer;
+	border-radius: 10px;
+	font-size: 15px;
+	padding: 7px 7px;
+	text-decoration: none;
+	font-weight: bold;
+	width: 200px;	
+}
+
+#logout-button {
+	background: none;
+	border: none;
+	color: #0066ff;
+	text-decoration: underline;
+	cursor: pointer;
+	font-size: 15px;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	color: white;
+}
