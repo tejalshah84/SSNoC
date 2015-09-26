@@ -1,43 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>SSN</title>
-<link href="css/style.css" rel='stylesheet' type='text/css' />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Flat UI Web Form Widget and Kit,Login Forms,Sign up Forms,Registration Forms,News latter Forms,Elements"./>
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-</script>
+    <meta charset="utf-8">
+    <title>SSN</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        window.alert = function(){};
+        var defaultCSS = document.getElementById('bootstrap-css');
+        function changeCSS(css){
+            if(css) $('head > link').filter(':first').replaceWith('<link rel="stylesheet" href="'+ css +'" type="text/css" />'); 
+            else $('head > link').filter(':first').replaceWith(defaultCSS); 
+        }
+        $( document ).ready(function() {
+          var iframe_height = parseInt($('html').height()); 
+          window.parent.postMessage( iframe_height, 'http://bootsnipp.com');
+        });
+    </script>
 </head>
 <body>
-</body>
-</html>
-	<!--/start-login-two-->
-	<div class="login-02">
-		<div class="two-login  hvr-float-shadow">
-			<div class="two-login-head">
-					<img src="images/top-note.png" alt=""/>
-					<h2>register</h2>
-					<lable></lable>
+	<div class="container">
+    <div class="row">
+		<div class="col-md-4 col-md-offset-4">
+    		<div class="panel panel-default">
+			  	<div class="panel-heading">
+			    	<h3 class="panel-title">Sign Up</h3>
+			 	</div>
+			  	<div class="panel-body">
+			    	<form accept-charset="UTF-8" role="form">
+                    <fieldset>
+			    	  	<div class="form-group">
+			    		    <input class="form-control" placeholder="Username" name="username" type="text">
+			    		</div>
+			    		<div class="form-group">
+			    			<input class="form-control" placeholder="Password" name="password" type="password" value="">
+			    		</div>			    		
+			    		<div class="form-group">
+			    			<input class="form-control" placeholder="Confirm Password" name="cpassword" type="password" value="">
+			    		</div>	
+			    		<div class="checkbox">
+			    	    	<label>
+			    	    		<input name="remember" type="checkbox" value="Remember Me"> Remember Me
+			    	    	</label>
+			    	    </div>
+			    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+			    	</fieldset>
+			      	</form>
+			    </div>
 			</div>
-			<form>
-				<li>
-					<input type="text" class="text" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" ><a href="#" class=" icon2 user2"></a>
-				</li>
-				<li>
-					<input type="password" value="Password1" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}"><a href="#" class=" icon2 lock2"></a>
-				</li>
-				<li>
-					<input type="password" value="Password2" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Confirm Password';}"><a href="#" class=" icon2 lock2"></a>
-				</li>
-				<div class="p-container">
-					<input type="checkbox" name="checkbox"><i></i>I agree to the <a href="#">Terms of Servicee</a></label>
-				</div>
-				<div class="submit two">
-						<input type="submit" onclick="myFunction()" value="SIGN UP" >
-				</div>
-					<h5>Already a member ?<a href="#"> Login Here</a></h5>
-			</form>
 		</div>
 	</div>
-		
+</div>	
+<script type="text/javascript"></script>
+</body>
+</html>
