@@ -8,20 +8,28 @@ var sqlite3 = require("sqlite3").verbose();
 var db = new sqlite3.Database(file);
 
 db.serialize(function() {
-  //db.run, if table user is not exist，then create users database
-  db.run("CREATE TABLE IF NOT EXISTS  Users (thing TEXT)");
-  var stmt = db.prepare("INSERT INTO Users VALUES (?)");
+  //db.run, if table user is not exist，then create user database
+  db.run("CREATE TABLE IF NOT EXISTS user (username TEXT,password TEXT,firstname TEXT,lastname TEXT,status INT,role INT,lastLoginTime TEXT)");
+
+
+  var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?)");
   
   //add 10 random data
+  
+  var date = new Date();
+  var logintime = date.toLocaleTimeString();
+
   for (var i = 0; i<10; i++) {
-    stmt.run("staff_number" + i);
+
+      stmt.run("testname", "testpw", "testFname", "testLname", i, i, logintime);
+
   }
 
   stmt.finalize();
 
-  db.each("SELECT rowid AS id, thing FROM Users", function(err, row) {
+  db.each("SELECT username, password,firstname,lastname,status,role,lastLoginTime FROM user", function(err, row) {
     //log all data
-    console.log(row.id + ": " + row.thing);
+    console.log("User id :" + row.status);
   });
 });
 
