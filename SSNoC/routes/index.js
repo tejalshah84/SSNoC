@@ -2,16 +2,66 @@ var express = require('express');
 var router = express.Router();
 var db = require('.././testdb');
 
+// Load the bcrypt module
+var bcrypt = require('bcrypt');
+
+// Generate a salt
+var salt = bcrypt.genSaltSync(10);
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log("here......");
-  db.each("SELECT * FROM role", function(err, row) {
-    //log all data
-    console.log("Role :" + row.title);
-  });
 	res.render('signup', { title: 'Express' });
+});
+
+
+//handle user signup request
+router.post('/', function(req, res){
+	console.log("Handling signup...");
+	console.log("Username: "+req.body.username);
 	
+	var username = req.body.username;
+	
+	// Hash the password with the salt
+	var pwd_hash = bcrypt.hashSync(req.body.password, salt);
+  var date = new Date();
+  var logintime = date.toLocaleTimeString();
+	
+	req.session.username = username;
+	// store the hash in  DB
+  var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?)");
+  stmt.run(username, pwd_hash, "", "", 3, 3, logintime);
+	
+	db.get("SELECT * FROM user WHERE username = $username", {$username: username},function(err, result) {
+		req.session.user = result;
+		res.redirect('/welcome');
+	});
+	
+  
+});
+
+router.get('/welcome', function(req, res) {
+	if (req.session && req.session.user) { 
+		db.get("SELECT * FROM user WHERE username = $username", {$username: req.session.user.username},function(err, result) {
+			if (!result) {
+				// if the user isn't found in the DB, reset the session info and redirect the user to the login page
+		   	req.session.reset();
+		   	res.redirect('/signin');
+			} else {
+		  	// expose the user to the template
+		  	res.locals.user = result;
+		 		// render the welcome page
+		  	res.render('welcome', { 
+					user_name: res.locals.user.username, 
+					user_status: res.locals.user.status,
+					user_role: res.locals.user.role,
+					last_login: res.locals.user.lastLoginTime
+				});
+			}	
+		});
+	}else {
+    res.redirect('/signin');
+  }
 });
 
 router.get('/signin', function(req, res, next) {

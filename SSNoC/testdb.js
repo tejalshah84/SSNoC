@@ -15,20 +15,20 @@ db.serialize(function() {
 	db.run("CREATE TABLE IF NOT EXISTS user (username TEXT,password TEXT,firstname TEXT,lastname TEXT,status INT,role INT,lastLoginTime TEXT)");
 
 
-  var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?)");
+ /* var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?)");
   
   //add 10 random data
   
   var date = new Date();
   var logintime = date.toLocaleTimeString();
 
-  for (var i = 0; i<10; i++) {
+  for (var i = 0; i<2; i++) {
 
       stmt.run("testname", "testpw", "testFname", "testLname", i, i, logintime);
 
   }
 
-  stmt.finalize();
+  stmt.finalize();*/
 
   db.each("SELECT username, password,firstname,lastname,status,role,lastLoginTime FROM user", function(err, row) {
     //log all data
@@ -36,14 +36,14 @@ db.serialize(function() {
   });
 	
 	//Status
-  db.run("CREATE TABLE IF NOT EXISTS status (title TEXT,description TEXT)");
+ /* db.run("CREATE TABLE IF NOT EXISTS status (title TEXT,description TEXT)");
   stmt = db.prepare("INSERT INTO status (title, description) VALUES (?,?)");
   
   //add 3 random data
   stmt.run("Danger", "Dangerous");
 	stmt.run("Medium", "Medium");
 	stmt.run("Safe", "Safe");
-  stmt.finalize();
+  stmt.finalize();*/
 
   db.each("SELECT * FROM status", function(err, row) {
     //log all data
@@ -51,14 +51,14 @@ db.serialize(function() {
   });
 	
 	//Role
-  db.run("CREATE TABLE IF NOT EXISTS role (title TEXT,description TEXT)");
-  stmt = db.prepare("INSERT INTO role (title, description) VALUES (?,?)");
+ /*  db.run("CREATE TABLE IF NOT EXISTS role (title TEXT,description TEXT)");
+//  stmt = db.prepare("INSERT INTO role (title, description) VALUES (?,?)");
   
-  //add 3 random data
+ //add 3 random data
   stmt.run("Admin", "This is admin");
 	stmt.run("Coordinator", "Coordinator");
 	stmt.run("User", "Regular user");
-  stmt.finalize();
+  stmt.finalize();*/
 
   db.each("SELECT * FROM role", function(err, row) {
     //log all data
