@@ -1,5 +1,5 @@
-
-	<h1><%= user_name%></h1>
-	<p>Status: <%= user_status%></p>
-	<p>Role: <%= user_role%></p>
-	<p>Last login: <%= last_login%></p>
+<% layout('./layouts/layout') -%>
+	<h1><%= user.username%></h1>
+	<p>Status: <%= user.status%></p>
+	<p>Role: <%= user.role%></p>
+	<p>Last login: <%= user.lastLoginTime%></p>

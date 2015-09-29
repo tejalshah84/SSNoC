@@ -1,5 +1,5 @@
 var express = require('express'),
-expressLayouts = require('express-ejs-layouts');
+engine = require('ejs-locals');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -22,11 +22,13 @@ http.listen(8888, function(){
 
 
 // view engine setup
+// use ejs-locals for all ejs templates:
+app.engine('ejs', engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('layout', 'layout') // defaults to 'layout'     
+    
 
-app.use(expressLayouts)
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

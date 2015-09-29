@@ -44,18 +44,14 @@ router.get('/welcome', function(req, res) {
 	if (req.session && req.session.user) { 
 		db.get("SELECT * FROM user WHERE username = $username", {$username: req.session.user.username},function(err, result) {
 			if (!result) {
-				// if the user isn't found in the DB, reset the session info and redirect the user to the login page
+				// if the user isn't found in the DB, reset the session info and redirect the user to the signin page
 		   	req.session.reset();
 		   	res.redirect('/signin');
 			} else {
-		  	// expose the user to the template
 		  	res.locals.user = result;
 		 		// render the welcome page
 		  	res.render('welcome', { 
-					user_name: res.locals.user.username, 
-					user_status: res.locals.user.status,
-					user_role: res.locals.user.role,
-					last_login: res.locals.user.lastLoginTime
+					user: res.locals.user
 				});
 			}	
 		});
