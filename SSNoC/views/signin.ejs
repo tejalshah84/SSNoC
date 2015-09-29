@@ -6,12 +6,12 @@
 					<h1>LOGIN</h1>
 					<span></span>
 			</div>
-			<form>
+			<form action="/signin" method="post">
 				<li>
-					<input type="text" class="text" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" ><a href="#" class=" icon user"></a>
+					<input type="text" class="text" name="username" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" ><a href="#" class=" icon user"></a>
 				</li>
 				<li>
-					<input type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}"><a href="#" class=" icon lock"></a>
+					<input type="password" name="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}"><a href="#" class=" icon lock"></a>
 				</li>
 				<div class="p-container">
 						<input type="checkbox" name="checkbox"><i></i>Remember Me</label>

@@ -60,8 +60,60 @@ router.get('/welcome', function(req, res) {
   }
 });
 
-router.get('/signin', function(req, res, next) {
+
+
+
+/* show signin page*/
+router.get('/signin', function(req, res) {
+	  
+	  console.log("Handling signin entering...");
 	  res.render('signin', { title: 'Express' });
 });
+
+
+/* handle signin request*/
+router.post('/signin', function(req, res){
+	console.log("Handling signin...");
+	console.log("Username: "+req.body.username);
+	//Retrieve Hash pwd from DB
+	db.get("SELECT * FROM user WHERE username = $username", {$username: req.body.username}, function(err, result) {
+
+		if(!result){
+			// If the username isn't in the DB, reset the session and redirect the user to signup an account
+			console.log("Redirected to signin-1");
+			res.redirect('/signin');// Question - or redirect to signin again? which one is more reasonable?
+		}
+		else{  // If the user is in the DB, retrieve password and compare it
+			
+			var pwd_hash = result.password;
+			//Compare pwd
+			var comparison = bcrypt.compareSync(req.body.password, pwd_hash);
+			console.log("Comparing password...");
+			if(comparison){ //If pwd is correct, update new login time to DB and enter the welcome page
+
+			
+				var date = new Date();//Get user login time
+				var logintime = date.toLocaleTimeString();
+				db.run("UPDATE user SET lastLoginTime WHERE username = $username", {$username: result.username}, function(err, row){ 
+
+					req.session.user = result;
+					console.log("Succefully signin!");
+					res.redirect('/welcome');
+				});
+			}
+
+			else{
+
+				console.log("Password not correct...Redirected to signin");
+				res.redirect('/signin');
+
+			}
+			
+
+		
+		}
+});
+});
+
 
 module.exports = router;
