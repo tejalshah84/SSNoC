@@ -10,6 +10,7 @@ var users = require('./routes/users');
 
 var app = express();
 var http = require('http').Server(app);
+var engine = require('ejs-locals');
 
 http.listen(8888, function(){
 	console.log('listening on *:8888');
@@ -17,6 +18,7 @@ http.listen(8888, function(){
 
 
 // view engine setup
+app.engine('ejs', engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
