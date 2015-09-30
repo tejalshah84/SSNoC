@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>SSNoC</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/simple-sidebar.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="../css/style.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+         <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                        Directory   
+                </li>
+                <% userDirectory.forEach(function(userItem){ %>
+                    <li>
+                    <% if (userItem.online) { %>
+                        	<a href="#" style="color: green;"> <%= userItem.username %>
+		                   <% if(userItem.status===1){ %>
+		                        	<span class="glyphicon glyphicon-plus-sign" style="color: red;" aria-hidden="true"></span>
+		                     <% }
+		                        else if(userItem.status===2){ %>
+		                           <span class="glyphicon glyphicon-exclamation-sign" style="color: yellow;" aria-hidden="true"></span>
+		                     <% }
+		                        else if(userItem.status===3){ %>
+									<span class="glyphicon glyphicon-ok-sign" style="color: green;" aria-hidden="true"></span>
+							 <%	}
+								else { %>
+								<span></span>
+							 <%	} %>
+                       		</a>
+                   
+                    <% } else { %>
+	                        <a href="#" style="color: grey;"> <%= userItem.username %> 
+							<%	if(userItem.status===1){ %>
+		                        	<span class="glyphicon glyphicon-plus-sign" style="color: red;" aria-hidden="true"></span>
+		                     <%   }
+		                        else if(userItem.status===2){ %>
+		                           <span class="glyphicon glyphicon-exclamation-sign" style="color: yellow;" aria-hidden="true"></span>
+		                     <%   }
+		                        else if(userItem.status===3){ %>
+									<span class="glyphicon glyphicon-ok-sign" style="color: green;" aria-hidden="true"></span>
+							 <%	}
+								else{  %>
+								<span></span>
+							 <%	} %>
+							
+
+	                        </a>
+                     <% }  %>
+                     </li>
+
+             <%  });  %>
+
+       
+                <!-- <li>
+                    <a href="#"><span class="glyphicon glyphicon-plus-sign" style="color: red;" aria-hidden="true"></span>  Denise</a>
+                </li>
+                <li>
+                    <a href="#"><span class="glyphicon glyphicon-plus-sign" style="color: red;" aria-hidden="true"></span>  Amrata</a>
+                </li>
+                <li>
+                    <a href="#"><span class="glyphicon glyphicon-exclamation-sign" style="color: yellow;" aria-hidden="true"></span> Tejal</a>
+                </li>
+                <li>
+                    <a href="#"><span class="glyphicon glyphicon-exclamation-sign" style="color: yellow;" aria-hidden="true"></span> Nisha</a>
+                </li>
+                <li>
+                    <a href="#"><span class="glyphicon glyphicon-exclamation-sign" style="color: yellow;" aria-hidden="true"></span> Joelle</a>
+                </li>
+                <li>
+                    <a href="#"><span class="glyphicon glyphicon-ok-sign" style="color: green;" aria-hidden="true"></span> Angela</a>
+                </li> -->
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" style="padding: 0px;">
+            <div class="container-fluid">
+                <div class="row"  style="height: 50px;">
+                    <div class="col-lg-12"  style="background-color: green; height:100%; padding: 0px;">
+                        <div style="width:50px; float: left;">
+                        <div style="padding: 13px;">
+                            <span href="#menu-toggle" id="menu-toggle" class="glyphicon glyphicon-th-list"  style="color: white; font-size: 18px;" aria-hidden="true"></span>
+                        </div>
+                            
+                        </div>
+                        <div style="width: calc(100% - 105px); float: left; text-align: center; color: white; padding: 11px 0; font-size: 20px;">SSNoC</div>
+                        <div style="width: 55px; float: left;">
+                            
+                            <div class="dropdown" style="padding:13px;">
+                              <div id="dLabel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-user" style="color: white;" aria-hidden="true"></span>
+                                <span class="caret" style="color: white;"></span>
+                              </div>
+                              <ul class="dropdown-menu" aria-labelledby="dLabel" style="left: -106px;">
+                                <li><a>Profile</a></li>
+                                <li><a href="http://localhost:8888/">Sign out</a></li>
+                              </ul>
+                            </div>
+                        </div>
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
+                    <div class="row" style="height: calc(100% - 50px);">
+                    <div class="col-lg-12">
+                       
+                    </div>
+                    </div>
+                       
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+        <div class="modal fade bs-example-modal-sm" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title">Welcome to SSNoC</h3>
+              </div>
+              <div class="modal-body">
+                <p> Hi <%=user.username %>! Welcome to the Survivable Social Network. This platform provides a means for victims of natural catastrophes to communicate with each other, report status, seek help and offer help. The system provides a directory of all the users and indicates their status. Please be sure to update your own status to one of the following by using the "Share Status" menu option:
+                <p>
+                    <span>
+                    <span class="glyphicon glyphicon-plus-sign" style="color: red;" aria-hidden="true"></span>
+                    Emergency! Life threatening emergency. Need help now!
+                    </span>
+                </p>
+                <p>
+                    <span>
+                    <span class="glyphicon glyphicon-exclamation-sign" style="color: yellow;" aria-hidden="true"></span>
+                    Help! Not a Life threatening emergency, but need help.
+                    </span>
+                </p>
+                <p>
+                    <span>
+                    <span class="glyphicon glyphicon-ok-sign" style="color: green;" aria-hidden="true"></span> 
+                    OK! I am Ok, do not need help.
+                    </span>
+                </p> 
+                </p>
+              </div>
+              <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div> -->
+            </div><!-- /.modal-content -->
+          </div>
+        </div>
+
+    </div>
+    <!-- /#wrapper -->
+
+
+    <!--scripts: jquery, bootstrap and other custom js -->
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/utility.js"></script>
+
+  </body>
+
+</html>

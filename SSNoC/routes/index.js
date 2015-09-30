@@ -4,14 +4,17 @@ var router = express.Router();
 var db = require('.././testdb');
 
 // Load the bcrypt module
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 // Generate a salt
 var salt = bcrypt.genSaltSync(10);
 
 var badUsername = ["admin", "root"];
 
-
+var userList = [{username: "TejalShah84", firstname: "Tejal", lastname: "Shah", online: true, status: 1, role: 1, lastLoginTime: new Date().toLocaleString()},
+                {username: "Eileen", firstname: "Eileen", lastname: "Eileen", online: false, status: 1, role: 1, lastLoginTime: new Date().toLocaleString()},
+                {username: "Denise", firstname: "Denise", lastname: "Denise", online: true, status: 2, role: 2, lastLoginTime: new Date().toLocaleString()},
+                {username: "Amrata", firstname: "Amrata", lastname: "Amrata", online: false, status: 3, role: 3, lastLoginTime: new Date().toLocaleString()}];
 
 /* show signin page*/
 router.get('/', function(req, res) {
@@ -20,6 +23,10 @@ router.get('/', function(req, res) {
 	  res.render('signin', {  });
 });
 
+
+router.get('/signin', function(req, res, next) {
+	res.render('signin', { error: ""});
+});
 /* handle signin request*/
 router.post('/', function(req, res){
 	console.log("Handling signin...");
@@ -47,7 +54,7 @@ router.post('/', function(req, res){
 
 					req.session.user = result;
 					console.log("Succefully signin!");
-					res.redirect('/welcome');
+					res.redirect('/community');
 				});
 			}
 
@@ -75,7 +82,7 @@ router.post('/signup', function(req, res){
 	
 	var username = req.body.username;
 	//check validity of the user name
-	var usernameRegex = /^[a-zA-Z0-9]+$/; //the input firstname should only contains characters A-Z, a-z, and -
+	//var usernameRegex = /^[a-zA-Z0-9]+$/; //the input firstname should only contains characters A-Z, a-z, and -
 																				//the input login name should only contains alphanumeric characters
 	var validUsername = username.match(usernameRegex);
 	if(validUsername == null || badUsername.indexOf(username) >= 0){
@@ -100,7 +107,7 @@ router.post('/signup', function(req, res){
 	
 				db.get("SELECT * FROM user WHERE username = $username", {$username: username},function(err, result) {
 					req.session.user = result;
-					res.redirect('/welcome');
+					res.redirect('/community');
 				});
 			}
 			
@@ -110,16 +117,17 @@ router.post('/signup', function(req, res){
   
 });
 
-router.get('/welcome', function(req, res) {
+router.get('/community', function(req, res) {
 	if (req.session && req.session.user) { 
 		db.all("SELECT * FROM user", function(err, rows) {
 			var users = rows;
 			console.log("Getting all users...");
 			console.log(rows);
 		 		// render the welcome page
-		  	res.render('welcome', { 
+		  	res.render('community', { 
 					user: req.session.user, 
-					users : users
+					//users : users
+					userDirectory: userList
 				});
 		});
 	}else {
