@@ -18,11 +18,11 @@ function validateSignup(){
 		return false; 
 	}
 
-	if ($('#pword').val() == null || $('#pword').val() == "" || !/\S/.test($('#pword').val())) { 
+	/*if ($('#pword').val() == null || $('#pword').val() == "" || !/\S/.test($('#pword').val())) { 
 		alert("Please enter your password");
 		$('#pword').focus();
 		return false; 
-	}
+	}*/
 
 
 	if ($('#p').val() != $('#cp').val()) { 

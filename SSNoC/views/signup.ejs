@@ -7,11 +7,14 @@
 			    	<h3 class="panel-title">Sign Up</h3>
 			 	</div>
 			  	<div class="panel-body">
-			    	<form action="/" method="post">
+			    	<form action="/signup" method="post">
                     <fieldset>
 			    	  	<div class="form-group">
 			    		    <input class="form-control" placeholder="Username" id="uname" name="username" type="text">
 			    		</div>
+							<%if (error.length > 0) { %>
+							<p><%= error%></p>
+							<% } %>
 			    		<div class="form-group">
 			    			<input class="form-control" placeholder="Password" id="p" name="password" type="password" value="">
 			    		</div>			    		
