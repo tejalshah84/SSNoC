@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var db = require('.././testdb');
+var badUsername = require('.././lib/reservedNames.js');
 
 // Load the bcrypt module
 var bcrypt = require('bcryptjs');
@@ -9,12 +10,8 @@ var bcrypt = require('bcryptjs');
 // Generate a salt
 var salt = bcrypt.genSaltSync(10);
 
-var badUsername = ["admin", "root"];
 
-var userList = [{username: "TejalShah84", firstname: "Tejal", lastname: "Shah", online: true, status: 1, role: 1, lastLoginTime: new Date().toLocaleString()},
-                {username: "Eileen", firstname: "Eileen", lastname: "Eileen", online: false, status: 1, role: 1, lastLoginTime: new Date().toLocaleString()},
-                {username: "Denise", firstname: "Denise", lastname: "Denise", online: true, status: 2, role: 2, lastLoginTime: new Date().toLocaleString()},
-                {username: "Amrata", firstname: "Amrata", lastname: "Amrata", online: false, status: 3, role: 3, lastLoginTime: new Date().toLocaleString()}];
+
 
 /* show signin page*/
 router.get('/', function(req, res) {
@@ -84,8 +81,8 @@ router.post('/signup', function(req, res){
 	//check validity of the user name
 	//var usernameRegex = /^[a-zA-Z0-9]+$/; //the input firstname should only contains characters A-Z, a-z, and -
 																				//the input login name should only contains alphanumeric characters
-	var validUsername = username.match(usernameRegex);
-	if(validUsername == null || badUsername.indexOf(username) >= 0){
+
+	if(badUsername.contains(username)){
 		console.log("--- Invalid username");
 		res.render('signup',{error: "Username not valid!"});				
 	}else{
@@ -126,8 +123,7 @@ router.get('/community', function(req, res) {
 		 		// render the welcome page
 		  	res.render('community', { 
 					user: req.session.user, 
-					//users : users
-					userDirectory: userList
+					userDirectory : users
 				});
 		});
 	}else {

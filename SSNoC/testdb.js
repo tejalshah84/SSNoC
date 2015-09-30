@@ -7,28 +7,38 @@ var sqlite3 = require("sqlite3").verbose();
 //create sqlite database, which is test.db
 var db = new sqlite3.Database(file);
 
+var bcrypt = require('bcryptjs');
+
+// Generate a salt
+var salt = bcrypt.genSaltSync(10);
+
+
 
 db.serialize(function() {
   //db.run, if table user is not exist，then create user database
   console.log("Initialize database...");
 	//User
-	db.run("CREATE TABLE IF NOT EXISTS user (username TEXT,password TEXT,firstname TEXT,lastname TEXT,status INT,role INT,lastLoginTime TEXT)");
+	db.run("CREATE TABLE IF NOT EXISTS user (username TEXT,password TEXT,firstname TEXT,lastname TEXT,online BOOLEAN,status INT,role INT,lastLoginTime TEXT)");
 
 
- /* var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?)");
+ /* var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,online,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?,?)");
   
-  //add 10 random data
-  
-  var date = new Date();
-  var logintime = date.toLocaleTimeString();
-
+	
+	stmt.run("TejalShah84", bcrypt.hashSync("123", salt), "Tejal", "Shah", true, 1, 1, new Date().toLocaleString());
+	stmt.run("EileenWei01", bcrypt.hashSync("123", salt),"Eileen", "Wei", false, 2, 2, new Date().toLocaleString());
+	stmt.run("DeniseT2015", bcrypt.hashSync("123", salt), "Denise", "Teng", true, 3, 3, new Date().toLocaleString());
+	stmt.run("Amrata", bcrypt.hashSync("123", salt), "Amrata", "Amrata", false, 1, 1, new Date().toLocaleString());
+	stmt.finalize();
+*/
+	
+/* //add 10 random data
   for (var i = 0; i<2; i++) {
 
       stmt.run("testname", "testpw", "testFname", "testLname", i, i, logintime);
 
-  }
+  }*/
 
-  stmt.finalize();*/
+  
 
   db.each("SELECT username, password,firstname,lastname,status,role,lastLoginTime FROM user", function(err, row) {
     //log all data
