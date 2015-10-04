@@ -127,6 +127,46 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Public Chat Wall -->
+        <div class="row">
+                                                   
+                         
+                          <!-- public wall content -->
+                        <div class="col-sm-9" style="float:right; padding-right: 300px; padding-top: 70px;">
+                               
+                               <!-- message container-->                    
+                               <div class="panel panel-default">
+                                 <div class="panel-heading"> 
+                                    <h4><%=user.username %></h4></div>
+                                  <div class="panel-body">
+                                    <p>Login time: <%=user.lastLoginTime %></p>
+                                    <div class="clearfix"></div>
+                                    <hr>
+                                    content...
+                                  </div>
+                               </div>
+                            
+                                
+                               
+                                <!-- message text box-->
+                                 <div class="well"> 
+                                  <form class="form" action="/messages" method="post"> <!--POST to backend-->
+                                    <h4>Say Something</h4>
+                                    <div class="input-group text-center">
+                                    <input type="text" class="form-control input-lg" placeholder="Type here...">
+                                      <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="button">OK</button></span>
+                                    </div>
+                                  </form>
+                                </div>
+                            
+                          </div>
+                       </div>
+
+
+
+
         <!-- /#page-content-wrapper -->
 
         <div class="modal fade bs-example-modal-sm" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">

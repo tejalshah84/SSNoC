@@ -39,12 +39,12 @@
 
 #page-content-wrapper {
     width: 100%;
-    position: absolute;
+    position: fixed;
     padding: 15px;
 }
 
 #wrapper.toggled #page-content-wrapper {
-    position: absolute;
+    position: fixed;
     margin-right: -250px;
 }
 
@@ -115,11 +115,11 @@
 
     #page-content-wrapper {
         padding: 20px;
-        position: relative;
+        position: fixed;
     }
 
     #wrapper.toggled #page-content-wrapper {
-        position: relative;
+        position: fixed;
         margin-right: 0;
     }
 }
