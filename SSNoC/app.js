@@ -13,7 +13,7 @@ var db_s = require('./testdb');
 
 var app = express();
 var http = require('http').Server(app);
-
+var io = require('socket.io')(http);
 
 
 http.listen(8888, function(){
@@ -76,6 +76,10 @@ app.use(function(err, req, res, next) {
     message: err.message,
     error: {}
   });
+});
+
+io.on('connection', function(socket){
+  console.log('a user connected');
 });
 
 console.log("Hello World!");

@@ -125,86 +125,20 @@
                     </div>
                        
                 </div>
+				        <!-- Public Chat Wall -->
+								<% include ./partials/public_wall %>
             </div>
         </div>
 
 
-        <!-- Public Chat Wall -->
-        <div class="row">
-                                                   
-                         
-                          <!-- public wall content -->
-                        <div class="col-sm-9" style="float:right; padding-right: 300px; padding-top: 70px;">
-                               
-                               <!-- message container-->                    
-                               <div class="panel panel-default">
-                                 <div class="panel-heading"> 
-                                    <h4><%=user.username %></h4></div>
-                                  <div class="panel-body">
-                                    <p>Login time: <%=user.lastLoginTime %></p>
-                                    <div class="clearfix"></div>
-                                    <hr>
-                                    content...
-                                  </div>
-                               </div>
-                            
-                                
-                               
-                                <!-- message text box-->
-                                 <div class="well"> 
-                                  <form class="form" action="/messages" method="post"> <!--POST to backend-->
-                                    <h4>Say Something</h4>
-                                    <div class="input-group text-center">
-                                    <input type="text" class="form-control input-lg" placeholder="Type here...">
-                                      <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="button">OK</button></span>
-                                    </div>
-                                  </form>
-                                </div>
-                            
-                          </div>
-                       </div>
+							       
 
 
 
 
         <!-- /#page-content-wrapper -->
-
-        <div class="modal fade bs-example-modal-sm" id="welcomeModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title">Welcome to SSNoC</h3>
-              </div>
-              <div class="modal-body">
-                <p> Hi <%=user.username %>! Welcome to the Survivable Social Network. This platform provides a means for victims of natural catastrophes to communicate with each other, report status, seek help and offer help. The system provides a directory of all the users and indicates their status. Please be sure to update your own status to one of the following by using the "Share Status" menu option:
-                <p>
-                    <span>
-                    <span class="glyphicon glyphicon-plus-sign" style="color: red;" aria-hidden="true"></span>
-                    Emergency! Life threatening emergency. Need help now!
-                    </span>
-                </p>
-                <p>
-                    <span>
-                    <span class="glyphicon glyphicon-exclamation-sign" style="color: yellow;" aria-hidden="true"></span>
-                    Help! Not a Life threatening emergency, but need help.
-                    </span>
-                </p>
-                <p>
-                    <span>
-                    <span class="glyphicon glyphicon-ok-sign" style="color: green;" aria-hidden="true"></span> 
-                    OK! I am Ok, do not need help.
-                    </span>
-                </p> 
-                </p>
-              </div>
-              <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div> -->
-            </div><!-- /.modal-content -->
-          </div>
-        </div>
+				<% include ./partials/welcomeMsg %>
+      
 
     </div>
     <!-- /#wrapper -->
@@ -214,6 +148,8 @@
     <script src="../js/jquery-1.11.3.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/utility.js"></script>
+		<script src="../js/main.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
 
   </body>
 
