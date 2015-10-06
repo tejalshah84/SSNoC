@@ -42,6 +42,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var io = require('socket.io').listen(http);
+require('./public/js/chatsocket')(io);
 
 
 app.use('/', routes);

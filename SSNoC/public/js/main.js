@@ -32,11 +32,24 @@ $(function() {
  //   }
   });*/
 	
-	
+  
+	$('#submitMessage').on('click', function(){
+            if($('.inputMessage').val() !== ''){
+              console.log('emitting chat...');
+              socket.emit('new message', {
+                    username: $('#user').text(),
+                    location: $('#location').text(),
+                    status: $('#status').text(),
+                    timestamp: new Date().getTime(),
+                    message: $('.inputMessage').val()
+                });
+                
+                $('.inputMessage').val('');
+            }
+            
+        });
 
-  $inputMessage.on('input', function() {
-    updateTyping();
-  });
+  
 
   // Click events
 
@@ -61,6 +74,7 @@ $(function() {
 
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
+    console.log("new message need to be appended!");
     addChatMessage(data);
   });
 
@@ -88,7 +102,7 @@ $(function() {
 		});
 	}
   // Sends a chat message
-  function sendMessage () {
+/*  function sendMessage () {
     var message = $inputMessage.val();
     // Prevent markup from being injected into the message
     message = cleanInput(message);
@@ -102,19 +116,24 @@ $(function() {
       // tell server to execute 'new message' and send along one parameter
       socket.emit('new message', message);
     }
-  }
+  }*/
   // Prevents input from having injected markup
   function cleanInput (input) {
     return $('<div/>').text(input).text();
   }
   // Adds the visual chat message to the message list
-  function addChatMessage (data, options) {
+  function addChatMessage (data) {
 
-	 var timestamp = new Date().toISOString();
+	
 	 var $chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+data.username+
-							"span style=\"float:right;\"><small>"+timestamp+"/small></span></h4></div><div class=\"panel-body\">"+
+							"span style=\"float:right;\"><small>"+data.timestamp+"/small></span></h4></div><div class=\"panel-body\">"+
 							data.message+"</div></div>";
-    addMessageElement($chatContent, options);
+    var $messageDiv = "<li>"+$chatContent+"</li>";
+    $("#messages").append($messageDiv);
+
+
+
+    addMessageElement($chatContent);
  
   }
   // Adds a message element to the messages and scrolls to the bottom

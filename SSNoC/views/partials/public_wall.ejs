@@ -20,6 +20,9 @@
 			<div class="panel panel-default">
 				<div class="panel-heading"> 
 				<h4><%=user.username %><span style="float:right;"><small><%=user.lastLoginTime %></small></span></h4>
+				<p hidden id="location"><%=user.location %></p>
+                                    <p hidden id="status"><%=user.description %></p>
+                                    <p>Login time: <%=user.lastLoginTime %></p>
 				</div>
       	<div class="panel-body">
 					

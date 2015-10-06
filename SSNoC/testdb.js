@@ -20,7 +20,15 @@ db.serialize(function() {
 	//User
 	db.run("CREATE TABLE IF NOT EXISTS user (username TEXT,password TEXT,firstname TEXT,lastname TEXT,online BOOLEAN,status INT,role INT,lastLoginTime TEXT)");
 
+  db.run("CREATE Table if NOT EXISTS chathistory (chatid INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, chatmessage BLOB, timestamp DATETIME)", function (err){
 
+          if(err!==null){
+              console.log("Error occured while creating chat_history table");
+          }
+          else{
+              console.log("chat_history table initialized");
+          }
+      });
  /* var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,online,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?,?)");
   
 	
