@@ -1,4 +1,4 @@
-function setHeightCrossDomainIframe(){
+/*function setHeightCrossDomainIframe(){
 	var defaultCSS = document.getElementById('bootstrap-css');
 	function changeCSS(css){
 		if(css) $('head > link').filter(':first').replaceWith('<link rel="stylesheet" href="'+ css +'" type="text/css" />'); 
@@ -8,7 +8,7 @@ function setHeightCrossDomainIframe(){
 		var iframe_height = parseInt($('html').height()); 
 		window.parent.postMessage( iframe_height, 'http://bootsnipp.com');
 	});
-}
+}*/
 
 function validateSignup(){
 	//alert($('#uname').val().length);

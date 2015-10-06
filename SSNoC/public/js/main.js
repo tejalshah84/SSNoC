@@ -1,19 +1,12 @@
 $(function() {
-  
-
   // Initialize varibles
   var $window = $(window);
   var $messages = $('.messages'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
-
-	
-  // Prompt for setting a username
-  var username;
   var connected = false;
- // var $currentInput = $usernameInput.focus();
 
   var socket = io();
-	console.log("here????");
+	console.log("-- Loading main.js --");
   
   // Keyboard events
 /*  $window.keydown(function (event) {
@@ -33,26 +26,20 @@ $(function() {
   });*/
 	
   
+	//emit message to server when user click submit
 	$('#submitMessage').on('click', function(){
-            if($('.inputMessage').val() !== ''){
-              console.log('emitting chat...');
-              socket.emit('new message', {
-                    username: $('#user').text(),
-                    location: $('#location').text(),
-                    status: $('#status').text(),
-                    timestamp: new Date().getTime(),
-                    message: $('.inputMessage').val()
-                });
-                
-                $('.inputMessage').val('');
-            }
-            
-        });
-
-  
-
-  // Click events
-
+		if($('.inputMessage').val() !== ''){
+			console.log('emitting chat...');
+				socket.emit('new message', {
+					username: $('#user').text(),
+					location: $('#location').text(),
+					status: $('#status').text(),
+					timestamp: new Date().toLocaleTimeString(),
+					message: $('.inputMessage').val()
+				});
+				$('.inputMessage').val('');
+			}
+		});
   
   // Focus input when clicking on the message input's border
   $inputMessage.click(function () {
@@ -64,11 +51,7 @@ $(function() {
   // Whenever the server emits 'login', log the login message
   socket.on('login', function (data) {
     connected = true;
-    // Display the welcome message
-    var message = "Welcome to Chatroom! ";
-    log(message, {
-      prepend: true
-    });
+    
 		loadChatHistory(data);
   });
 
@@ -94,46 +77,28 @@ $(function() {
 	
 	function loadChatHistory (data){
 		data.msgHistory.forEach(function(msg){
-			var chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+msg.userName+
-										"span style=\"float:right;\"><small>"+msg.createdAt+"/small></span></h4></div><div class=\"panel-body\">"+
-										msg.chatContent+"</div></div>";
+			var chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+msg.username+
+										"<span style=\"float:right;\"><small>"+msg.timestamp+"</small></span></h4></div><div class=\"panel-body\">"+
+										msg.message+"</div></div>";
 			var item = "<li>"+chatContent+"</li>";
 			$('#messages').append(item);
 		});
 	}
-  // Sends a chat message
-/*  function sendMessage () {
-    var message = $inputMessage.val();
-    // Prevent markup from being injected into the message
-    message = cleanInput(message);
-    // if there is a non-empty message and a socket connection
-    if (message && connected) {
-      $inputMessage.val('');
-      addChatMessage({
-        username: username,
-        message: message
-      });
-      // tell server to execute 'new message' and send along one parameter
-      socket.emit('new message', message);
-    }
-  }*/
+
   // Prevents input from having injected markup
   function cleanInput (input) {
     return $('<div/>').text(input).text();
   }
   // Adds the visual chat message to the message list
   function addChatMessage (data) {
-
-	
-	 var $chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+data.username+
-							"span style=\"float:right;\"><small>"+data.timestamp+"/small></span></h4></div><div class=\"panel-body\">"+
+    var options = options || {};
+		var $chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+data.username+
+							"<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-map-marker\" ></span>"+data.location+"</small>"+
+							"<span style=\"float:right;\"><small>"+data.timestamp+"</small></span></h4></div><div class=\"panel-body\">"+
 							data.message+"</div></div>";
-    var $messageDiv = "<li>"+$chatContent+"</li>";
-    $("#messages").append($messageDiv);
-
-
-
-    addMessageElement($chatContent);
+  	var $messageDiv = $('<li class="message"/>')
+    .append($chatContent);
+		addMessageElement($messageDiv,options);
  
   }
   // Adds a message element to the messages and scrolls to the bottom
@@ -142,30 +107,11 @@ $(function() {
   // options.prepend - If the element should prepend
   //   all other messages (default = false)
   function addMessageElement (el, options) {
+		
     var $el = $(el);
-
-    // Setup default options
-    if (!options) {
-      options = {};
-    }
-    if (typeof options.fade === 'undefined') {
-      options.fade = true;
-    }
-    if (typeof options.prepend === 'undefined') {
-      options.prepend = false;
-    }
-
-    // Apply options
-    if (options.fade) {
-      $el.hide().fadeIn(FADE_TIME);
-    }
-    if (options.prepend) {
-      $messages.prepend($el);
-    } else {
-      $messages.append($el);
-    }
+    $messages.append($el);
     $messages[0].scrollTop = $messages[0].scrollHeight;
-		$("body").animate({ scrollTop: $messages[0].scrollHeight }, "slow");
+		//$("body").animate({ scrollTop: $messages[0].scrollHeight }, "slow");
   }
   
 });

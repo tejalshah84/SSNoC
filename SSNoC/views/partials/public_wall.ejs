@@ -3,33 +3,9 @@
 	<div class="" style="margin: 0 auto;width:80%;padding-top:50px;">
                                
 		<ul id="messages" class="messages" style="list-style-type:none;-webkit-padding-start: 0px;">
-			<li>
-			<!-- message container-->                    
-			<div class="panel panel-default">
-				<div class="panel-heading"> 
-				<h4><%=user.username %><span style="float:right;"><small><%=user.lastLoginTime %></small></span></h4>
-				</div>
-      	<div class="panel-body">
-					
-					content...
-				</div>
-			</div>
-			</li>
-			<li>
-			<!-- message container-->                    
-			<div class="panel panel-default">
-				<div class="panel-heading"> 
-				<h4><%=user.username %><span style="float:right;"><small><%=user.lastLoginTime %></small></span></h4>
-				<p hidden id="location"><%=user.location %></p>
-                                    <p hidden id="status"><%=user.description %></p>
-                                    <p>Login time: <%=user.lastLoginTime %></p>
-				</div>
-      	<div class="panel-body">
-					
-					content...
-				</div>
-			</div>
-			</li>
+			
+			
+			
 			
 		</ul>
                        
@@ -39,6 +15,10 @@
 		<div class="well" style=""> 
 			<form class="form" action="/message" method="post"> <!--POST to backend-->
 				<h4>Say Something</h4>
+				<p hidden id="user"><%=user.username %></p>
+				<p hidden id="location"><%=user.location %></p>
+				<p hidden id="status"><%=user.description %></p>
+				<p>Login time: <%=user.lastLoginTime %></p>
 				<div class="input-group text-center">
 					<input type="text" class="form-control input-lg inputMessage" placeholder="Type here...">
 					<span class="input-group-btn">
