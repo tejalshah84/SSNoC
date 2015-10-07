@@ -29,7 +29,7 @@ router.post('/', function(req, res){
 	console.log("Handling signin...");
 	console.log("Username: "+req.body.username);
 	//Retrieve Hash pwd from DB
-	db.get("SELECT * FROM user WHERE username = $username", {$username: req.body.username}, function(err, result) {
+	db.get("SELECT u.*, s.description as 'description' FROM user u, status s WHERE username = $username AND u.statusid=s.id", {$username: req.body.username}, function(err, result) {
 
 		if(!result){
 			// If the username isn't in the DB, reset the session and redirect the user to signup an account
@@ -47,9 +47,10 @@ router.post('/', function(req, res){
 			
 				var date = new Date();//Get user login time
 				var logintime = date.toLocaleTimeString();
-				db.run("UPDATE user SET lastLoginTime WHERE username = $username", {$username: result.username}, function(err, row){ 
+				db.run("UPDATE user SET lastlogintime WHERE username = $username", {$username: result.username}, function(err, row){ 
 
 					req.session.user = result;
+					req.session.newUser = "false";
 					console.log("Succefully signin!");
 					res.redirect('/community');
 				});
@@ -99,11 +100,12 @@ router.post('/signup', function(req, res){
 	
 				req.session.username = username;
 				// store the hash in  DB
-			  var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?)");
-			  stmt.run(username, pwd_hash, "", "", 3, 3, logintime);
+			  var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname, location, statusid, roleid, lastlogintime) VALUES (?,?,?,?,?,?,?,?)");
+			  stmt.run(username, pwd_hash, "", "", "MV, CA", 3, 3, logintime);
 	
-				db.get("SELECT * FROM user WHERE username = $username", {$username: username},function(err, result) {
+				db.get("SELECT u.*, s.description as 'description' FROM user u, status s WHERE username = $username AND u.statusid=s.id", {$username: username},function(err, result) {
 					req.session.user = result;
+					req.session.newUser = "true";
 					res.redirect('/community');
 				});
 			}
@@ -116,15 +118,21 @@ router.post('/signup', function(req, res){
 
 router.get('/community', function(req, res) {
 	if (req.session && req.session.user) { 
-		db.all("SELECT * FROM user", function(err, rows) {
+		db.all("SELECT * FROM user order by online desc, username asc", function(err, rows) {
 			var users = rows;
 			console.log("Getting all users...");
-			console.log(rows);
-		 		// render the welcome page
-		  	res.render('community', { 
-					user: req.session.user, 
-					userDirectory : users
-				});
+
+			db.all("SELECT * FROM chathistory order by timestamp", function(err, chatrows) {
+        		var chathistory = chatrows;
+				
+				// render the welcome page
+			  	res.render('community', { 
+						user: req.session.user,
+						newUser: req.session.newUser,
+						chatHistory: chathistory, 
+						userDirectory : users,
+						});
+			});
 		});
 	}else {
     res.redirect('/signin');

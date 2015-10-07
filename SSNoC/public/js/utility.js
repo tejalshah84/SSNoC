@@ -61,6 +61,8 @@ if ($('#pword').val() == null || $('#pword').val() == "" || !/\S/.test($('#pword
 	return false; 
 }
 }
+
+//var newUser = $('#newUser').text();
 //Welcome Modal
 $(window).load(function(){
 	if (true){

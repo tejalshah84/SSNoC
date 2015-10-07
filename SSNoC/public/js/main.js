@@ -26,21 +26,6 @@ $(function() {
   });*/
 	
   
-	//emit message to server when user click submit
-	$('#submitMessage').on('click', function(){
-		if($('.inputMessage').val() !== ''){
-			console.log('emitting chat...');
-				socket.emit('new message', {
-					username: $('#user').text(),
-					location: $('#location').text(),
-					status: $('#status').text(),
-					timestamp: new Date().toLocaleTimeString(),
-					message: $('.inputMessage').val()
-				});
-				$('.inputMessage').val('');
-			}
-		});
-  
   // Focus input when clicking on the message input's border
   $inputMessage.click(function () {
     $inputMessage.focus();
@@ -51,8 +36,8 @@ $(function() {
   // Whenever the server emits 'login', log the login message
   socket.on('login', function (data) {
     connected = true;
-    
-		loadChatHistory(data);
+    console.log('received chathist')
+    loadChatHistory(data);
   });
 
   // Whenever the server emits 'new message', update the chat body
@@ -60,6 +45,21 @@ $(function() {
     console.log("new message need to be appended!");
     addChatMessage(data);
   });
+
+  //emit message to server when user click submit
+  $('#submitMessage').on('click', function(){
+    if($('.inputMessage').val() !== ''){
+      console.log('emitting chat...');
+        socket.emit('new message', {
+          chatauthor: $('#user').text(),
+          location: $('#location').text(),
+          status: parseInt($('#status').text(),10),
+          timestamp: new Date().toLocaleTimeString(),
+          chatmessage: $('.inputMessage').val()
+        });
+        $('.inputMessage').val('');
+      }
+    });
 
   // Whenever the server emits 'user joined', log it in the chat body
   socket.on('user joined', function (data) {
@@ -74,12 +74,12 @@ $(function() {
     removeChatTyping(data);
   });
 	
-	
+
 	function loadChatHistory (data){
-		data.msgHistory.forEach(function(msg){
-			var chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+msg.username+
+		data.chatHistory.forEach(function(msg){
+			var chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+msg.chatauthor+
 										"<span style=\"float:right;\"><small>"+msg.timestamp+"</small></span></h4></div><div class=\"panel-body\">"+
-										msg.message+"</div></div>";
+										msg.chatmessage+"</div></div>";
 			var item = "<li>"+chatContent+"</li>";
 			$('#messages').append(item);
 		});
@@ -92,10 +92,26 @@ $(function() {
   // Adds the visual chat message to the message list
   function addChatMessage (data) {
     var options = options || {};
-		var $chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+data.username+
+    var statusLogo;
+
+    if(data.status===1){
+      statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-plus-sign\" style=\"color: red;\" aria-hidden=\"true\"></span> Emergency!</small>"
+    }
+    else if (data.status===2){
+      statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-exclamation-sign\" style=\"color: yellow;\" aria-hidden=\"true\"></span> Help!</small>"
+    }
+    else if (data.status===3){
+      statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-ok-sign\" style=\"color: green;\" aria-hidden=\"true\"></span> OK!</small>"
+    }
+    else{
+      statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-question-sign\" style=\"color: grey;\" aria-hidden=\"true\"></span> Status Unknown</small>"
+    }
+
+		var $chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+data.chatauthor+
 							"<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-map-marker\" ></span>"+data.location+"</small>"+
+              statusLogo + 
 							"<span style=\"float:right;\"><small>"+data.timestamp+"</small></span></h4></div><div class=\"panel-body\">"+
-							data.message+"</div></div>";
+							data.chatmessage+"</div></div>";
   	var $messageDiv = $('<li class="message"/>')
     .append($chatContent);
 		addMessageElement($messageDiv,options);

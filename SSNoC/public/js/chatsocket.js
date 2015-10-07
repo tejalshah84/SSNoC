@@ -3,17 +3,17 @@ module.exports = function(io) {
 
 // Handle socket traffic
 io.sockets.on('connection', function (socket) {
-    console.log('Server io');
+    
      // Relay chat data to all clients
     socket.on('new message', function(data) {
     	console.log(data);
 
     	db.serialize( function(){
 
-            db.run("INSERT INTO chathistory VALUES($next_id, $username, $chatmessage, $timestamp)", {
-                        $username: data.username,
+            db.run("INSERT INTO chathistory VALUES($next_id, $chatauthor, $chatmessage, $timestamp)", {
+                        $chatauthor: data.chatauthor,
                         $timestamp: data.timestamp,
-                        $chatmessage: data.message
+                        $chatmessage: data.chatmessage
                     }, function (err){
 
                         if(err){
@@ -29,6 +29,7 @@ io.sockets.on('connection', function (socket) {
 
  
     });
+
 
 });
 
