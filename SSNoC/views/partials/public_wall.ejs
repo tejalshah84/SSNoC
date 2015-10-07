@@ -1,0 +1,31 @@
+<div class="row">
+<!-- public wall content -->
+	<div class="" style="margin: 0 auto;width:80%;padding-top:50px;">
+                               
+		<ul id="messages" class="messages" style="list-style-type:none;-webkit-padding-start: 0px;">
+			
+			
+			
+			
+		</ul>
+                       
+                                
+                               
+		<!-- message text box-->
+		<div class="well" style=""> 
+			<form class="form" action="/message" method="post"> <!--POST to backend-->
+				<h4>Say Something</h4>
+				<p hidden id="user"><%=user.username %></p>
+				<p hidden id="location"><%=user.location %></p>
+				<p hidden id="status"><%=user.description %></p>
+				<p>Login time: <%=user.lastLoginTime %></p>
+				<div class="input-group text-center">
+					<input type="text" class="form-control input-lg inputMessage" placeholder="Type here...">
+					<span class="input-group-btn">
+						<button class="btn btn-lg btn-primary" id="submitMessage" type="button">OK</button>
+					</span>
+				</div>
+			</form> 
+		</div>                          
+	</div>
+</div>

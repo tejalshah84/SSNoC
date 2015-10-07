@@ -1,0 +1,35 @@
+var db = require('../../testdb');
+module.exports = function(io) {
+
+// Handle socket traffic
+io.sockets.on('connection', function (socket) {
+    console.log('Server io');
+     // Relay chat data to all clients
+    socket.on('new message', function(data) {
+    	console.log(data);
+
+    	db.serialize( function(){
+
+            db.run("INSERT INTO chathistory VALUES($next_id, $username, $chatmessage, $timestamp)", {
+                        $username: data.username,
+                        $timestamp: data.timestamp,
+                        $chatmessage: data.message
+                    }, function (err){
+
+                        if(err){
+                            console.log('Error occured while storing in chat history');
+                        }
+                        else{
+                          io.sockets.emit('new message', data);
+                        }
+                    }
+            );
+
+        });
+
+ 
+    });
+
+});
+
+};
