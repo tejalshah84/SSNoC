@@ -17,7 +17,7 @@ var salt = bcrypt.genSaltSync(10);
 router.get('/', function(req, res) {
 	  
 	  console.log("Handling signin entering...");
-	  res.render('signin', {  });
+	  res.render('signin', { error: ""});
 });
 
 
@@ -34,7 +34,8 @@ router.post('/', function(req, res){
 		if(!result){
 			// If the username isn't in the DB, reset the session and redirect the user to signup an account
 			console.log("Redirected to signin-1");
-			res.redirect('/signin');// Question - or redirect to signin again? which one is more reasonable?
+			//res.redirect('/signin');// Question - or redirect to signin again? which one is more reasonable?
+			res.render('signin',{error: "Username not found!"});
 		}
 		else{  // If the user is in the DB, retrieve password and compare it
 			
@@ -59,8 +60,8 @@ router.post('/', function(req, res){
 			else{
 
 				console.log("Password not correct...Redirected to signin");
-				res.redirect('/signin');
-
+			//	res.redirect('/signin');
+				res.render('signin',{error: "Password is incorrect!"});
 			}
 			
 
