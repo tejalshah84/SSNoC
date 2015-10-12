@@ -1,29 +1,27 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('.././testdb');
+
+var db = require('.././testdb'); //database
+//model
+var sequelize = require('.././sequelize');
+var user = require('.././models/user.js');
 var badUsername = require('.././lib/reservedNames.js');
 
-// Load the bcrypt module
-var bcrypt = require('bcryptjs');
-
-// Generate a salt
-var salt = bcrypt.genSaltSync(10);
-
+var bcrypt = require('bcryptjs');// Load the bcrypt module
+var salt = bcrypt.genSaltSync(10);// Generate a salt
 
 
 
 /* show signin page*/
 router.get('/', function(req, res) {
-	  
-	  console.log("Handling signin entering...");
-	  res.render('signin', { error: ""});
+	res.render('signin', { error: ""});
 });
-
 
 router.get('/signin', function(req, res, next) {
 	res.render('signin', { error: ""});
 });
+
 /* handle signin request*/
 router.post('/', function(req, res){
 	console.log("Handling signin...");

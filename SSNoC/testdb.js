@@ -14,11 +14,13 @@ var salt = bcrypt.genSaltSync(10);
 
 
 
+
+
 db.serialize(function() {
   //db.run, if table user is not exist，then create user database
   console.log("Initialize database...");
 	//User
-	db.run("CREATE TABLE IF NOT EXISTS user (username TEXT,password TEXT,firstname TEXT,lastname TEXT, online BOOLEAN, location TEXT, statusid INT, roleid INT,lastlogintime DATETIME)");
+	db.run("CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT,password TEXT,firstname TEXT,lastname TEXT, online BOOLEAN, location TEXT, statusid INT, roleid INT,lastlogintime DATETIME, createAt DATETIME,updateAt DATETIME)");
 
   db.run("CREATE Table if NOT EXISTS chathistory (chatid INTEGER PRIMARY KEY AUTOINCREMENT, chatauthor TEXT, chatmessage BLOB, timestamp DATETIME)", function (err){
 
