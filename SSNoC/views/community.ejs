@@ -51,7 +51,10 @@
 			
 			
         <!--welcomeModal-->	
-		<% include ./partials/welcomeMsg %>
+		<%if (isNewUser) { %>
+			<% include ./partials/welcomeMsg %>
+		<% } %>	
+		
         <!--welcomeModal wrapper -->
       
     </div>

@@ -25,6 +25,32 @@ $(function() {
  //   }
   });*/
 	
+	//handling user directoy display
+	 $('.user_directory').on('click', function(){
+		 console.log("Sending Ajax request to server...");
+ 		$.ajax({
+ 			dataType: "json",
+ 		  url: '/users',
+ 		  type: 'GET',
+ 			data: {
+       //  appID: $inputAppID.val()
+ 			},
+ 		  success: function(data) {
+ 				displayUserDirectory(data);
+ 		  },
+ 		  error: function(e) {
+ 			//console.log(e.message);
+ 		  }
+ 		});	
+	 });
+	 
+	 function displayUserDirectory(users){
+		 $('#user_list').empty();
+		 $.each(users, function(index, element) {
+			var item = " <a href=\"#\" style=\"color: grey;\">"+element.username+"</a>"
+		 	$('#user_list').append("<li>"+item+"</li>");
+	 	});
+	 }
   
   // Focus input when clicking on the message input's border
   $inputMessage.click(function () {

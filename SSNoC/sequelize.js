@@ -1,4 +1,6 @@
 console.log("Initializing sequelize...");
+
+
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize('database', 'username', 'password', {
   host: 'localhost',

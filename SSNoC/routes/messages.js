@@ -2,43 +2,40 @@ var express = require('express');
 var router = express.Router();
 var sequelize = require('.././sequelize');
 //importing models
-var User = require('.././models/user.js');
+var Message = require('.././models/message.js');
 
 // -------------------------------------------------------------------------------------//
 
-// GET all users 
+// GET all messages
 router.get('/', function(req, res) {
-	console.log("--> retrieving all user... ");
-	User.findAll().then(function (user) {
-		  res.json(user);
+	Message.findAll().then(function (msg) {
+		  res.json(msg);
 	});
 });
 
-
-
-//get user
+//get message
 router.get('/:id', function(req, res) {
-	User.findAll({
+	Message.findAll({
 	  where: {
 	    id: req.params.id
 	  }
-	}).then(function (user) {
-		  res.json(user);
+	}).then(function (msg) {
+		  res.json(msg);
 	});
 });
 
-//create user
+//create message
 router.post('/', function(req, res) {
   res.send('respond with a resource');
 });
 
 
-//update user
+//update message
 router.put('/:id', function(req, res) {
   res.send('respond with a resource');
 });
 
-//delete user
+//delete message
 router.delete('/:id', function(req, res) {
   res.send('respond with a resource');
 });

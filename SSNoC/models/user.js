@@ -1,10 +1,16 @@
 console.log("Sequelize...Creating User Instance...");
+
 var Sequelize = require('sequelize');
 var sequelize = require('.././sequelize');
 
 var user = sequelize.define('user', {
   username: {
-    type: Sequelize.TEXT,
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: null
+  },
+  password: {
+    type: Sequelize.STRING,
     allowNull: false,
     defaultValue: null
   },
@@ -28,13 +34,16 @@ var user = sequelize.define('user', {
     defaultValue: null
   },
   lastlogintime: {
-    type: Sequelize.DATE
+    type: Sequelize.DATE,
+		defaultValue: null
   },
   createdAt: {
-    type: Sequelize.DATE
+    type: Sequelize.DATE,
+		defaultValue: null
   },
   updatedAt: {
-    type: Sequelize.DATE
+    type: Sequelize.DATE,
+		defaultValue: null
   }
 }, {
   freezeTableName: true // Model tableName will be the same as the model name

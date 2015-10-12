@@ -11,3 +11,15 @@ html, body{
 .clickable {
     cursor: pointer;
 }
+
+.clr{
+	clear:both;
+	width:100%;
+}
+
+#user_list{
+	list-style-type:none;
+}
+#user_list li{
+	text-indent: 0px;
+}

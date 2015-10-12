@@ -1,10 +1,20 @@
 <!-- Sidebar -->
         <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
+            <ul class="sidebar-nav" >
                 <li class="sidebar-brand" style="font-weight: bold; color: white;">
-                    Directory   
+									<div class="" style="border-bottom: 1px solid #f2f2f2;">
+										    <p>
+													<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+													<span style="padding-left:20px;"> <%= user.username%></span>
+												</p>
+									</div>
                 </li>
-
+								<div class="clr" style="height:20px;"></div>
+								<li style="font-weight: bold; color: white;">
+									Directory  
+								</li>	
+								<li>
+								<ul id="user_list">	
                 <% userDirectory.forEach(function(userItem){ %>
                     <li>
                     <% if (userItem.online) { %>
@@ -40,8 +50,10 @@
                             </a>
                      <% }  %>
                 </li>
-
+						
              <%  });  %>
+ 							</ul>
+ 						</li>
             </ul>
         </div>
 <!-- /#sidebar-wrapper -->

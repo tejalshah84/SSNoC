@@ -40,8 +40,11 @@ app.use(session({secret: '1234567890QWERTY'}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
+/*    Rounting    */
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var messages = require('./routes/messages');
 
 var io = require('socket.io').listen(http);
 require('./public/js/chatsocket')(io);
@@ -49,6 +52,7 @@ require('./public/js/chatsocket')(io);
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/messages', messages);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
