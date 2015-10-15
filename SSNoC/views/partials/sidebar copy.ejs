@@ -1,8 +1,8 @@
 <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav" >
-                <li class="sidebar-brand" style="font-weight: bold; color: #62615f;">
-									<div class="" style="border-bottom: 1px solid #62615f;">
+                <li class="sidebar-brand" style="font-weight: bold; color: white;">
+									<div class="" style="border-bottom: 1px solid #f2f2f2;">
 										    <p>
 													<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 													<span style="padding-left:20px;"> <%= user.username%></span>
@@ -10,14 +10,14 @@
 									</div>
                 </li>
 								<div class="clr" style="height:20px;"></div>
-								<li style="font-weight: bold; color: #62615f;">
+								<li style="font-weight: bold; color: white;">
 									Directory  
 								</li>	
 								<li>
 								<ul id="user_list">	
                 <% userDirectory.forEach(function(userItem){ %>
                     <li>
-                    <% if (userItem.username in onlineUsers) { %>
+                    <% if (userItem.online) { %>
                             <a href="#" style="color: green;">
                            <% if(userItem.statusid===1){ %>
                                     <span class="glyphicon glyphicon-plus-sign" style="color: red;" aria-hidden="true"></span>

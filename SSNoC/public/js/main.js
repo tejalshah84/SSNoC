@@ -28,9 +28,10 @@ $(function() {
 	//handling user directoy display
 	 $('.user_directory').on('click', function(){
 		 console.log("Sending Ajax request to server...");
+  		
  		$.ajax({
  			dataType: "json",
- 		  url: '/users',
+ 		  url: '/users/online',
  		  type: 'GET',
  			data: {
        //  appID: $inputAppID.val()
@@ -46,10 +47,14 @@ $(function() {
 	 
 	 function displayUserDirectory(users){
 		 $('#user_list').empty();
-		 $.each(users, function(index, element) {
-			var item = " <a href=\"#\" style=\"color: grey;\">"+element.username+"</a>"
+		 $.each(users.online, function(index, element) {
+			var item = " <a href=\"#\" style=\"color: #62615f;\">"+element+"</a>"
 		 	$('#user_list').append("<li>"+item+"</li>");
 	 	});
+	 $.each(users.offline, function(index, element) {
+		var item = " <a href=\"#\" style=\"color: #a7a6a4;\">"+element+"</a>"
+	 	$('#user_list').append("<li>"+item+"</li>");
+ 	});
 	 }
   
   // Focus input when clicking on the message input's border

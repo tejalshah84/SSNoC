@@ -7,6 +7,7 @@ var db = require('.././testdb'); //database
 var sequelize = require('.././sequelize');
 var user = require('.././models/user.js');
 var badUsername = require('.././lib/reservedNames.js');
+var onlineUsers = require('.././lib/onlineUsers.js');
 
 var bcrypt = require('bcryptjs');// Load the bcrypt module
 var salt = bcrypt.genSaltSync(10);// Generate a salt
@@ -59,6 +60,7 @@ router.post('/', function(req, res){
 					req.session.user = result;
 					req.session.isNewUser = false;
 					console.log("Succefully signin!");
+					goOnline(username);
 					res.redirect('/community');
 				});
 			}else{
@@ -139,6 +141,7 @@ router.get('/community', function(req, res) {
 						isNewUser: req.session.isNewUser,
 						chatHistory: chathistory, 
 						userDirectory : users,
+						onlineUsers: onlineUsers.getOnlineUsers()
 						});
 			});
 		});
@@ -146,6 +149,15 @@ router.get('/community', function(req, res) {
     res.redirect('/signin');
   }
 });
+
+
+function goOnline(username){
+	console.log("before user...:");
+	console.log(onlineUsers.getOnlineUsers());
+	onlineUsers.addoOnlineUsers(username);
+	console.log("after Online Users...");
+	console.log(onlineUsers.getOnlineUsers());
+}
 
 
 module.exports = router;
