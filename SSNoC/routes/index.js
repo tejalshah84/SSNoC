@@ -126,6 +126,7 @@ router.post('/signup', function(req, res){
 			      .then(function (user) {
 							req.session.user = user;
 							req.session.isNewUser = true;
+							goOnline(username);
 							res.redirect('/community');
 			      });
 			  });
