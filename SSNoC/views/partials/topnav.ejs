@@ -16,8 +16,10 @@
 	                              </div>
 	                              <ul class="dropdown-menu" aria-labelledby="dLabel" style="left: -106px;">
 	                                <li><a>Profile</a></li>
-	                                <li><a>Share Status</a></li>
-	                                <li><a href="/" id="signout">Sign out</a></li>
+																	<% if (user.roleid == 2) { %>
+	                                <li><a>Post Announce</a></li>
+																	<% }%>	
+	                                <li><a href="/signout" id="signout">Sign out</a></li>
 	                              </ul>
 	                            </div>
 	                        </div>

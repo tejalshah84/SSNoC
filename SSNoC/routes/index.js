@@ -28,6 +28,16 @@ router.get('/signin', function(req, res, next) {
 	res.render('signin', { error: ""});
 });
 
+router.get('/signout', function(req, res){
+	if (req.session && req.session.user) { 
+		req.session.destroy();
+		console.log("------- User logout! clearing session...");
+		res.redirect('/signin');
+	}else{
+		res.redirect('/signin');
+	}
+});
+
 /* handle signin request*/
 router.post('/', function(req, res){
 	console.log("Handling signin...");

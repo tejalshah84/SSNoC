@@ -2,56 +2,40 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav" >
                 <li class="sidebar-brand" style="font-weight: bold; color: #62615f;">
-									<div class="" style="border-bottom: 1px solid #62615f;">
-										    <p>
-													<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-													<span style="padding-left:20px;"> <%= user.username%></span>
-												</p>
-									</div>
+									<div class="" style="border-bottom: 1px solid #62615f;padding: 10px 5px;">
+										<div class="btn-group btn-group-justified" role="group" aria-label="...">
+											<div class="btn-group " role="group" aria-label="...">
+										  	<button type="button" class="btn btn-default">
+										    	<div>
+														<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+														<span style="padding-left:0px;"> <%= user.username%></span>
+													</div>
+												</button>
+											</div>
+
+
+										  <div class="btn-group" role="group">
+										    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										      <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+										      <span class="caret"></span>
+										    </button>
+										    <ul class="dropdown-menu">
+										      <li><a href="#"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></a></li>
+										      <li><a href="#"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a></li>
+										      <li><a href="#"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></a></li>
+										    </ul>
+										  </div>
+										</div>
+										</div>
+
                 </li>
-								<div class="clr" style="height:20px;"></div>
+								<div class="clr" style="height:0px;"></div>
 								<li style="font-weight: bold; color: #62615f;">
-									Directory  
+									All Users (<%= userDirectory.length%>)  
 								</li>	
 								<li>
 								<ul id="user_list">	
-                <% userDirectory.forEach(function(userItem){ %>
-                    <li>
-                    <% if (userItem.username in onlineUsers) { %>
-                            <a href="#" style="color: green;">
-                           <% if(userItem.statusid===1){ %>
-                                    <span class="glyphicon glyphicon-plus-sign" style="color: red;" aria-hidden="true"></span>
-                             <% }
-                                else if(userItem.statusid===2){ %>
-                                   <span class="glyphicon glyphicon-exclamation-sign" style="color: yellow;" aria-hidden="true"></span>
-                             <% }
-                                else if(userItem.statusid===3){ %>
-                                    <span class="glyphicon glyphicon-ok-sign" style="color: green;" aria-hidden="true"></span>
-                             <% }
-                                else { %>
-                                <span class="glyphicon glyphicon-question-sign" style="color: grey" aria-hidden="true"></span>
-                             <% } %> <%= userItem.username %>
-                            </a>
-                   
-                    <% } else { %>
-                            <a href="#" style="color: grey;"> 
-                            <%  if(userItem.statusid===1){ %>
-                                    <span class="glyphicon glyphicon-plus-sign" style="color: red;" aria-hidden="true"></span>
-                             <%   }
-                                else if(userItem.statusid===2){ %>
-                                   <span class="glyphicon glyphicon-exclamation-sign" style="color: yellow;" aria-hidden="true"></span>
-                             <%   }
-                                else if(userItem.statusid===3){ %>
-                                    <span class="glyphicon glyphicon-ok-sign" style="color: green;" aria-hidden="true"></span>
-                             <% }
-                                else{  %>
-                                <span class="glyphicon glyphicon-question-sign" style="color: grey" aria-hidden="true"></span>
-                             <% } %> <%= userItem.username %>
-                            </a>
-                     <% }  %>
-                </li>
-						
-             <%  });  %>
+                
  							</ul>
  						</li>
             </ul>

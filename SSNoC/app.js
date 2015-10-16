@@ -45,6 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var messages = require('./routes/messages');
+var announcements = require('./routes/announcements');
 
 var io = require('socket.io').listen(http);
 require('./public/js/chatsocket')(io);
@@ -53,6 +54,7 @@ require('./public/js/chatsocket')(io);
 app.use('/', routes);
 app.use('/users', users);
 app.use('/messages', messages);
+app.use('/announcements', announcements);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -89,5 +91,4 @@ io.on('connection', function(socket){
   console.log('a user connected');
 });
 
-console.log("Hello World!");
 module.exports = app;

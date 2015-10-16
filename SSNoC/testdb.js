@@ -50,10 +50,10 @@ db.serialize(function() {
 
   
 
-  db.each("SELECT username, password, firstname, lastname, online, location, statusid, roleid, lastlogintime FROM user", function(err, row) {
+ /* db.each("SELECT username, password, firstname, lastname, online, location, statusid, roleid, lastlogintime FROM user", function(err, row) {
     //log all data
     console.log("User id :" + row.status);
-  });
+  });*/
 	
 	//Status
  /* db.run("CREATE TABLE IF NOT EXISTS status (title TEXT,description TEXT)");
@@ -65,10 +65,10 @@ db.serialize(function() {
 	stmt.run("Safe", "Safe");
   stmt.finalize();*/
 
-  db.each("SELECT * FROM status", function(err, row) {
+ /* db.each("SELECT * FROM status", function(err, row) {
     //log all data
     console.log("Status :" + row.title);
-  });
+  });*/
 	
 	//Role
  /*  db.run("CREATE TABLE IF NOT EXISTS role (title TEXT,description TEXT)");
@@ -80,10 +80,10 @@ db.serialize(function() {
 	stmt.run("User", "Regular user");
   stmt.finalize();*/
 
-  db.each("SELECT * FROM role", function(err, row) {
+ /* db.each("SELECT * FROM role", function(err, row) {
     //log all data
     console.log("Role :" + row.title);
-  });
+  });*/
 });
 
 

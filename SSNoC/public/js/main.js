@@ -24,9 +24,15 @@ $(function() {
       } 
  //   }
   });*/
-	
+	$(window).load(function() {
+		getUserDirectory();
+	});
 	//handling user directoy display
 	 $('.user_directory').on('click', function(){
+		 getUserDirectory();
+	 });
+	 
+	 function getUserDirectory(){
 		 console.log("Sending Ajax request to server...");
   		
  		$.ajax({
@@ -43,20 +49,42 @@ $(function() {
  			//console.log(e.message);
  		  }
  		});	
-	 });
+	 }
 	 
 	 function displayUserDirectory(users){
 		 $('#user_list').empty();
 		 $.each(users.online, function(index, element) {
-			var item = " <a href=\"#\" style=\"color: #62615f;\">"+element+"</a>"
-		 	$('#user_list').append("<li>"+item+"</li>");
+			 var statusLogo = getUserStatus(element); 
+				var item = " <a href=\"#\" style=\"color: #62615f;\">"+statusLogo+element+"</a>"
+		 		$('#user_list').append("<li>"+item+"</li>");
 	 	});
 	 $.each(users.offline, function(index, element) {
-		var item = " <a href=\"#\" style=\"color: #a7a6a4;\">"+element+"</a>"
+		 var statusLogo = getUserStatus(element); 
+		 
+		var item = " <a href=\"#\" style=\"color: #a7a6a4;\">"+statusLogo+element+"</a>"
 	 	$('#user_list').append("<li>"+item+"</li>");
  	});
 	 }
   
+	
+	 function getUserStatus(data){
+		 var statusLogo = "<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\" style=\"padding-right:10px;\"></span>";
+		 
+		 /*
+     if(data.status===1){
+       statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-plus-sign\" style=\"color: red;\" aria-hidden=\"true\"></span> Emergency!</small>"
+     }
+     else if (data.status===2){
+       statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-exclamation-sign\" style=\"color: yellow;\" aria-hidden=\"true\"></span> Help!</small>"
+     }
+     else if (data.status===3){
+       statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-ok-sign\" style=\"color: green;\" aria-hidden=\"true\"></span> OK!</small>"
+     }
+     else{
+       statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-question-sign\" style=\"color: grey;\" aria-hidden=\"true\"></span> Status Unknown</small>"
+     }*/
+		 return statusLogo;
+	 }
   // Focus input when clicking on the message input's border
   $inputMessage.click(function () {
     $inputMessage.focus();
