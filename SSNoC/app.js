@@ -51,7 +51,7 @@ var announcements = require('./routes/announcements');
 var onlineUsers = require('./lib/onlineUsers.js');
 
 var io = require('socket.io').listen(http);
-require('./public/js/chatsocket')(io);
+require('./chatsocket')(io);
 
 
 
@@ -63,6 +63,7 @@ app.use('/announcements', announcements);
 
 //importing models
 var Announce = require('./models/announcement.js');
+var Msg = require('./models/message.js');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -95,26 +96,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-   console.log("current_user: "+onlineUsers.current_user);
-   
-   socket.on('new announcement', function(data) {
-	   console.log("******** Handling new announcement!");
-	   console.log("current_user: "+onlineUsers.current_user);
-   		Announce.create({ 
-   			publisher_username: data.current_user,
-   			content: data.content,
-			createdAt: data.createdAt
-   		}).then(function() {
-   			console.log("Announcement created!");
-			io.sockets.emit('new annoucement', {
-   			publisher_username: onlineUsers.current_user,
-   			content: data.content,
-			createdAt: data.createdAt
-			});
-   		});
-   });
-});
+
+
 
 module.exports = app;

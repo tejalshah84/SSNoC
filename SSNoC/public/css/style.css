@@ -6,6 +6,8 @@ html, body{
 	margin: 0;
 	padding: 0;
   font-family: sans-serif;
+	max-width: 100%;
+	    overflow-x: hidden;
 }
 
 .clickable {
@@ -35,3 +37,29 @@ html, body{
 .messages{
 	margin-bottom: 180px;
 }*/
+
+.status_list li{
+	text-indent: 0px; 
+}
+.status_list li>a{
+	text-align: center;
+}
+.status_list li>a:hover{
+	color:#000 !important;
+}
+
+.ok{
+	color:green !important;
+}
+.messages_item{
+	background: #eee;
+}
+.chat_author{
+	padding-right:10px;
+	font-weight:bold;
+}
+
+.chat_timestamp{
+	float:right;
+}
+

@@ -16,13 +16,19 @@ var chathistory = sequelize.define('chathistory', {
   },
  
   timestamp: {
-    type: Sequelize.DATE
+    type: Sequelize.DATE,
+    allowNull: true,
+    defaultValue: null
   },
   createdAt: {
-    type: Sequelize.DATE
+    type: Sequelize.DATE,
+    allowNull: true,
+    defaultValue: null
   },
   updatedAt: {
-    type: Sequelize.DATE
+    type: Sequelize.DATE,
+    allowNull: true,
+    defaultValue: null
   }
 }, {
   freezeTableName: true // Model tableName will be the same as the model name

@@ -33,7 +33,7 @@ $(function() {
        console.log('emitting socket for annoucement...');
          socket.emit('new announcement', {
            publisher_username: current_user,
-			 content: $('.new_announcement_content').val(),
+			 		content: $('.new_announcement_content').val(),
            createdAt: new Date()
          });
 	 }
@@ -44,10 +44,13 @@ $(function() {
 	
 	
 	$(window).load(function() {
+		getChatHistory();
 		getUserDirectory();
+		
 	//	$('#announcement').hide();
-	retrieveLatestAnnouncement();
+		retrieveLatestAnnouncement();
 	});
+	
 	//handling user directoy display
 	 $('.user_directory').on('click', function(){
 		 getUserDirectory();
@@ -90,13 +93,33 @@ $(function() {
  		});	
 	 }
 	 
+	 
+	 function getChatHistory(){
+		 console.log("Sending Ajax request to server...");
+  		
+ 		$.ajax({
+ 			dataType: "json",
+ 		  url: '/messages',
+ 		  type: 'GET',
+ 			data: {
+       //  appID: $inputAppID.val()
+ 			},
+ 		  success: function(data) {
+ 				loadChatHistory(data);
+ 		  },
+ 		  error: function(e) {
+ 			//console.log(e.message);
+ 		  }
+ 		});	
+	 }
+	 
 	 function displayUserDirectory(users){
 		 $('#user_list').empty();
 		 var users_online = users.online;
 		 delete users_online[current_user];
 		 $.each(users_online, function(index, element) {
 			 var statusLogo = getUserStatus(element); 
-				var item = " <a href=\"#\" style=\"color: #62615f;\">"+statusLogo+element+"</a>"
+			 var item = " <a href=\"#\" style=\"color: #62615f;\">"+statusLogo+element+"</a>";
 		 		$('#user_list').append("<li>"+item+"</li>");
 	 	});
 	 $.each(users.offline, function(index, element) {
@@ -175,30 +198,53 @@ $(function() {
   });
 	
   socket.on('new annoucement', function (data) {
+		
     console.log(data.content);
     if($('#postAnnouncementModal').length > 0){
     	$('#postAnnouncementModal').modal('hide');
+			$("#top_menu_dropdown").removeClass('in open');
+    	$('.latest_announce_content').text(data.content);
+			$('.latest_announce_publisher').text("by "+data.publisher_username+" at "+ dateForamt(data.createdAt));
     }
-	var post = "<strong>"+data.content+"</strong>"+"   - posted by: "+data.publisher_username+" at "+data.createdAt;
-	$('#new_announce_post').append(post);
-	$('#announcement').show();
+		$('#new_announce_post').empty();
+		var post = "<strong>"+data.content+"</strong>"+"   - posted by: "+data.publisher_username+" at "+dateForamt(data.createdAt);
+		$('#new_announce_post').append(post);
+		$('#announcement').show();
 	
   });
+	function dateForamt(date){
+		var d = new Date(date);
+    var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var date = d.getDate() + " " + month[d.getMonth()] + ", " +  d.getFullYear();
+    var time = d.toLocaleTimeString().toLowerCase();
+    return (date + " at " + time); 
+	}
   
   function displayLatestAnnouncement(data){
-  	var post = "<strong>"+data.content+"</strong>"+"   - posted by: "+data.publisher_username+" at "+data.createdAt;
+		
+		$('#new_announce_post').empty();
+  	var post = "<strong>"+data.content+"</strong>"+"   - posted by: "+data.publisher_username+" at "+dateForamt(data.createdAt);
   	$('#new_announce_post').append(post);
   	$('#announcement').show();
+    if($('#postAnnouncementModal').length > 0){
+    	$('.latest_announce_content').text(data.content);
+			$('.latest_announce_publisher').text("by "+data.publisher_username+" at "+ dateForamt(data.createdAt));
+    }
   }
 
-	function loadChatHistory (data){
-		data.chatHistory.forEach(function(msg){
-			var chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+msg.chatauthor+
+	function loadChatHistory(data){
+		data.forEach(function(msg){
+			console.log(msg);
+			var chatContent = "<blockquote><p><span class=\"chat_author\">"+msg.chatauthor+": </span>"+	
+							msg.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(msg.createdAt)+"</small></span></p></blockquote>";
+		/*	var chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+msg.chatauthor+
 										"<span style=\"float:right;\"><small>"+msg.timestamp+"</small></span></h4></div><div class=\"panel-body\">"+
-										msg.chatmessage+"</div></div>";
-			var item = "<li>"+chatContent+"</li>";
+										msg.chatmessage+"</div></div>";*/
+			var item = "<li class=\"messages_item\">"+chatContent+"</li>";
 			$('#messages').append(item);
+			
 		});
+			scrollListBtm();		
 	}
 
   // Prevents input from having injected markup
@@ -223,27 +269,20 @@ $(function() {
       statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-question-sign\" style=\"color: grey;\" aria-hidden=\"true\"></span> Status Unknown</small>"
     }
 
-		var $chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+data.chatauthor+
-							"<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-map-marker\" ></span>"+data.location+"</small>"+
-              statusLogo + 
-							"<span style=\"float:right;\"><small>"+data.timestamp+"</small></span></h4></div><div class=\"panel-body\">"+
-							data.chatmessage+"</div></div>";
-  	var $messageDiv = $('<li class="message"/>')
-    .append($chatContent);
-		addMessageElement($messageDiv,options);
- 
-  }
-  // Adds a message element to the messages and scrolls to the bottom
-  // el - The element to add as a message
-  // options.fade - If the element should fade-in (default = true)
-  // options.prepend - If the element should prepend
-  //   all other messages (default = false)
-  function addMessageElement (el, options) {
 		
-    var $el = $(el);
-    $messages.append($el);
-    $messages[0].scrollTop = $messages[0].scrollHeight;
-		//$("body").animate({ scrollTop: $messages[0].scrollHeight }, "slow");
+			var chatContent = "<blockquote><p><span class=\"chat_author\">"+data.chatauthor+": </span>"+	
+							data.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(data.createdAt)+"</small></span></p></blockquote>";					
+							var item = "<li class=\"messages_item\">"+chatContent+"</li>";
+							$('#messages').append(item);
+							scrollListBtm();				 
   }
+ 
+	function scrollListBtm(){
+		var last_li = $("#messages li:last-child").offset().top;
+		$("#public_messages").animate({
+		    scrollTop: last_li
+		  }, 1000);
+	}
+ 
   
 });

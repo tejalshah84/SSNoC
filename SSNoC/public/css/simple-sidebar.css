@@ -39,12 +39,13 @@
 
 #page-content-wrapper {
     width: 100%;
-  /*  position: fixed;*/
-    padding: 15px;
+    /*position: fixed;*/
+   /* padding: 15px;*/
 }
 
 #wrapper.toggled #page-content-wrapper {
-    position: fixed;
+   /* position: fixed;*/
+		position: absolute;
     margin-right: -250px;
 }
 
@@ -114,7 +115,7 @@
     }
 
     #page-content-wrapper {
-        padding: 20px;
+       /* padding: 20px;*/
         position: fixed;
     }
 
