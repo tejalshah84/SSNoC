@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session')
 var bodyParser = require('body-parser');
+var sequelize = require('./sequelize');
 
 var db_s = require('./testdb');
 
@@ -47,14 +48,21 @@ var users = require('./routes/users');
 var messages = require('./routes/messages');
 var announcements = require('./routes/announcements');
 
+var onlineUsers = require('./lib/onlineUsers.js');
+
 var io = require('socket.io').listen(http);
 require('./public/js/chatsocket')(io);
+
 
 
 app.use('/', routes);
 app.use('/users', users);
 app.use('/messages', messages);
 app.use('/announcements', announcements);
+
+
+//importing models
+var Announce = require('./models/announcement.js');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -89,6 +97,24 @@ app.use(function(err, req, res, next) {
 
 io.on('connection', function(socket){
   console.log('a user connected');
+   console.log("current_user: "+onlineUsers.current_user);
+   
+   socket.on('new announcement', function(data) {
+	   console.log("******** Handling new announcement!");
+	   console.log("current_user: "+onlineUsers.current_user);
+   		Announce.create({ 
+   			publisher_username: data.current_user,
+   			content: data.content,
+			createdAt: data.createdAt
+   		}).then(function() {
+   			console.log("Announcement created!");
+			io.sockets.emit('new annoucement', {
+   			publisher_username: onlineUsers.current_user,
+   			content: data.content,
+			createdAt: data.createdAt
+			});
+   		});
+   });
 });
 
 module.exports = app;

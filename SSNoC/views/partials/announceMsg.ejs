@@ -1,0 +1,39 @@
+        
+      <!--Announcement msg -->
+       
+  
+  <div class="modal fade bs-example-modal-sm" id="postAnnouncementModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+			
+			<p>Latest Announcement</p>
+			<p>xxx xxx</p>
+			<p>by <%=user.username %>, <%=user.lastlogintime %>!</p>
+			<div class="clr" style="height: 20px;"></div>
+          
+
+		</div>
+
+		
+
+        <div class="modal-body">
+<h3 class="modal-title">Post Annoucement</h3>
+		<p>Type your Annoucement...</p>
+		
+		<textarea class="form-control new_announcement_content" rows="3"></textarea>
+		
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Discard</button>
+          <button type="button" class="btn btn-primary post_announcement">Post</button>
+        </div> 
+      </div><!-- /.modal-content -->
+    </div>
+  </div>
+<!--/#welcomeModal -->
+
+        
+      

@@ -17,12 +17,16 @@
 	                              <ul class="dropdown-menu" aria-labelledby="dLabel" style="left: -106px;">
 	                                <li><a>Profile</a></li>
 																	<% if (user.roleid == 2) { %>
-	                                <li><a>Post Announce</a></li>
+	                                <li><a data-toggle="modal" data-target="#postAnnouncementModal">Post Announce</a></li>
 																	<% }%>	
 	                                <li><a href="/signout" id="signout">Sign out</a></li>
 	                              </ul>
 	                            </div>
 	                        </div>
                         <div style="clear: both"></div>
+						<div id="announcement" class="alert alert-warning alert-dismissible" role="alert">
+						  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						  <span id="new_announce_post"><strong></strong></span> 
+						</div>
                     </div>
             <!--/Navbar-->

@@ -13,6 +13,20 @@ router.get('/', function(req, res) {
 	});
 });
 
+
+router.get('/latest', function(req, res) {
+	Announce.findAll({
+	  order:
+		  'id DESC'
+	  , 
+	  limit:
+	  	1
+	  
+	}).then(function (announce) {
+		  res.json(announce);
+	});
+});
+
 //get Announce
 router.get('/:id', function(req, res) {
 	Announce.findAll({
@@ -26,7 +40,12 @@ router.get('/:id', function(req, res) {
 
 //create Announce
 router.post('/', function(req, res) {
-  res.send('respond with a resource');
+	Announce.create({ 
+		publisher_username: req.session.user.username,
+		content: req.data.content
+	}).then(function() {
+		console.log("Announcement created!");
+	});
 });
 
 

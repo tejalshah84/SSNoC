@@ -8,7 +8,7 @@
 										  	<button type="button" class="btn btn-default">
 										    	<div>
 														<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-														<span style="padding-left:0px;"> <%= user.username%></span>
+														<span style="padding-left:0px;" id="current_user"><%= user.username%></span>
 													</div>
 												</button>
 											</div>
@@ -19,7 +19,7 @@
 										      <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
 										      <span class="caret"></span>
 										    </button>
-										    <ul class="dropdown-menu">
+										    <ul class="dropdown-menu" style="min-width:100%;">
 										      <li><a href="#"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></a></li>
 										      <li><a href="#"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a></li>
 										      <li><a href="#"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></a></li>
@@ -31,7 +31,7 @@
                 </li>
 								<div class="clr" style="height:0px;"></div>
 								<li style="font-weight: bold; color: #62615f;">
-									All Users (<%= userDirectory.length%>)  
+									All Users (<%= userDirectory.length - 1%>)  
 								</li>	
 								<li>
 								<ul id="user_list">	

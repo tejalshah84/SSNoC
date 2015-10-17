@@ -27,6 +27,8 @@ var announce = sequelize.define('announcement', {
 
 
 
+
+
 module.exports = announce;
 
 

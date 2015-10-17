@@ -55,6 +55,11 @@
 			<% include ./partials/welcomeMsg %>
 		<% } %>	
 		
+        <!--welcomeModal-->	
+		<%if (user.roleid != 3) { %>
+			<% include ./partials/announceMsg %>
+		<% } %>
+		
         <!--welcomeModal wrapper -->
       
     </div>
