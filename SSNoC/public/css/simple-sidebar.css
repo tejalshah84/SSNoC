@@ -26,7 +26,7 @@
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
-    background: #000;
+    background: #f0eeef;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -39,12 +39,13 @@
 
 #page-content-wrapper {
     width: 100%;
-    position: absolute;
-    padding: 15px;
+    /*position: fixed;*/
+   /* padding: 15px;*/
 }
 
 #wrapper.toggled #page-content-wrapper {
-    position: absolute;
+   /* position: fixed;*/
+		position: absolute;
     margin-right: -250px;
 }
 
@@ -114,12 +115,12 @@
     }
 
     #page-content-wrapper {
-        padding: 20px;
-        position: relative;
+       /* padding: 20px;*/
+        position: fixed;
     }
 
     #wrapper.toggled #page-content-wrapper {
-        position: relative;
+        position: fixed;
         margin-right: 0;
     }
 }

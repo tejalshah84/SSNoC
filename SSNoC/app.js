@@ -6,6 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session')
 var bodyParser = require('body-parser');
+var sequelize = require('./sequelize');
 
 var db_s = require('./testdb');
 
@@ -13,7 +14,7 @@ var db_s = require('./testdb');
 
 var app = express();
 var http = require('http').Server(app);
-
+var io = require('socket.io')(http);
 
 
 http.listen(8888, function(){
@@ -40,12 +41,29 @@ app.use(session({secret: '1234567890QWERTY'}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
+/*    Rounting    */
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var messages = require('./routes/messages');
+var announcements = require('./routes/announcements');
+
+var onlineUsers = require('./lib/onlineUsers.js');
+
+var io = require('socket.io').listen(http);
+require('./chatsocket')(io);
+
 
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/messages', messages);
+app.use('/announcements', announcements);
+
+
+//importing models
+var Announce = require('./models/announcement.js');
+var Msg = require('./models/message.js');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -78,5 +96,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-console.log("Hello World!");
+
+
+
 module.exports = app;

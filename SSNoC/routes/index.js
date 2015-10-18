@@ -1,69 +1,82 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('.././testdb');
+
+var db = require('.././testdb'); //database
+//model
+var sequelize = require('.././sequelize');
+var user = require('.././models/user.js');
 var badUsername = require('.././lib/reservedNames.js');
+var onlineUsers = require('.././lib/onlineUsers.js');
 
-// Load the bcrypt module
-var bcrypt = require('bcryptjs');
+var bcrypt = require('bcryptjs');// Load the bcrypt module
+var salt = bcrypt.genSaltSync(10);// Generate a salt
 
-// Generate a salt
-var salt = bcrypt.genSaltSync(10);
+var User = require('.././models/user.js');
+var Message = require('.././models/message.js');
 
 
+// -------------------------------------------------------------------------------------//
 
 
 /* show signin page*/
 router.get('/', function(req, res) {
-	  
-	  console.log("Handling signin entering...");
-	  res.render('signin', {  });
+	res.render('signin', { error: ""});
 });
-
 
 router.get('/signin', function(req, res, next) {
 	res.render('signin', { error: ""});
 });
+
+router.get('/signout', function(req, res){
+	if (req.session && req.session.user) { 
+		req.session.destroy();
+		console.log("------- User logout! clearing session...");
+		res.redirect('/signin');
+	}else{
+		res.redirect('/signin');
+	}
+});
+
 /* handle signin request*/
 router.post('/', function(req, res){
 	console.log("Handling signin...");
 	console.log("Username: "+req.body.username);
+	var username = req.body.username;
 	//Retrieve Hash pwd from DB
-	db.get("SELECT * FROM user WHERE username = $username", {$username: req.body.username}, function(err, result) {
-
+	
+	User.findOne({
+		  where: {
+		    username: username
+	}
+	}).then(function (result) {
 		if(!result){
 			// If the username isn't in the DB, reset the session and redirect the user to signup an account
 			console.log("Redirected to signin-1");
-			res.redirect('/signin');// Question - or redirect to signin again? which one is more reasonable?
+			res.render('signin',{error: "Username not found!"});
 		}
 		else{  // If the user is in the DB, retrieve password and compare it
 			
 			var pwd_hash = result.password;
-			//Compare pwd
 			var comparison = bcrypt.compareSync(req.body.password, pwd_hash);
 			console.log("Comparing password...");
 			if(comparison){ //If pwd is correct, update new login time to DB and enter the welcome page
-
 			
 				var date = new Date();//Get user login time
-				var logintime = date.toLocaleTimeString();
-				db.run("UPDATE user SET lastLoginTime WHERE username = $username", {$username: result.username}, function(err, row){ 
-
+				//var logintime = date.toLocaleTimeString();
+				result.update({
+				  lastlogintime: date
+				}).then(function() {
 					req.session.user = result;
+					req.session.isNewUser = false;
 					console.log("Succefully signin!");
+					goOnline(username);
 					res.redirect('/community');
 				});
-			}
-
-			else{
-
+			}else{
 				console.log("Password not correct...Redirected to signin");
-				res.redirect('/signin');
-
-			}
-			
-
-		
+				res.render('signin',{error: "Password is incorrect!"});
+			}		
 		}
 });
 });
@@ -78,16 +91,17 @@ router.post('/signup', function(req, res){
 	console.log("Username: "+req.body.username);
 	
 	var username = req.body.username;
-	//check validity of the user name
-	//var usernameRegex = /^[a-zA-Z0-9]+$/; //the input firstname should only contains characters A-Z, a-z, and -
-																				//the input login name should only contains alphanumeric characters
 
 	if(badUsername.contains(username)){
 		console.log("--- Invalid username");
 		res.render('signup',{error: "Username not valid!"});				
 	}else{
 		console.log("--- valid username");
-		db.get("SELECT * FROM user WHERE username = $username", {$username: username},function(err, result) {
+		User.findOne({
+		  where: {
+		    username: username
+		  }
+		}).then(function (result) {
 			if(result){
 				console.log("--- Existing username");
 				res.render('signup',{error: "Username already exists!"});				
@@ -95,17 +109,27 @@ router.post('/signup', function(req, res){
 				// Hash the password with the salt
 				var pwd_hash = bcrypt.hashSync(req.body.password, salt);
 			  var date = new Date();
-			  var logintime = date.toLocaleTimeString();
+			//  var logintime = date.toLocaleTimeString();
 	
 				req.session.username = username;
-				// store the hash in  DB
-			  var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?)");
-			  stmt.run(username, pwd_hash, "", "", 3, 3, logintime);
-	
-				db.get("SELECT * FROM user WHERE username = $username", {$username: username},function(err, result) {
-					req.session.user = result;
-					res.redirect('/community');
-				});
+				User.create({ 
+					username: username, 
+					password: pwd_hash,
+					firstname: "",
+					lastname: "",
+					statusid: 3,
+					roleid: 3,
+					lastlogintime: date
+				}).then(function() {
+			    User
+			      .findOne({where: {username: username}})
+			      .then(function (user) {
+							req.session.user = user;
+							req.session.isNewUser = true;
+							goOnline(username);
+							res.redirect('/community');
+			      });
+			  });
 			}
 			
 		});
@@ -116,20 +140,36 @@ router.post('/signup', function(req, res){
 
 router.get('/community', function(req, res) {
 	if (req.session && req.session.user) { 
-		db.all("SELECT * FROM user", function(err, rows) {
-			var users = rows;
+		User.findAll().then(function (user) {	
+			var users = user;
 			console.log("Getting all users...");
-			console.log(rows);
-		 		// render the welcome page
-		  	res.render('community', { 
-					user: req.session.user, 
-					userDirectory : users
-				});
+			Message.findAll().then(function (msg) {	
+        var chathistory = msg;
+        console.log(chathistory);
+				
+				// render the welcome page
+			  	res.render('community', { 
+						user: req.session.user,
+						isNewUser: req.session.isNewUser,
+						chatHistory: chathistory, 
+						userDirectory : users,
+						onlineUsers: onlineUsers.getOnlineUsers()
+						});
+			});
 		});
 	}else {
     res.redirect('/signin');
   }
 });
+
+
+function goOnline(username){
+	console.log("before user...:");
+	console.log(onlineUsers.getOnlineUsers());
+	onlineUsers.addoOnlineUsers(username);
+	console.log("after Online Users...");
+	console.log(onlineUsers.getOnlineUsers());
+}
 
 
 module.exports = router;

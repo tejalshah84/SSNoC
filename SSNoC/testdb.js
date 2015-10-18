@@ -14,13 +14,23 @@ var salt = bcrypt.genSaltSync(10);
 
 
 
+
+
 db.serialize(function() {
   //db.run, if table user is not exist，then create user database
   console.log("Initialize database...");
 	//User
-	db.run("CREATE TABLE IF NOT EXISTS user (username TEXT,password TEXT,firstname TEXT,lastname TEXT,online BOOLEAN,status INT,role INT,lastLoginTime TEXT)");
+	db.run("CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT,password TEXT,firstname TEXT,lastname TEXT, online BOOLEAN, location TEXT, statusid INT, roleid INT,lastlogintime DATETIME, createAt DATETIME,updateAt DATETIME)");
 
+  db.run("CREATE Table if NOT EXISTS chathistory (chatid INTEGER PRIMARY KEY AUTOINCREMENT, chatauthor TEXT, chatmessage BLOB, timestamp DATETIME)", function (err){
 
+          if(err!==null){
+              console.log("Error occured while creating chat_history table");
+          }
+          else{
+              console.log("chat_history table initialized");
+          }
+      });
  /* var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,online,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?,?)");
   
 	
@@ -40,10 +50,10 @@ db.serialize(function() {
 
   
 
-  db.each("SELECT username, password,firstname,lastname,status,role,lastLoginTime FROM user", function(err, row) {
+ /* db.each("SELECT username, password, firstname, lastname, online, location, statusid, roleid, lastlogintime FROM user", function(err, row) {
     //log all data
     console.log("User id :" + row.status);
-  });
+  });*/
 	
 	//Status
  /* db.run("CREATE TABLE IF NOT EXISTS status (title TEXT,description TEXT)");
@@ -55,10 +65,10 @@ db.serialize(function() {
 	stmt.run("Safe", "Safe");
   stmt.finalize();*/
 
-  db.each("SELECT * FROM status", function(err, row) {
+ /* db.each("SELECT * FROM status", function(err, row) {
     //log all data
     console.log("Status :" + row.title);
-  });
+  });*/
 	
 	//Role
  /*  db.run("CREATE TABLE IF NOT EXISTS role (title TEXT,description TEXT)");
@@ -70,10 +80,10 @@ db.serialize(function() {
 	stmt.run("User", "Regular user");
   stmt.finalize();*/
 
-  db.each("SELECT * FROM role", function(err, row) {
+ /* db.each("SELECT * FROM role", function(err, row) {
     //log all data
     console.log("Role :" + row.title);
-  });
+  });*/
 });
 
 
