@@ -8,7 +8,7 @@ $(function() {
 
   var socket = io();
 	console.log("-- Loading main.js --");
-  var status_arr = {'ok':1, 'help':2, 'emergency': 3};var status_arr = {'ok':1, 'help':2, 'emergency': 3};
+  var status_arr = {'ok':1, 'help':2, 'emergency': 3};
   var status_logo = {1:'glyphicon glyphicon-ok-sign', 2:'glyphicon glyphicon-exclamation-sign', 3:'glyphicon glyphicon-plus-sign'};
   
   // Keyboard events
@@ -132,8 +132,10 @@ $('.status_list').on('click', 'li', function(event) {
 	 }
 	 
 	 function displayUserDirectory(users){
+		 
 		 $('#user_list').empty();
 		 var users_online = users.online;
+		 $('#current_status').removeClass().addClass(status_logo[users_online[current_user]]);
 		 delete users_online[current_user];
 		 $.each(users_online, function(index, element) {
 			 var statusLogo = getUserStatus(element); 
@@ -235,12 +237,12 @@ $('.status_list').on('click', 'li', function(event) {
   
   socket.on('new status', function (data) {
 		
-    console.log(data.status_id);
+    console.log(data.statusid);
     if(data.username == current_user){
-		$('#current_status').removeClass().addClass(status_logo[data.status_id]);
+		$('#current_status').removeClass().addClass(status_logo[data.statusid]);
     
 	}
-	$('#'+data.username+" .statuslogo").empty().append(getUserStatus(data.status_id));
+	$('#'+data.username+" .statuslogo").empty().append(getUserStatus(data.statusid));
 	
   });
   
