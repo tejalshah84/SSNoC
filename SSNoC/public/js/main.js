@@ -8,6 +8,8 @@ $(function() {
 
   var socket = io();
 	console.log("-- Loading main.js --");
+  var status_arr = {'ok':1, 'help':2, 'emergency': 3};var status_arr = {'ok':1, 'help':2, 'emergency': 3};
+  var status_logo = {1:'glyphicon glyphicon-ok-sign', 2:'glyphicon glyphicon-exclamation-sign', 3:'glyphicon glyphicon-plus-sign'};
   
   // Keyboard events
 /*  $window.keydown(function (event) {
@@ -25,6 +27,22 @@ $(function() {
       } 
  //   }
   });*/
+	
+	//console log when click status
+$('.status_list').on('click', 'li', function(event) {
+		var button = $(event.target);
+		console.log("status menu selected: " + $(this).attr('id'));
+		var statusid = status_arr[$(this).attr('id')];
+		
+		socket.emit('change status', {
+		      username: current_user,
+		 			status_id: statusid
+		    });
+		
+});	
+
+
+
 	
  $('.post_announcement').on('click', function(){
 	 console.log("Sending Ajax request to server...");
@@ -119,36 +137,36 @@ $(function() {
 		 delete users_online[current_user];
 		 $.each(users_online, function(index, element) {
 			 var statusLogo = getUserStatus(element); 
-			 var item = " <a href=\"#\" style=\"color: #62615f;\">"+statusLogo+element+"</a>";
+			 var item = " <a id =\""+index+"\" href=\"#\" style=\"color: #62615f;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+index+"</a>";
 		 		$('#user_list').append("<li>"+item+"</li>");
 	 	});
 	 $.each(users.offline, function(index, element) {
 		 var statusLogo = getUserStatus(element); 
 		 
-		var item = " <a href=\"#\" style=\"color: #a7a6a4;\">"+statusLogo+element+"</a>"
+		 var item = " <a id =\""+index+"\" href=\"#\" style=\"color: #a7a6a4;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+index+"</a>";
 	 	$('#user_list').append("<li>"+item+"</li>");
  	});
 	 }
-  
-	
-	 function getUserStatus(data){
-		 var statusLogo = "<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\" style=\"padding-right:10px;\"></span>";
+ 
+	 function getUserStatus(num){ 
 		 
-		 /*
-     if(data.status===1){
-       statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-plus-sign\" style=\"color: red;\" aria-hidden=\"true\"></span> Emergency!</small>"
-     }
-     else if (data.status===2){
-       statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-exclamation-sign\" style=\"color: yellow;\" aria-hidden=\"true\"></span> Help!</small>"
-     }
-     else if (data.status===3){
-       statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-ok-sign\" style=\"color: green;\" aria-hidden=\"true\"></span> OK!</small>"
-     }
-     else{
-       statusLogo = "<small style=\"padding-left:20px;\"><span class=\"glyphicon glyphicon-question-sign\" style=\"color: grey;\" aria-hidden=\"true\"></span> Status Unknown</small>"
-     }*/
-		 return statusLogo;
-	 }
+	      if(num===1){
+	        statusLogo = "<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\" style=\"padding-right:10px;\"></span>";
+	      }
+	      else if (num===2){
+	        statusLogo = "<span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\" style=\"padding-right:10px;\"></span>";
+		
+	 		}
+	      else if (num===3){
+	        statusLogo = "<span class=\"glyphicon glyphicon-plus-sign\" aria-hidden=\"true\" style=\"padding-right:10px;\"></span>";
+			 
+	      }
+	      else{
+	        statusLogo = "<span class=\"glyphicon glyphicon-question-sign\" aria-hidden=\"true\" style=\"padding-right:10px;\"></span>";
+
+	      }
+	 		 return statusLogo;
+	 	 }
   // Focus input when clicking on the message input's border
   $inputMessage.click(function () {
     $inputMessage.focus();
@@ -212,6 +230,23 @@ $(function() {
 		$('#announcement').show();
 	
   });
+  
+  
+  
+  socket.on('new status', function (data) {
+		
+    console.log(data.status_id);
+    if(data.username == current_user){
+		$('#current_status').removeClass().addClass(status_logo[data.status_id]);
+    
+	}
+	$('#'+data.username+" .statuslogo").empty().append(getUserStatus(data.status_id));
+	
+  });
+  
+ 
+  
+  
 	function dateForamt(date){
 		var d = new Date(date);
     var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

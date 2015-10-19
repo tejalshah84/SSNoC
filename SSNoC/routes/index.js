@@ -70,7 +70,7 @@ router.post('/', function(req, res){
 					req.session.user = result;
 					req.session.isNewUser = false;
 					console.log("Succefully signin!");
-					goOnline(username);
+					goOnline(result);
 					res.redirect('/community');
 				});
 			}else{
@@ -126,7 +126,7 @@ router.post('/signup', function(req, res){
 			      .then(function (user) {
 							req.session.user = user;
 							req.session.isNewUser = true;
-							goOnline(username);
+							goOnline(user);
 							res.redirect('/community');
 			      });
 			  });
@@ -162,10 +162,10 @@ router.get('/community', function(req, res) {
 });
 
 
-function goOnline(username){
+function goOnline(user){
 	console.log("before user...:");
 	console.log(onlineUsers.getOnlineUsers());
-	onlineUsers.addoOnlineUsers(username);
+	onlineUsers.addoOnlineUsers(user);
 	console.log("after Online Users...");
 	console.log(onlineUsers.getOnlineUsers());
 }

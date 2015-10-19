@@ -48,15 +48,7 @@
       <!--Public Chat Wall wrapper -->
 			
 			
-        <!--welcomeModal-->	
-		<%if (isNewUser) { %>
-			<% include ./partials/welcomeMsg %>
-		<% } %>	
-		
-        <!--welcomeModal-->	
-		<%if (user.roleid != 3) { %>
-			<% include ./partials/announceMsg %>
-		<% } %>
+	x
 		
         <!--welcomeModal wrapper -->
       </div>
@@ -71,6 +63,19 @@
     <script src="../js/utility.js"></script>
 	<script src="../js/main.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
+
+        <!--welcomeModal-->	
+
+	<%if (isNewUser) { %>
+		<% include ./partials/welcomeMsg %>
+	<% } %>	
+	
+    <!--welcomeModal-->	
+	<%if (user.roleid != 3) { %>
+		<% include ./partials/announceMsg %>
+	<% } %>
+
+
 
   </body>
 

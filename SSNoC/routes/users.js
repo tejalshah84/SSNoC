@@ -32,7 +32,7 @@ function divideUsers(users){
 			if (user.username in users_list['online']) {
 				//do nothing
 			}else{
-				user_off[user.username] = user.username;
+				user_off[user.username] = user.statusid;
 			}
 		users_list['offline'] = user_off;
 	});
