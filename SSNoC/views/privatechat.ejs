@@ -41,13 +41,17 @@
       <!-- Public Chat Wall -->
 			<div class="height: 2vh;" ></div>
           
-          <div class="">
-              <% include ./partials/public_wall %>
+          <div class="" >
+              <% include ./partials/private_room %>
           </div>
 
       <!--Public Chat Wall wrapper -->
 			
-		
+			
+        <!--welcomeModal-->	
+		<%if (isNewUser) { %>
+			<% include ./partials/welcomeMsg %>
+		<% } %>	
 		
         <!--welcomeModal-->	
 		<%if (user.roleid != 3) { %>

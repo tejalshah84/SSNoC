@@ -1,10 +1,21 @@
-<div class="row" id="public_wall">
+<div class="row" id="private_chat">
 <!-- public wall content -->
 	<div class="" style="margin: 0 auto;width:80%;padding-top:0px;">
   <div class="clr" style="height:2vh;"></div>              
 	<div style="height:68vh;overflow-y: auto;" id="public_messages">						               
 		<ul id="messages" class="messages" style="list-style-type:none;-webkit-padding-start: 0px;">
+			 <% chatHistory.forEach(function(msg){ %>
+				 <li class=\"messages_item\">
+				 <blockquote><p>
+					 <span class=\"chat_author\"><%= msg.chatauthor%>: </span>
+							<%= msg.chatmessage%> 
+							<span class=\"chat_timestamp\">
+								<small><%= msg.createdAt%></small>
+							</span>
+					</p></blockquote>
+				</li>
 		
+			  <%  });  %>
 		</ul>
      </div>                  
                                 

@@ -44,7 +44,11 @@ $(function() {
 	
 	
 	$(window).load(function() {
-		getChatHistory();
+		if($('#public_wall').length>0){
+			getChatHistory();
+			console.log("load public wall?");
+		}
+		
 		getUserDirectory();
 		
 	//	$('#announcement').hide();
@@ -105,6 +109,28 @@ $(function() {
  			},
  		  success: function(data) {
  				loadChatHistory(data);
+ 		  },
+ 		  error: function(e) {
+ 			//console.log(e.message);
+ 		  }
+ 		});	
+	 }
+	 
+	 function getPrivateChatHistory(){
+		 console.log("Sending Ajax request to server...");
+  		
+ 		$.ajax({
+ 			dataType: "json",
+ 		  url: '/messages/room',
+ 		  type: 'GET',
+ 			data: {
+ 				chatauthor:current_user,
+ 				chattarget: element
+ 			},
+ 		  success: function(data) {
+				console.log('SuccessPrivateJson');
+ 				loadChatHistory(data);
+				
  		  },
  		  error: function(e) {
  			//console.log(e.message);
