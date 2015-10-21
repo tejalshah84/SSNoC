@@ -1,27 +1,28 @@
 <div class="row">
-<!-- public wall content -->
-	<div class="" style="margin: 0 auto;width:80%;padding-top:0px; display:block;"  id="public_wall">
+<!-- private wall content -->
+	<div class="" style="margin: 0 auto;width:80%;padding-top:0px; display:none;"  id="private_room">
   <div class="clr" style="height:2vh;"></div>              
-	<div style="height:68vh;overflow-y: auto;" id="public_messages">						               
-		<ul id="messages" class="messages" style="list-style-type:none;-webkit-padding-start: 0px;">
-		
-		</ul>
-     </div> 
+	 
      
-                     
+     <div style="height:68vh;overflow-y: auto; display:block" id="private_messages">	
+     					               
+		<ul id="privMsgList"  style="list-style-type:none;-webkit-padding-start: 0px;">
+		</ul>
+     </div>                 
                                 
       <div class="clr" style="height:2vh;"></div>                                  
 		<!-- message text box-->
 		<div style="">
-		<div class="well" style=""> 
+		<div class="room" style=""> 
 			<form class="form" action="/message" method="post"> <!--POST to backend-->
 				<p hidden id="user"><%=user.username %></p>
 				<p hidden id="location"><%=user.location %></p>
 				<p hidden id="status"><%=user.statusid %></p>
 				<div class="input-group text-center">
-					<input type="text" class="form-control input-lg inputMessage" placeholder="Type here...">
+	
+					<input type="text" class="form-control input-lg privInputMessage" placeholder="Type here...">
 					<span class="input-group-btn">
-						<button class="btn btn-lg btn-primary" id="submitMessage" type="button">OK</button>
+						<button class="btn btn-lg btn-primary" id="privSubmitMessage" type="button">OK</button>
 					</span>
 				</div>
 			</form> 

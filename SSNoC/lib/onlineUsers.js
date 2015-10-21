@@ -13,11 +13,11 @@ exports.currentUser = function() {
 	return current_user;
 };
 
-exports.addoOnlineUsers = function(username) {
-	console.log("User ["+username+"] is now online!!!");
-	current_user = username; 
+exports.addoOnlineUsers = function(user) {
+	console.log("User ["+user.username+"] is now online!!!");
+	current_user = user.username; 
 	console.log("----- current_user => "+current_user);
-  usernames[username] = username;
+  usernames[user.username] = user.statusid;
   ++numUsers;
 	console.log("Number of users now: "+numUsers);
 };

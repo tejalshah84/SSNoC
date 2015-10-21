@@ -6,40 +6,11 @@ var Message = require('.././models/message.js');
 
 // -------------------------------------------------------------------------------------//
 
- //GET all messages
-//router.get('/', function(req, res) {
-	//Message.findAll().then(function (msg) {
-		//  res.json(msg);
-	//});
-//});
-
-//GET all public messages
-router.get('/wall', function(req, res) {
-Message.findAll({
-where: {
-chattype:"wall"
-}
-}).then(function (msg) {
- res.json(msg);
-});
-});
-
-// GET all private messages for a specific author
-router.get('/room', function(req, res) {
-Message.findAll({
-where: {
-chattype: "room",
-chatauthor: {
-	$in: [req.query.chatauthor, req.query.chattarget]
-},
-chattarget:{ 	  
-$in: [req.query.chatauthor, req.query.chattarget]}
-}
-}).then(function (msg) {
-	console.log('RoomTest');
-	console.log(msg); 
-	res.json(msg); 
-});
+// GET all messages
+router.get('/', function(req, res) {
+	Message.findAll().then(function (msg) {
+		  res.json(msg);
+	});
 });
 
 //get message
@@ -65,9 +36,9 @@ router.put('/:id', function(req, res) {
 });
 
 //delete message
-//router.delete('/:id', function(req, res) {
-  //res.send('respond with a resource');
-//});
+router.delete('/:id', function(req, res) {
+  res.send('respond with a resource');
+});
 
 
 module.exports = router;

@@ -1,14 +1,19 @@
-console.log("Sequelize...Creating Chathistory Instance...");
+console.log("Sequelize...Creating PrivateChathistory Instance...");
 
 var Sequelize = require('sequelize');
 var sequelize = require('.././sequelize');
 
-var chathistory = sequelize.define('chathistory', {
+var privatechathistory = sequelize.define('privatechathistory', {
   chatauthor: {
     type: Sequelize.TEXT,
     allowNull: true,
     defaultValue: null
   },
+  chattarget: {
+	    type: Sequelize.TEXT,
+	    allowNull: true,
+	    defaultValue: null
+	  },
   chatmessage: {
     type: Sequelize.TEXT,
     allowNull: true,
@@ -37,7 +42,7 @@ var chathistory = sequelize.define('chathistory', {
 
 
 
-module.exports = chathistory;
+module.exports = privatechathistory;
 
 
 

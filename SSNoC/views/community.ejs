@@ -14,7 +14,7 @@
     
     <!-- Custom CSS -->
     <link href="../css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
   </head>
 
   <body>
@@ -42,21 +42,18 @@
 			<div class="height: 2vh;" ></div>
           
           <div class="" >
-              <% include ./partials/public_wall %>
+          <% include ./partials/private_room %>
           </div>
-
+         
+          <div class="" >
+              <% include ./partials/public_wall %>
+              
+          </div>
+            
       <!--Public Chat Wall wrapper -->
 			
 			
-        <!--welcomeModal-->	
-		<%if (isNewUser) { %>
-			<% include ./partials/welcomeMsg %>
-		<% } %>	
-		
-        <!--welcomeModal-->	
-		<%if (user.roleid != 3) { %>
-			<% include ./partials/announceMsg %>
-		<% } %>
+	x
 		
         <!--welcomeModal wrapper -->
       </div>
@@ -71,7 +68,19 @@
     <script src="../js/utility.js"></script>
 	<script src="../js/main.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
-	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+        <!--welcomeModal-->	
+
+	<%if (isNewUser) { %>
+		<% include ./partials/welcomeMsg %>
+	<% } %>	
+	
+    <!--welcomeModal-->	
+	<%if (user.roleid != 3) { %>
+		<% include ./partials/announceMsg %>
+	<% } %>
+
+
 
   </body>
 

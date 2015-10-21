@@ -16,21 +16,19 @@
 
 										  <div class="btn-group" role="group">
 										    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										      <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+										      <span id="current_status" class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
 										      <span class="caret"></span>
 										    </button>
 										    <ul class="dropdown-menu status_list" style="min-width:100%;">
-										      <li><a class="ok" href="#"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></a></li>
-										      <li><a href="#"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a></li>
-										      <li><a href="#"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></a></li>
+										      <li id="ok"> <a class="ok" href="#"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></a></li>
+										      <li id="help"><a href="#"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></a></li>
+										      <li id="emergency"><a href="#"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a></li>
 										    </ul>
 										  </div>
 										</div>
 										</div>
 
                 </li>
-                
-              
 								<div class="clr" style="height:0px;"></div>
 								<li style="font-weight: bold; color: #62615f;">
 									All Users (<%= userDirectory.length - 1%>)  
@@ -41,18 +39,5 @@
  							</ul>
  						</li>
             </ul>
-<!-- Modal for Private Chat Box -->            
-             <div class="modal-dialog" id="PrivWindow" title="" style="display: none; width: 400px;">
-	 	<div class="modal-body">
-        	<div class="column" id="privMessages" style="float: left; "><span hidden id="targetName"></span>
-				<ul style="list-style-type: none;" id="privMsgList"></ul>
-			   	<textarea id="privTextMsg" class="form-control new_announcement_content" placeholder="Type your message here.."></textarea>
-		    </div>
-		    <div class="column">
-            	<button type="button" id="privChatSend" style="float:right;bottom:0px" class="btn btn-primary btn-lg" data-dismiss="modal">Send</button>
-           </div>
-        </div>
-	</div>
-    
         </div>
 <!-- /#sidebar-wrapper -->

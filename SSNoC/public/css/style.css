@@ -63,10 +63,3 @@ html, body{
 	float:right;
 }
 
-#PrivWindow {
-  
-    width: 3600px;
-    overflow: auto;
-    background: #fff;
-  	
-}
