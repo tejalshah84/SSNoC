@@ -14,7 +14,7 @@
     
     <!-- Custom CSS -->
     <link href="../css/style.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   </head>
 
   <body>
@@ -41,32 +41,22 @@
       <!-- Public Chat Wall -->
 			<div class="height: 2vh;" ></div>
           
-<<<<<<< HEAD
           <div class="" >
-          <% include ./partials/private_room %>
+              <% include ./partials/private_room %>
           </div>
-         
-          <div class="" >
-=======
-          <div class="">
->>>>>>> 58235065ae5723f298cf4f401d751ec631253fa2
-              <% include ./partials/public_wall %>
-              
-          </div>
-            
+
       <!--Public Chat Wall wrapper -->
 			
-<<<<<<< HEAD
 			
-	x
-=======
-		
+        <!--welcomeModal-->	
+		<%if (isNewUser) { %>
+			<% include ./partials/welcomeMsg %>
+		<% } %>	
 		
         <!--welcomeModal-->	
 		<%if (user.roleid != 3) { %>
 			<% include ./partials/announceMsg %>
 		<% } %>
->>>>>>> 58235065ae5723f298cf4f401d751ec631253fa2
 		
         <!--welcomeModal wrapper -->
       </div>
@@ -81,19 +71,7 @@
     <script src="../js/utility.js"></script>
 	<script src="../js/main.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
-
-        <!--welcomeModal-->	
-
-	<%if (isNewUser) { %>
-		<% include ./partials/welcomeMsg %>
-	<% } %>	
-	
-    <!--welcomeModal-->	
-	<%if (user.roleid != 3) { %>
-		<% include ./partials/announceMsg %>
-	<% } %>
-
-
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
   </body>
 

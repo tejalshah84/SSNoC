@@ -66,7 +66,11 @@ $('.status_list').on('click', 'li', function(event) {
 	
 	
 	$(window).load(function() {
-		getChatHistory();
+		if($('#public_wall').length>0){
+			getChatHistory();
+			console.log("load public wall?");
+		}
+		
 		getUserDirectory();
 		
 		
@@ -136,7 +140,33 @@ $('.status_list').on('click', 'li', function(event) {
  		});	
 	 }
 	 
+<<<<<<< HEAD
 	 function getPrivChatHistory(element){
+=======
+	 function getPrivateChatHistory(){
+		 console.log("Sending Ajax request to server...");
+  		
+ 		$.ajax({
+ 			dataType: "json",
+ 		  url: '/messages/room',
+ 		  type: 'GET',
+ 			data: {
+ 				chatauthor:current_user,
+ 				chattarget: element
+ 			},
+ 		  success: function(data) {
+				console.log('SuccessPrivateJson');
+ 				loadChatHistory(data);
+				
+ 		  },
+ 		  error: function(e) {
+ 			//console.log(e.message);
+ 		  }
+ 		});	
+	 }
+	 
+	 window.getPrivChatHistory = function (element){
+>>>>>>> 58235065ae5723f298cf4f401d751ec631253fa2
 		 console.log("Sending Ajax PrivChatHistory...");
 		 console.log(element);
 		 //$("#PrivWindow").attr("title", element);
