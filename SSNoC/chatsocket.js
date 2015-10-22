@@ -18,8 +18,11 @@ module.exports = function(io) {
 // Handle socket traffic
 io.on('connection', function(socket){
   console.log('a user connected');
-
-
+//  privateRooms[data.chatauthor]= socket.id;
+	console.log('***************************');
+ 	console.log ("Checking Rooms sockets");
+  console.log (socket.id);
+console.log('***************************');
 //socket change status
   socket.on('change status', function(data) {
    console.log("******** Handling change status!");
@@ -44,6 +47,12 @@ io.on('connection', function(socket){
 		});
   	});
 	});
+	
+	
+  socket.on('setUserSocketID',function(data){
+		onlineUsers.addUsersSocketID(data.username, socket.id);
+  });
+	
 
 //Socket connections for Private Chat
   socket.on('setUsername',function(data){
@@ -71,8 +80,11 @@ io.on('connection', function(socket){
        			//socket_server.sockets.socket(socket.id).emit('PrivateChatMsg', {
        			//socket.broadcast.to(socket.id).emit('PrivateChatMsg', {	
        			//io.sockets.socket(privateRooms[data.chattarget]).emit('PrivateChatMsg', {
-       		io.to(privateRooms[data.chatauthor]).emit('PrivateChatMsg', {
+				
+       	//	io.to(privateRooms[data.chatauthor]).emit('PrivateChatMsg', {
        			//socket.sockets.emit('PrivateChatMsg', {
+							console.log("----- taget's socketid: "+onlineUsers.getOnlineUsers()[data.chattarget]['socket_id']);
+							io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget]['socket_id']]).emit('private chat',{
        					chatauthor: data.chatauthor,
        				chattarget: data.chattarget,
        				chatmessage: data.chatmessage,

@@ -17,9 +17,14 @@ exports.addoOnlineUsers = function(user) {
 	console.log("User ["+user.username+"] is now online!!!");
 	current_user = user.username; 
 	console.log("----- current_user => "+current_user);
-  usernames[user.username] = user.statusid;
+ // usernames[user.username] = user.statusid;
+ usernames[user.username] = {"status_id":user.statusid, "socket_id":''};
   ++numUsers;
 	console.log("Number of users now: "+numUsers);
+};
+
+exports.addUsersSocketID = function(username, socketid){
+	usernames[username]['socket_id'] = socketid;
 };
 
 exports.removeOnlineUsers = function(username) {

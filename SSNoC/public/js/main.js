@@ -68,6 +68,9 @@ $('.status_list').on('click', 'li', function(event) {
 	$(window).load(function() {
 		getChatHistory();
 		getUserDirectory();
+    socket.emit('setUserSocketID', {
+        username: current_user
+      });
 		
 		
 	//	$('#announcement').hide();
@@ -235,9 +238,9 @@ $('.status_list').on('click', 'li', function(event) {
 
 
 //Emits event for Private Chat
-  socket.on('PrivateChatMsg', function (data) {
-    //console.log("PRIVATE MSG RECEIVED ON CLIENT!");
-    //console.log(data);
+  socket.on('private chat', function (data) {
+    console.log("PRIVATE MSG RECEIVED ON CLIENT!");
+    console.log(data);
 	    addPrivChatMessage(data);
 	  });
    
@@ -270,7 +273,13 @@ $('.status_list').on('click', 'li', function(event) {
       console.log(abc);
       abc = $('.privInputMessage').val();
       console.log(abc);
-      
+			var data = {
+				chatauthor: current_user,
+				chatmessage: $('.privInputMessage').val(),
+				createdAt: new Date()
+			}
+			console.log("--- The data to append on my side is: "+data);
+      addPrivChatMessage(data);
       socket.emit('PrivateChatMsg', {
           chatauthor: current_user,
           chattarget: $('#targetName').text(),
@@ -398,7 +407,7 @@ $('.status_list').on('click', 'li', function(event) {
 									$('#privMsgList').append(item);
 									scrollListBtm();	
 									
-									console.log(chatContent);
+
 		  }
 	
 	
@@ -432,14 +441,19 @@ $('.status_list').on('click', 'li', function(event) {
   }
  
 	function scrollListBtm(){
+		if($("#public_messages").length > 0){
 		var last_li = $("#messages li:last-child").offset().top;
-		var last_pri_li = $("#privMsgList li:last-child").offset().top; 
 		$("#public_messages").animate({
 		    scrollTop: last_li
 		  }, 1000);
+		}
+		if($("#private_messages").length > 0){
+		var last_pri_li = $("#privMsgList li:last-child").offset().top; 
+		
 		$("#private_messages").animate({
 		    scrollTop: last_pri_li
 		  }, 1000);
+		}
 	}
    
 });

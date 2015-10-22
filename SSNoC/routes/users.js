@@ -32,7 +32,9 @@ function divideUsers(users){
 		users.forEach(function(user){
 			if (user.username in users_list['online']) {
 				//do nothing
-				users_list['online'][user.username] = user.statusid;
+			//	users_list['online'][user.username] = user.statusid;
+				users_list['online'][user.username]['status_id'] = user.statusid;
+			
 			}else{
 				user_off[user.username] = user.statusid;
 			}
