@@ -162,48 +162,7 @@ router.get('/community', function(req, res) {
 });
 
 
-<<<<<<< HEAD
 function goOnline(user){
-=======
-router.get('/chat/:username', function(req, res) {
-	if (req.session && req.session.user) { 
-		User.findAll().then(function (user) {
-			var users = user;
-			console.log("Displaying private chat...");
-			console.log(req.session.user.username+" <=> "+req.params.username);
-			Message.findAll({
-				where: {
-					chattype: "room",	
-					chatauthor: {
-						$in: [req.session.user.username, req.params.username]
-					},
-					chattarget:{ 	  
-						$in: [req.session.user.username, req.params.username]
-					}
-				}
-				}).then(function (msg) {	
-        	var chathistory = msg;
-        	console.log(chathistory);
-					console.log("********** # of messages: "+msg.length);
-				// render the welcome page
-			  	res.render('privatechat', { 
-						user: req.session.user,
-						isNewUser: false,
-						chatHistory: chathistory, 
-						userDirectory : users,
-						onlineUsers: onlineUsers.getOnlineUsers()
-						});
-			});
-			});
-	}else {
-    res.redirect('/signin');
-  }
-});
-
-
-
-function goOnline(username){
->>>>>>> 58235065ae5723f298cf4f401d751ec631253fa2
 	console.log("before user...:");
 	console.log(onlineUsers.getOnlineUsers());
 	onlineUsers.addoOnlineUsers(user);

@@ -47,7 +47,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var messages = require('./routes/messages');
 var announcements = require('./routes/announcements');
-
+var privatechats = require('./routes/privatechats');
 var onlineUsers = require('./lib/onlineUsers.js');
 
 var io = require('socket.io').listen(http);
@@ -60,7 +60,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/messages', messages);
 app.use('/announcements', announcements);
-
+app.use('/privatechats', privatechats);
 
 //importing models
 var Announce = require('./models/announcement.js');

@@ -47,7 +47,11 @@ io.on('connection', function(socket){
 
 //Socket connections for Private Chat
   socket.on('setUsername',function(data){
-//	  privateRooms[data.chatauthor+data.chattarget]= socket.id;
+	  console.log('Fetching Target Socket id');
+	  console.log(data);
+	  
+ //privateRooms[data.chattarget]= socket.id;
+	  privateRooms[data.chatauthor]= socket.id;
 	 console.log ("Checking Rooms sockets");
 	  console.log (privateRooms);
   });
@@ -63,12 +67,13 @@ io.on('connection', function(socket){
             timestamp: date
        		}).then(function() {
        			console.log("Private Msg created!!!!!!!!!!!");
-       			console.log(socket.id);
+       			console.log(privateRooms[data.chatauthor]);
        			//socket_server.sockets.socket(socket.id).emit('PrivateChatMsg', {
        			//socket.broadcast.to(socket.id).emit('PrivateChatMsg', {	
-       			//io.sockets.connected[socket.id].emit('PrivateChatMsg', {
-       		 io.to(socket.id).emit('PrivateChatMsg', {
-       			chatauthor: data.chatauthor,
+       			//io.sockets.socket(privateRooms[data.chattarget]).emit('PrivateChatMsg', {
+       		io.to(privateRooms[data.chatauthor]).emit('PrivateChatMsg', {
+       			//socket.sockets.emit('PrivateChatMsg', {
+       					chatauthor: data.chatauthor,
        				chattarget: data.chattarget,
        				chatmessage: data.chatmessage,
     					createdAt: date

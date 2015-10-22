@@ -5,7 +5,7 @@ $(function() {
   var $inputMessage = $('.inputMessage'); // Input message input box
   var connected = false;
   var current_user = $('#current_user').text();
-
+  var target_user = "";
   var socket = io();
 	console.log("-- Loading main.js --");
   var status_arr = {'ok':1, 'help':2, 'emergency': 3};
@@ -66,11 +66,7 @@ $('.status_list').on('click', 'li', function(event) {
 	
 	
 	$(window).load(function() {
-		if($('#public_wall').length>0){
-			getChatHistory();
-			console.log("load public wall?");
-		}
-		
+		getChatHistory();
 		getUserDirectory();
 		
 		
@@ -140,33 +136,7 @@ $('.status_list').on('click', 'li', function(event) {
  		});	
 	 }
 	 
-<<<<<<< HEAD
 	 function getPrivChatHistory(element){
-=======
-	 function getPrivateChatHistory(){
-		 console.log("Sending Ajax request to server...");
-  		
- 		$.ajax({
- 			dataType: "json",
- 		  url: '/messages/room',
- 		  type: 'GET',
- 			data: {
- 				chatauthor:current_user,
- 				chattarget: element
- 			},
- 		  success: function(data) {
-				console.log('SuccessPrivateJson');
- 				loadChatHistory(data);
-				
- 		  },
- 		  error: function(e) {
- 			//console.log(e.message);
- 		  }
- 		});	
-	 }
-	 
-	 window.getPrivChatHistory = function (element){
->>>>>>> 58235065ae5723f298cf4f401d751ec631253fa2
 		 console.log("Sending Ajax PrivChatHistory...");
 		 console.log(element);
 		 //$("#PrivWindow").attr("title", element);
@@ -199,12 +169,13 @@ $('.status_list').on('click', 'li', function(event) {
 		 console.log("Sending  PrivChatWindow...");
 		 console.log(element);
 		 replace('public_wall','private_room');
-		 data = {chatauthor:current_user,
-		 			chattarget: element
-	 			}
+		 //data = {chatauthor:current_user,
+		 	//		chattarget: element
+	 			//}
 		 //getPrivChatHistory();
-		 loadPrivChatHistory(data); 
+		 //loadPrivChatHistory(data); 
 		 getPrivChatHistory(element);
+		 target_user = element;
 	 }
 	 
 	 function displayUserDirectory(users){
@@ -217,6 +188,8 @@ $('.status_list').on('click', 'li', function(event) {
 			 var statusLogo = getUserStatus(element); 
 			 var item = '<a id =""+index+"" href="#" style="color: #62615f;"  onclick="privateChatWindow(\''+index+'\')";><span class="statuslogo">'+statusLogo+"</span>"+index+"</a>";
 		 		$('#user_list').append("<li id='targetName'>"+item+"</li>");
+		 		
+		 		
 	 	});
 	 $.each(users.offline, function(index, element) {
 		 var statusLogo = getUserStatus(element); 
@@ -260,14 +233,11 @@ $('.status_list').on('click', 'li', function(event) {
   });
 
 
-//Setting username for Private Chat  
-  socket.emit('setUsername', {
-	  chatauthor: current_user
-	  });
+
 //Emits event for Private Chat
   socket.on('PrivateChatMsg', function (data) {
-    console.log("PRIVATE MSG RECEIVED ON CLIENT!");
-    console.log(data);
+    //console.log("PRIVATE MSG RECEIVED ON CLIENT!");
+    //console.log(data);
 	    addPrivChatMessage(data);
 	  });
    
@@ -307,11 +277,14 @@ $('.status_list').on('click', 'li', function(event) {
           chatmessage: $('.privInputMessage').val(),
           timestamp: new Date().toLocaleTimeString()
         });
+    //Setting username for Private Chat  
+      socket.emit('setUsername', {
+    	  chatauthor: current_user,
+    	  chattarget: $('#targetName').text(),
+    	  });
         $('.privInputMessage').val('');
       }
     });
-  
-  
   
   
   
@@ -421,7 +394,7 @@ $('.status_list').on('click', 'li', function(event) {
 		    
 					var chatContent = "<blockquote><p><span class=\"chat_author\">"+data.chatauthor+": </span>"+	
 									data.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(data.createdAt)+"</small></span></p></blockquote>";					
-									var item = "<li id=\"messages_item\">"+chatContent+"</li>";
+									var item = "<li id=\"priv_messages_item\">"+chatContent+"</li>";
 									$('#privMsgList').append(item);
 									scrollListBtm();	
 									
@@ -460,7 +433,7 @@ $('.status_list').on('click', 'li', function(event) {
  
 	function scrollListBtm(){
 		var last_li = $("#messages li:last-child").offset().top;
-		var last_pri_li = $("#privMsgList li:last-child").offset().top;
+		var last_pri_li = $("#privMsgList li:last-child").offset().top; 
 		$("#public_messages").animate({
 		    scrollTop: last_li
 		  }, 1000);
