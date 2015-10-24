@@ -14,7 +14,7 @@ var salt = bcrypt.genSaltSync(10);// Generate a salt
 
 var User = require('.././models/user.js');
 var Message = require('.././models/message.js');
-
+var PrivateMessage = require('.././models/privatechat.js');
 
 // -------------------------------------------------------------------------------------//
 
@@ -160,6 +160,34 @@ router.get('/community', function(req, res) {
     res.redirect('/signin');
   }
 });
+//req.params.id
+
+router.get('/chat/:username', function(req, res) {
+	if (req.session && req.session.user) { 
+		if(req.params.username == req.session.user.username){
+			res.redirect('/community');
+		}
+		PrivateMessage.findAll({
+		where: {
+		chatauthor: {
+			$in: [req.session.user.username, req.params.username]
+		},
+		chattarget:{ 	  
+			$in: [req.session.user.username, req.params.username]}
+		}
+	}).then(function (msg) {
+		console.log(msg);
+  	res.render('chat', { 
+			user: req.session.user,
+			chatHistory: msg,
+			targetName: req.params.username
+			}); 
+		});
+	}else {
+    res.redirect('/signin');
+  }
+});
+
 
 
 function goOnline(user){

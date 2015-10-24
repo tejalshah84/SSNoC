@@ -1,13 +1,25 @@
 <div class="row">
 <!-- private wall content -->
-	<div class="" style="margin: 0 auto;width:80%;padding-top:0px; display:none;"  id="private_room">
+	<div class="" style="margin: 0 auto;width:80%;padding-top:0px"  id="private_room">
   <div class="clr" style="height:2vh;"></div>              
 	 
      
      <div style="height:68vh;overflow-y: auto; display:block" id="private_messages">	
-     		<span hidden id="targetName"></span>	
+     		<span hidden id="targetName"><%= targetName%></span>	
 						               
 		<ul id="privMsgList"  style="list-style-type:none;-webkit-padding-start: 0px;">
+			<% chatHistory.forEach(function(msg){ %>
+							 <li class="priv_messages_item">
+							 <blockquote><p>
+								 <span class="chat_author"><%= msg.chatauthor%>: </span>
+										<%= msg.chatmessage%> 
+										<span class="chat_timestamp">
+											<small><%= msg.createdAt%></small>
+										</span>
+								</p></blockquote>
+							</li>
+					
+						  <%  });  %>
 		</ul>
      </div>                 
                                 

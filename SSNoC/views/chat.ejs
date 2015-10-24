@@ -31,7 +31,7 @@
             
                     
                     <!--Top Navbar-->
-										<div style="height: 14vh;">
+										<div style="">
                         <% include ./partials/topnav %>
 										</div>		
                     <!--Top Navbar-->   
@@ -39,12 +39,13 @@
         
 			
       <!-- Public Chat Wall -->
-			<div class="height: 2vh;" ></div>
-        
-         
-          <div class="" >
-              <% include ./partials/public_wall %>             
+			<div  ></div>
+          
+          <div class="" style="overflow: hidden;">
+          <% include ./partials/private_room %>
           </div>
+         
+    
             
       <!--Public Chat Wall wrapper -->
 			
@@ -65,9 +66,6 @@
 
         <!--welcomeModal-->	
 
-	<%if (isNewUser) { %>
-		<% include ./partials/welcomeMsg %>
-	<% } %>	
 	
     <!--welcomeModal-->	
 	<%if (user.roleid != 3) { %>

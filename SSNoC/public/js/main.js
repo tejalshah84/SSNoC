@@ -66,7 +66,12 @@ $('.status_list').on('click', 'li', function(event) {
 	
 	
 	$(window).load(function() {
-		getChatHistory();
+		if($("#public_messages").length > 0){
+			getChatHistory();
+		}
+		if($("#private_messages").length > 0){
+			scrollListBtm();	
+		}
 		getUserDirectory();
     socket.emit('setUserSocketID', {
         username: current_user
@@ -188,16 +193,17 @@ $('.status_list').on('click', 'li', function(event) {
 		 $('#current_status').removeClass().addClass(status_logo[users_online[current_user]]);
 		 delete users_online[current_user];
 		 $.each(users_online, function(index, element) {
-			 var statusLogo = getUserStatus(element); 
-			 var item = '<a id =""+index+"" href="#" style="color: #62615f;"  onclick="privateChatWindow(\''+index+'\')";><span class="statuslogo">'+statusLogo+"</span>"+index+"</a>";
-		 		$('#user_list').append("<li id='targetName'>"+item+"</li>");
+			 var statusLogo = getUserStatus(element.status_id); 
+			// var item = "<a id =\"\""+index+" href=\"#\" style=\"color: #62615f;\"  onclick=\"privateChatWindow(\''+index+'\')\";><span class="statuslogo">'+statusLogo+"</span>"+index+"</a>";
 		 		
+	 		 var item = "<a id =\""+index+"\" href=\"/chat/"+index+"\" style=\"color: #62615f;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+index+"</a>";
+		 		$('#user_list').append("<li id='targetName'>"+item+"</li>");
 		 		
 	 	});
 	 $.each(users.offline, function(index, element) {
-		 var statusLogo = getUserStatus(element); 
+		 var statusLogo = getUserStatus(element.status_id); 
 		 
-		 var item = " <a id =\""+index+"\" href=\"#\" style=\"color: #a7a6a4;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+index+"</a>";
+		 var item = " <a id =\""+index+"\" href=\"/chat/"+index+"\" style=\"color: #a7a6a4;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+index+"</a>";
 	 	$('#user_list').append("<li>"+item+"</li>");
  	});
 	 }
@@ -365,15 +371,10 @@ $('.status_list').on('click', 'li', function(event) {
 
 	function loadChatHistory(data){
 		data.forEach(function(msg){
-			console.log(msg);
 			var chatContent = "<blockquote><p><span class=\"chat_author\">"+msg.chatauthor+": </span>"+	
 							msg.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(msg.createdAt)+"</small></span></p></blockquote>";
-		/*	var chatContent = "<div class=\"panel panel-default\"><div class=\"panel-heading\"><h4>"+msg.chatauthor+
-										"<span style=\"float:right;\"><small>"+msg.timestamp+"</small></span></h4></div><div class=\"panel-body\">"+
-										msg.chatmessage+"</div></div>";*/
 			var item = "<li class=\"messages_item\">"+chatContent+"</li>";
-			$('#messages').append(item);
-			
+			$('#messages').append(item);			
 		});
 			scrollListBtm();		
 	}
@@ -403,7 +404,7 @@ $('.status_list').on('click', 'li', function(event) {
 		    
 					var chatContent = "<blockquote><p><span class=\"chat_author\">"+data.chatauthor+": </span>"+	
 									data.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(data.createdAt)+"</small></span></p></blockquote>";					
-									var item = "<li id=\"priv_messages_item\">"+chatContent+"</li>";
+									var item = "<li class=\"priv_messages_item\">"+chatContent+"</li>";
 									$('#privMsgList').append(item);
 									scrollListBtm();	
 									
@@ -441,16 +442,16 @@ $('.status_list').on('click', 'li', function(event) {
   }
  
 	function scrollListBtm(){
-		if($("#public_messages").length > 0){
-		var last_li = $("#messages li:last-child").offset().top;
-		$("#public_messages").animate({
+		if($("#public_messages #messages li").length > 0){
+			var last_li = $("#messages")[0].scrollHeight;
+			$("#public_messages").animate({
 		    scrollTop: last_li
 		  }, 1000);
 		}
-		if($("#private_messages").length > 0){
-		var last_pri_li = $("#privMsgList li:last-child").offset().top; 
-		
-		$("#private_messages").animate({
+		if($("#private_messages #privMsgList li").length > 0){
+			//var last_pri_li = $("#privMsgList li:last-child").offset().top; 
+			var last_pri_li = $("#privMsgList")[0].scrollHeight;	
+			$("#private_messages").animate({
 		    scrollTop: last_pri_li
 		  }, 1000);
 		}
