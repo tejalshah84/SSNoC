@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-
 var db = require('.././testdb'); //database
 //model
 var sequelize = require('.././sequelize');
@@ -12,9 +11,10 @@ var onlineUsers = require('.././lib/onlineUsers.js');
 var bcrypt = require('bcryptjs');// Load the bcrypt module
 var salt = bcrypt.genSaltSync(10);// Generate a salt
 
+
 var User = require('.././models/user.js');
 var Message = require('.././models/message.js');
-
+var PrivateMessage = require('.././models/privatechat.js');
 
 // -------------------------------------------------------------------------------------//
 
@@ -30,6 +30,7 @@ router.get('/signin', function(req, res, next) {
 
 router.get('/signout', function(req, res){
 	if (req.session && req.session.user) { 
+		onlineUsers.removeOnlineUsers(req.session.user.username);
 		req.session.destroy();
 		console.log("------- User logout! clearing session...");
 		res.redirect('/signin');
@@ -160,7 +161,33 @@ router.get('/community', function(req, res) {
     res.redirect('/signin');
   }
 });
+//req.params.id
 
+router.get('/chat/:username', function(req, res) {
+	if (req.session && req.session.user) { 
+		if(req.params.username == req.session.user.username){
+			res.redirect('/community');
+		}
+		PrivateMessage.findAll({
+		where: {
+		chatauthor: {
+			$in: [req.session.user.username, req.params.username]
+		},
+		chattarget:{ 	  
+			$in: [req.session.user.username, req.params.username]}
+		}
+	}).then(function (msg) {
+		console.log(msg);
+  	res.render('chat', { 
+			user: req.session.user,
+			chatHistory: msg,
+			targetName: req.params.username
+			}); 
+		});
+	}else {
+    res.redirect('/signin');
+  }
+});
 
 function goOnline(user){
 	console.log("before user...:");

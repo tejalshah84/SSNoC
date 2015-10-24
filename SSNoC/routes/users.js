@@ -25,14 +25,11 @@ router.get('/online', function(req, res) {
 //return the user hash: online and offline
 function divideUsers(users){
 	var users_list = {};
-	users_list['online'] = onlineUsers.getOnlineUsers();
-	
-		var user_off = {};	
-	
+	users_list['online'] = onlineUsers.getOnlineUsers();	
+		var user_off = {};		
 		users.forEach(function(user){
 			if (user.username in users_list['online']) {
-				//do nothing
-				users_list['online'][user.username] = user.statusid;
+				users_list['online'][user.username]['status_id'] = user.statusid;
 			}else{
 				user_off[user.username] = user.statusid;
 			}

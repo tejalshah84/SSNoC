@@ -62,4 +62,6 @@ html, body{
 .chat_timestamp{
 	float:right;
 }
-
+.badge{
+	margin-left:10px;
+}
