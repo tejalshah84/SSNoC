@@ -19,7 +19,10 @@ var PrivateMessage = require('.././models/privatechat.js');
 // -------------------------------------------------------------------------------------//
 
 
-/* show signin page*/
+/*Code Review start from here*/
+
+
+/* Show signin page*/
 router.get('/', function(req, res) {
 	res.render('signin', { error: ""});
 });
@@ -38,6 +41,8 @@ router.get('/signout', function(req, res){
 		res.redirect('/signin');
 	}
 });
+
+
 
 /* handle signin request*/
 router.post('/', function(req, res){
@@ -81,6 +86,9 @@ router.post('/', function(req, res){
 		}
 });
 });
+
+/* End of Sing-in Review*/
+
 
 router.get('/signup', function(req, res, next) {
 	res.render('signup', { error: ""});
