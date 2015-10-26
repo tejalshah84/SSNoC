@@ -35,7 +35,7 @@ router.get('/signout', function(req, res){
 	if (req.session && req.session.user) { 
 		onlineUsers.removeOnlineUsers(req.session.user.username);
 		req.session.destroy();
-		console.log("------- User logout! clearing session...");
+		console.log("------- User logout! clearing session...");  
 		res.redirect('/signin');
 	}else{
 		res.redirect('/signin');

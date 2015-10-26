@@ -5,7 +5,7 @@ var sequelize = require('.././sequelize');
 var Announce = require('.././models/announcement.js');
 
 // -------------------------------------------------------------------------------------//
-
+//Start review from here//
 // GET all Announces
 router.get('/', function(req, res) {
 	Announce.findAll().then(function (announce) {
@@ -61,3 +61,4 @@ router.delete('/:id', function(req, res) {
 
 
 module.exports = router;
+//Review finish
