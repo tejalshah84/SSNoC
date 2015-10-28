@@ -6,6 +6,7 @@ var Message = require('.././models/message.js');
 
 // -------------------------------------------------------------------------------------//
 
+/*========================================  TO BE REVIEWED ========================================*/
 // GET all messages
 router.get('/', function(req, res) {
 	Message.findAll().then(function (msg) {
@@ -40,5 +41,6 @@ router.delete('/:id', function(req, res) {
   res.send('respond with a resource');
 });
 
+/*========================================  TO BE REVIEWED ========================================*/
 
 module.exports = router;

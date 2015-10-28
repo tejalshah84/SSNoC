@@ -16,7 +16,7 @@ $(function() {
   var $privMessages = $('.privMessages');
   
 
-  
+  /*========================================  TO BE REVIEWED start ========================================*/
 	//console log when click status
 	$('.status_list').on('click', 'li', function(event) {
 		var button = $(event.target);
@@ -27,6 +27,7 @@ $(function() {
 		 			status_id: statusid
 		});	
 	});	
+	/*========================================  TO BE REVIEWED end ========================================*/
 
 
 	$('.post_announcement').on('click', function(){
@@ -42,7 +43,7 @@ $(function() {
     $('.new_announcement_content').val('');
  });
 	
-	
+	/*========================================  TO BE REVIEWED start ========================================*/
 	$(window).load(function() {
 		if($("#public_messages").length > 0){
 			getChatHistory();
@@ -61,6 +62,7 @@ $(function() {
 	 $('.user_directory').on('click', function(){
 		 getUserDirectory();
 	 });
+	 /*========================================  TO BE REVIEWED end ========================================*/
 	 
 	 function retrieveLatestAnnouncement(){
   		$.ajax({
@@ -78,6 +80,7 @@ $(function() {
   		});	
 	 }
 	 
+	 /*========================================  TO BE REVIEWED start ========================================*/
 	 function getUserDirectory(){
 		 console.log("Sending Ajax request to server...");	
  			$.ajax({
@@ -109,6 +112,7 @@ $(function() {
  		  }
  		});	
 	 }
+	 /*========================================  TO BE REVIEWED end ========================================*/
 	 
 	 function getPrivChatHistory(element){
 		 console.log("Sending Ajax PrivChatHistory..."); 		 
@@ -128,6 +132,7 @@ $(function() {
  		});	
 	 }
 	 
+	 /*========================================  TO BE REVIEWED start ========================================*/
 	 function displayUserDirectory(users){		 
 		 $('#user_list').empty();
 		 var users_online = users.online;
@@ -157,6 +162,7 @@ $(function() {
 	      }
 	 		 return statusLogo;
 		 }
+	/*========================================  TO BE REVIEWED end ========================================*/	 
 		 
   // Focus input when clicking on the message input's border
   $inputMessage.click(function () {
@@ -178,6 +184,7 @@ $(function() {
 	  addPrivChatMessage(data);
 	});
    
+	/*========================================  TO BE REVIEWED start ========================================*/ 
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
     console.log("new message need to be appended!");
@@ -198,6 +205,7 @@ $(function() {
         $('.inputMessage').val('');
       }
     });
+	/*========================================  TO BE REVIEWED end ========================================*/	
 
 
   //emit message to server when user does private chat 
@@ -259,6 +267,7 @@ $(function() {
 	
   });
    
+	/*========================================  TO BE REVIEWED start ========================================*/ 
   socket.on('new status', function (data) {	
     console.log(data.statusid);
     if(data.username == current_user){
@@ -295,7 +304,7 @@ $(function() {
 		});
 			scrollListBtm();		
 	}
-
+/*========================================  TO BE REVIEWED end ========================================*/
 
 	//Function to fetch private msgs
 	function loadPrivChatHistory(data){
@@ -333,7 +342,7 @@ $(function() {
 				
 			
 		}
-
+/*========================================  TO BE REVIEWED start ========================================*/
 		function incrementNumMsg(badge){
 			return parseInt(badge.text())+1;	
 		}	
@@ -365,5 +374,6 @@ $(function() {
 		  }, 1000);
 		}
 	}
+	/*========================================  TO BE REVIEWED end ========================================*/
    
 });

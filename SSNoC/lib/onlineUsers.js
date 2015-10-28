@@ -1,3 +1,4 @@
+/*========================================  TO BE REVIEWED ========================================*/
 // usernames which are currently connected to the chat
 var usernames = {};
 var numUsers = 0;
@@ -38,3 +39,4 @@ exports.removeOnlineUsers = function(username) {
 exports.numOfOnlineUsers = function() {
 	return numUsers;
 };
+/*========================================  TO BE REVIEWED ========================================*/

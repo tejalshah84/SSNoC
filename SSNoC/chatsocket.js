@@ -23,6 +23,7 @@ io.on('connection', function(socket){
 	console.log('***************************');
 
 	
+	/*========================================  TO BE REVIEWED start ========================================*/
 	//socket change status
   socket.on('change status', function(data) {
    console.log("******** Handling change status!");
@@ -43,7 +44,7 @@ io.on('connection', function(socket){
 		});
   	});
 	});
-
+	/*========================================  TO BE REVIEWED end ========================================*/
 	
 	
   socket.on('setUserSocketID',function(data){
@@ -114,7 +115,7 @@ io.on('connection', function(socket){
    		});
    });
 	 
-	 
+	 /*========================================  TO BE REVIEWED start ========================================*/
     socket.on('new message', function(data) {
 			console.log("******** Handling new message!");
 			date = new Date();
@@ -130,11 +131,8 @@ io.on('connection', function(socket){
 					createdAt: date
 				});
    		});
-    
-
- 
     });
-
+		/*========================================  TO BE REVIEWED end ========================================*/
 
 });
 

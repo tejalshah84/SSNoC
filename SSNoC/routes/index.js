@@ -86,6 +86,9 @@ router.get('/signup', function(req, res, next) {
 	res.render('signup', { error: ""});
 });
 
+
+
+/*========================================  TO BE REVIEWED ========================================*/
 //handle user signup request
 router.post('/signup', function(req, res){
 	console.log("Handling signup...");
@@ -196,6 +199,6 @@ function goOnline(user){
 	console.log("after Online Users...");
 	console.log(onlineUsers.getOnlineUsers());
 }
-
+/*========================================  TO BE REVIEWED ========================================*/
 
 module.exports = router;

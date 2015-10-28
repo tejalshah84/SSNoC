@@ -7,6 +7,8 @@ var onlineUsers = require('.././lib/onlineUsers.js');
 
 // -------------------------------------------------------------------------------------//
 
+
+/*========================================  TO BE REVIEWED ========================================*/
 // GET all users 
 router.get('/', function(req, res) {
 	User.findAll().then(function (user) {
@@ -66,7 +68,7 @@ router.delete('/:id', function(req, res) {
   res.send('respond with a resource');
 });
 
-
+/*========================================  TO BE REVIEWED ========================================*/
 
 
 module.exports = router;
