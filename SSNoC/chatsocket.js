@@ -5,48 +5,45 @@ var onlineUsers = require('./lib/onlineUsers.js');
 var Announce = require('./models/announcement.js');
 var Msg = require('./models/message.js');
 var User = require('./models/user.js');
+
 var PrivMsg = require('./models/privatechat.js');
 var privateRooms = {};
 var socket_server = "";
 
-module.exports = function(socket_server) {
-	socket_server = socket_server;
-}
+
 
 module.exports = function(io) {
 
 // Handle socket traffic
 io.on('connection', function(socket){
   console.log('a user connected');
-//  privateRooms[data.chatauthor]= socket.id;
 	console.log('***************************');
  	console.log ("Checking Rooms sockets");
   console.log (socket.id);
-console.log('***************************');
-//socket change status
+	console.log('***************************');
+
+	
+	//socket change status
   socket.on('change status', function(data) {
    console.log("******** Handling change status!");
    console.log("current_user: "+data.username);
-	User.findOne({
+		User.findOne({
 		  where: {
 		    username: data.username
 		  }
-	}).then(function (result) {
-
-		result.update({
+		}).then(function (result) {
+			result.update({
 			statusid: data.status_id
-		
 		}).then(function() {
-	
 			console.log("Succefully status!");
 			io.sockets.emit('new status', {
 				username: data.username,
 				statusid: data.status_id
-			});
-				
+			});	
 		});
   	});
 	});
+
 	
 	
   socket.on('setUserSocketID',function(data){
@@ -54,12 +51,11 @@ console.log('***************************');
   });
 	
 
-//Socket connections for Private Chat
+	//Socket connections for Private Chat
   socket.on('setUsername',function(data){
 	  console.log('Fetching Target Socket id');
-	  console.log(data);
-	  
- //privateRooms[data.chattarget]= socket.id;
+	  console.log(data); 
+ 	 //privateRooms[data.chattarget]= socket.id;
 	  privateRooms[data.chatauthor]= socket.id;
 	 console.log ("Checking Rooms sockets");
 	  console.log (privateRooms);
@@ -99,6 +95,7 @@ console.log('***************************');
   
   
   
+
   
    socket.on('new announcement', function(data) {
 	   console.log("******** Handling new announcement!");

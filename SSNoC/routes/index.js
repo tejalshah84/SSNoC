@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-
 var db = require('.././testdb'); //database
 //model
 var sequelize = require('.././sequelize');
@@ -11,6 +10,7 @@ var onlineUsers = require('.././lib/onlineUsers.js');
 
 var bcrypt = require('bcryptjs');// Load the bcrypt module
 var salt = bcrypt.genSaltSync(10);// Generate a salt
+
 
 var User = require('.././models/user.js');
 var Message = require('.././models/message.js');
@@ -30,6 +30,7 @@ router.get('/signin', function(req, res, next) {
 
 router.get('/signout', function(req, res){
 	if (req.session && req.session.user) { 
+		onlineUsers.removeOnlineUsers(req.session.user.username);
 		req.session.destroy();
 		console.log("------- User logout! clearing session...");
 		res.redirect('/signin');
@@ -187,8 +188,6 @@ router.get('/chat/:username', function(req, res) {
     res.redirect('/signin');
   }
 });
-
-
 
 function goOnline(user){
 	console.log("before user...:");

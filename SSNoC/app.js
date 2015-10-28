@@ -42,18 +42,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
+
 /*    Routing    */
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var messages = require('./routes/messages');
 var announcements = require('./routes/announcements');
 var privatechats = require('./routes/privatechats');
+
 var onlineUsers = require('./lib/onlineUsers.js');
 
-var io = require('socket.io').listen(http);
-require('./chatsocket')(io);
 var socket_server = require('socket.io').listen(http);
 require('./chatsocket')(socket_server);
+
 
 
 app.use('/', routes);

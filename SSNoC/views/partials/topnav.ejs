@@ -9,17 +9,35 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </button>
-			
+      </button>			
       <a class="navbar-brand" href="#menu-toggle" id="menu-toggle" aria-hidden="true">
-				
-      
-        <span  class="glyphicon glyphicon-user user_directory"></span>
+				<span  class="glyphicon glyphicon-user user_directory"></span>
       </a>
-			
+      
+
+<div class="btn-group">
+    
+  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="searchCat">Search Category
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu dropdown-inverse">
+    <li><a href="#">List of citizens</a></li>
+    <li><a href="#">List of citizens by status</a></li>
+    <li><a href="#">List of public announcements</a></li>
+    <li><a href="#">List of public messages</a></li>
+    <li><a href="#">List of private messages</a></li>
+  </ul>
+  
+   <div class="flexContainer">
+      <input type="text" class="form-control" placeholder="Search SSNoC...." id="searchText"  style="width: 200px;">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="submit" id ="submitSearch"><span class="glyphicon glyphicon-search"></span></button>
+      </span>  
     </div>
-			
-		
+	</div>
+	
+</div>			
+	 		
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-right" id="top_menu_dropdown">
       <ul class="nav navbar-nav">
@@ -33,9 +51,9 @@
 
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
-</nav>
-                        <div style="clear: both"></div>
-						<div id="announcement" class="alert alert-info" role="alert">
-						  <span id="new_announce_post"><strong></strong></span> 
-						</div>
-            <!--/Navbar-->
+</nav><!--/Navbar-->
+
+<div style="clear: both"></div>
+<div id="announcement" class="alert alert-info" role="alert">
+	<span id="new_announce_post"><strong></strong></span> 
+</div>
