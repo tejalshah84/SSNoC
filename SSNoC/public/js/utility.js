@@ -64,11 +64,11 @@ if ($('#pword').val() == null || $('#pword').val() == "" || !/\S/.test($('#pword
 
 //var newUser = $('#newUser').text();
 //Welcome Modal
-$(window).load(function(){
+/*$(window).load(function(){
 	if (true){
 		$('#welcomeModal').modal('show');
 	}
-});
+});*/
 
 //Toggle Directory
 $("#menu-toggle").click(function(e){
@@ -77,13 +77,7 @@ $("#menu-toggle").click(function(e){
 });
 
 //Toggle the Public wall to Private room on click of username from directory
-/*function replace( hide, show ) {
-	console.log('I am first Div');
-	console.log(hide);
-	console.log(show);
-	  document.getElementById(hide).style.display="none";
-	  document.getElementById(show).style.display="block";
-	}*/
+
 function replace(id1,id2) {
 	var pubwall = document.getElementById(id1);
     var privroom = document.getElementById(id2);
@@ -93,7 +87,6 @@ function replace(id1,id2) {
     console.log(privroom);
     
     if(document.getElementById(id1).style.display == 'block'){
-    	console.log('Amu is in if');
     	document.getElementById(id1).style.display = 'none';
     	document.getElementById(id2).style.display = 'block';
     }

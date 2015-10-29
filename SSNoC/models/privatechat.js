@@ -4,6 +4,11 @@ var Sequelize = require('sequelize');
 var sequelize = require('.././sequelize');
 
 var privatechathistory = sequelize.define('privatechathistory', {
+  id:{
+    type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+  },
   chatauthor: {
     type: Sequelize.TEXT,
     allowNull: true,
