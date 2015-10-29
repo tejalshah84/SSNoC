@@ -65,3 +65,9 @@ html, body{
 .badge{
 	margin-left:10px;
 }
+.flexContainer {
+    display: flex;
+}
+#searchText {
+    flex: 1;
+}

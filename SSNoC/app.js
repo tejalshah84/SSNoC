@@ -49,6 +49,7 @@ var users = require('./routes/users');
 var messages = require('./routes/messages');
 var announcements = require('./routes/announcements');
 var privatechats = require('./routes/privatechats');
+var search = require('./routes/search');
 
 var onlineUsers = require('./lib/onlineUsers.js');
 
@@ -62,6 +63,7 @@ app.use('/users', users);
 app.use('/messages', messages);
 app.use('/announcements', announcements);
 app.use('/privatechats', privatechats);
+app.use('/search', search);
 
 //importing models
 var Announce = require('./models/announcement.js');

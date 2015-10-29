@@ -4,6 +4,11 @@ var Sequelize = require('sequelize');
 var sequelize = require('.././sequelize');
 
 var user = sequelize.define('user', {
+  id:{
+    type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+  },
   username: {
     type: Sequelize.STRING,
     allowNull: false,
