@@ -1,0 +1,28 @@
+ <% layout('./layouts/layout2') -%>
+ <div class="clr" style="height:40px;"></div>
+ <div class="form-inline">
+	 <div class="form-group">
+	     <label for="">Duration of the test (in second)</label>
+	     <input type="text" class="form-control" id="test_duration" placeholder="In seconds...">
+	   </div>
+		 <button type="submit" id="start_testing" class="btn btn-default">Start</button>
+		 <button type="submit" id="stop_testing" class="btn btn-default">Stop</button>
+ </div>
+ 
+ <div class="clr" style="height:50px;"></div>
+ <div >
+ <table class="table table-hover">
+  <tr style="font-weight:bold;">
+		<td>Request</td>
+		<td>Number of request per second</td>
+	</tr> 
+	<tr>
+		<td>GET</td>
+		<td id="get_req_num">0</td>
+	</tr>
+	<tr>
+		<td>POST</td>
+		<td id="post_req_num">0</td>
+	</tr>
+ </table>
+</div>

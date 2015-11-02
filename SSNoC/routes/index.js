@@ -15,7 +15,6 @@ var salt = bcrypt.genSaltSync(10);// Generate a salt
 var User = require('.././models/user.js');
 var Message = require('.././models/message.js');
 var PrivateMessage = require('.././models/privatechat.js');
-
 // -------------------------------------------------------------------------------------//
 
 
@@ -157,6 +156,7 @@ router.get('/community', function(req, res) {
 						});
 			});
 		});
+		
 	}else {
     res.redirect('/signin');
   }

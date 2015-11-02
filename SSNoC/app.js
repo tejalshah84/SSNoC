@@ -49,6 +49,8 @@ var users = require('./routes/users');
 var messages = require('./routes/messages');
 var announcements = require('./routes/announcements');
 var privatechats = require('./routes/privatechats');
+var admin = require('./routes/admin');
+var test_messages = require('./routes/test_messages');
 
 var onlineUsers = require('./lib/onlineUsers.js');
 
@@ -60,8 +62,10 @@ require('./chatsocket')(socket_server);
 app.use('/', routes);
 app.use('/users', users);
 app.use('/messages', messages);
+app.use('/test_messages', test_messages);
 app.use('/announcements', announcements);
 app.use('/privatechats', privatechats);
+app.use('/admin', admin);
 
 //importing models
 var Announce = require('./models/announcement.js');

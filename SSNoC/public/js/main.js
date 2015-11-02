@@ -14,7 +14,96 @@ $(function() {
   var $privMessageslist = $('.privMessageslist');
   var $privInputMessage = $('.privInputMessage');
   var $privMessages = $('.privMessages');
+	
+	var testEnded = false;
   
+
+// --------------- Iteration 3 -----------------------//
+ $('#start_testing').on('click', function(){
+	 console.log("Sending Ajax Start Testing...");
+	 var test_duration = $('#test_duration').val();	 
+	 startUseCase();	
+	 setTimeout( function(){ 
+		 endUseCase()
+	   } , 1000*test_duration );
+ });
+ 
+ $('#stop_testing').on('click', function(){
+	 console.log("Stop sending Ajax Testing...");	 
+	 endUseCase();	 
+ });
+ function sendGETReq(){
+	 $.ajax({
+		 dataType: "json",
+		 url: '/test_messages',
+		 type: 'GET',
+		 data: {
+		 },
+		 success: function(data) {
+		 },
+		 error: function(e) {
+		 }
+		});	
+ }
+ function sendPOSTReq(){
+	 $.ajax({
+		 dataType: "json",
+		 url: '/test_messages',
+		 type: 'POST',
+		 data: {
+			 chatauthor: "EileenW",
+			 chatmsg: makeRandomMessage(20),
+			 timestamp: new Date()
+		 },
+		 success: function(data) {
+			 console.log("1 Post Request");
+		 },
+		 error: function(e) {
+		 }
+		});	
+ }
+ function startUseCase(){
+	 $.ajax({
+		 url: '/admin/start_testing',
+		 type: 'GET',
+		 success: function(data) {
+			 console.log("Test db has been refreshed! Use Case Starts.");	 
+			 while(!testEnded){
+			 	sendPOSTReq();	
+				}		 
+		 },
+		 error: function(e) {
+		 }
+		});	
+ }
+ function endUseCase(){
+	 console.log("Time is up!");
+	 testEnded = true;
+	 $.ajax({
+		 url: '/admin/end_testing',
+		 type: 'GET',
+		 success: function(data) {
+			 console.log("Test db has been dropped! Use Case Ends.");
+			 
+			 updateRequestNumber(data);		 
+		 },
+		 error: function(e) {
+		 }
+		});	
+ }
+ function updateRequestNumber(data){
+	 $('#get_req_num').text(data.GET);
+	 $('#post_req_num').text(data.POST);
+ }
+ function makeRandomMessage(numOfChar){
+     var text = "";
+     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+     for( var i=0; i < numOfChar; i++ )
+         text += possible.charAt(Math.floor(Math.random() * possible.length));
+     return text;
+ }
+// --------------- Iteration 3 -----------------------//
+
 
   
 	//console log when click status

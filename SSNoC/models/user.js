@@ -1,7 +1,7 @@
 console.log("Sequelize...Creating User Instance...");
 
 var Sequelize = require('sequelize');
-var sequelize = require('.././sequelize');
+var sequelize = require('.././sequelize').sequelize;
 
 var user = sequelize.define('user', {
   username: {

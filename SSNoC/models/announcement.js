@@ -1,7 +1,7 @@
 console.log("Sequelize...Creating Announcement Instance...");
 
 var Sequelize = require('sequelize');
-var sequelize = require('.././sequelize');
+var sequelize = require('.././sequelize').sequelize;
 
 var announce = sequelize.define('announcement', {
   publisher_username: {

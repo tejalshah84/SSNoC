@@ -1,19 +1,15 @@
-console.log("Sequelize...Creating PrivateChathistory Instance...");
+console.log("Sequelize...Creating Test Chathistory Instance...");
 
 var Sequelize = require('sequelize');
 var sequelize = require('.././sequelize').sequelize;
 
-var privatechathistory = sequelize.define('privatechathistory', {
+
+var chathistory = sequelize.define('chathistory_test', {
   chatauthor: {
     type: Sequelize.TEXT,
     allowNull: true,
     defaultValue: null
   },
-  chattarget: {
-	    type: Sequelize.TEXT,
-	    allowNull: true,
-	    defaultValue: null
-	  },
   chatmessage: {
     type: Sequelize.TEXT,
     allowNull: true,
@@ -41,8 +37,15 @@ var privatechathistory = sequelize.define('privatechathistory', {
 
 
 
+exports.chathistory = chathistory;
 
-module.exports = privatechathistory;
+exports.dropdb = function(db){
+	db.sync({force: true}).then(function () {
+		console.log("Test db has been refreshed...");
+	});
+};
+
+
 
 
 

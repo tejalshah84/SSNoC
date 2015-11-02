@@ -1,6 +1,6 @@
 console.log("Initializing sequelize...");
 
-
+var db = {};
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize('database', 'username', 'password', {
   host: 'localhost',
@@ -9,4 +9,10 @@ var sequelize = new Sequelize('database', 'username', 'password', {
   storage: "./db/ssnoc.db"
 });
 
-module.exports = sequelize;
+
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+
+module.exports = db;
