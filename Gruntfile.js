@@ -14,8 +14,25 @@ module.exports = function(grunt) {
             },
             src: ['test/**/*.js']
           },
+          shippable: {
+            options: {
+              reporter: 'mocha-junit-reporter',
+              reporterOptions: {
+                mochaFile: 'shippable/testresults/result.xml'
+              },
+              ui: 'tdd'
+            },
+            src: ['test/**/*.js']
+          },
 
-
+        },
+        mocha_istanbul: {
+            coverage: {
+                src: 'test', // a folder works nicely
+                options: {
+                    mochaOptions: ['--ui', 'tdd'] // any extra options for mocha
+                }
+            }
         }
     });
 
@@ -28,13 +45,13 @@ module.exports = function(grunt) {
     grunt.registerTask('default', []);
 
     //Test
-    grunt.registerTask('test', ['mochaTest']);
+    grunt.registerTask('test', ['mochaTest:local']);
 
     // Shippable
-//    grunt.registerTask('shippable', ['mochaTest:shippable', 'mocha_istanbul']);
+    grunt.registerTask('shippable', ['mochaTest:shippable', 'mocha_istanbul']);
 
     //Coverage
- //   grunt.registerTask('coverage', ['mocha_istanbul']);
+    grunt.registerTask('coverage', ['mocha_istanbul']);
 
 
 };
