@@ -39,9 +39,10 @@ var chathistory = sequelize.define('chathistory_test', {
 
 exports.chathistory = chathistory;
 
-exports.dropdb = function(db){
+exports.dropdb = function(db, callback){
 	db.sync({force: true}).then(function () {
 		console.log("Test db has been refreshed...");
+		callback();
 	});
 };
 

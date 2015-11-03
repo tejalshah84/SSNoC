@@ -15,23 +15,55 @@ $(function() {
   var $privInputMessage = $('.privInputMessage');
   var $privMessages = $('.privMessages');
 	
-	var testEnded = false;
-  
+	var $test_duration = $('#test_duration');	
+	var startTime;
 
 // --------------- Iteration 3 -----------------------//
  $('#start_testing').on('click', function(){
-	 console.log("Sending Ajax Start Testing...");
-	 var test_duration = $('#test_duration').val();	 
-	 startUseCase();	
-	 setTimeout( function(){ 
-		 endUseCase()
-	   } , 1000*test_duration );
+	 console.log("Sending Ajax Start Testing...");	 
+	 startTime = new Date(); 
+	 startUseCase();	 
  });
  
  $('#stop_testing').on('click', function(){
 	 console.log("Stop sending Ajax Testing...");	 
 	 endUseCase();	 
  });
+ function isTimeUp(duration){
+	 return ((new Date()-startTime) > duration);
+ }
+ function startUseCase(){
+	 $.ajax({
+		 url: '/admin/start_testing',
+		 type: 'GET',
+		 success: function(data) {
+			console.log("Test db has been refreshed! Use Case Starts.");	 
+			 while(!isTimeUp($test_duration.val()/2*1000)){
+			 	sendPOSTReq();	
+			 }
+			 while(!isTimeUp($test_duration.val()*1000)){
+			 	sendGETReq();	
+			 }		
+			 endUseCase();	 
+		 },
+		 error: function(e) {
+		 }
+		});	
+ }
+
+ function endUseCase(){
+	 console.log("Time is up!");
+	 $.ajax({
+		 url: '/admin/end_testing',
+		 type: 'GET',
+		 success: function(data) {
+			 console.log("Test db has been dropped! Use Case Ends.");			 
+			 updateRequestNumber(data);	
+		 },
+		 error: function(e) {
+		 }
+		});	
+ }
  function sendGETReq(){
 	 $.ajax({
 		 dataType: "json",
@@ -56,41 +88,13 @@ $(function() {
 			 timestamp: new Date()
 		 },
 		 success: function(data) {
-			 console.log("1 Post Request");
+			 //console.log("Number of POST: "+(++numOfPost));	 
 		 },
 		 error: function(e) {
 		 }
 		});	
  }
- function startUseCase(){
-	 $.ajax({
-		 url: '/admin/start_testing',
-		 type: 'GET',
-		 success: function(data) {
-			 console.log("Test db has been refreshed! Use Case Starts.");	 
-			 while(!testEnded){
-			 	sendPOSTReq();	
-				}		 
-		 },
-		 error: function(e) {
-		 }
-		});	
- }
- function endUseCase(){
-	 console.log("Time is up!");
-	 testEnded = true;
-	 $.ajax({
-		 url: '/admin/end_testing',
-		 type: 'GET',
-		 success: function(data) {
-			 console.log("Test db has been dropped! Use Case Ends.");
-			 
-			 updateRequestNumber(data);		 
-		 },
-		 error: function(e) {
-		 }
-		});	
- }
+
  function updateRequestNumber(data){
 	 $('#get_req_num').text(data.GET);
 	 $('#post_req_num').text(data.POST);

@@ -25,14 +25,20 @@ router.get('/', function(req, res) {
 
 router.get('/start_testing', function(req, res) {
 		console.log("start test...");
-		//TestMessage.dropdb(TestMessage.chathistory);
-		console.log("........");
-		res.sendStatus(200);
+		measurePerformance.restart();
+		measurePerformance.startTest();
+		TestMessage.dropdb(TestMessage.chathistory, function(){
+			res.sendStatus(200);
+		});
 });
 
 router.get('/end_testing', function(req, res) {
-	TestMessage.dropdb(TestMessage.chathistory);
-	res.json(measurePerformance.getRequestNum());
+	console.log("*** ending test...");	
+	measurePerformance.endTest();
+	TestMessage.dropdb(TestMessage.chathistory, function(){
+		console.log(measurePerformance.getRequestNum());
+		res.json(measurePerformance.getRequestNum());
+	});		
 });
 
 

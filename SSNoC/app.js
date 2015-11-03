@@ -53,6 +53,7 @@ var admin = require('./routes/admin');
 var test_messages = require('./routes/test_messages');
 
 var onlineUsers = require('./lib/onlineUsers.js');
+var measurePerformance = require('./lib/measurePerformance.js');
 
 var socket_server = require('socket.io').listen(http);
 require('./chatsocket')(socket_server);
@@ -62,9 +63,10 @@ require('./chatsocket')(socket_server);
 app.use('/', routes);
 app.use('/users', users);
 app.use('/messages', messages);
-app.use('/test_messages', test_messages);
 app.use('/announcements', announcements);
 app.use('/privatechats', privatechats);
+
+app.use('/test_messages', test_messages);
 app.use('/admin', admin);
 
 //importing models
