@@ -7,7 +7,8 @@ node_js:
 
 before_install:
 # Activate the required node.js version. $SHIPPABLE_NODE_VERSION
-  - npm install -g grunt-cli mocha 
+  - npm install --save sqlite3
+  - npm install -g grunt-cli mocha istanbul
 	
 install:
   - npm install
