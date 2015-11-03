@@ -15,7 +15,9 @@ dependencies:
 	     - npm install --dev
 
 
-
+test:
+  override:
+    - grunt test
   
 
 
