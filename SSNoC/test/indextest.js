@@ -4,6 +4,7 @@ var indexRoutes = require('.././routes/index.js');
 
 var url = 'http://localhost:8888';
 
+console.log("start testing!");
 
 suite('Index Testing', function(){
   test('Index Route', function(done){
