@@ -7,7 +7,7 @@ node_js:
 
 before_install:
 # Activate the required node.js version. $SHIPPABLE_NODE_VERSION
-  - npm install -g grunt-cli mocha istanbul
+  - npm install -g grunt-cli mocha 
 	
 install:
   - npm install
@@ -23,11 +23,11 @@ env:
 # Create directories for test and coverage reports
 before_script:
       - mkdir -p shippable/testresults
-      - mkdir -p shippable/codecoverage
+#      - mkdir -p shippable/codecoverage
 
 # Tell istanbul to generate a coverage report
 after_script:
-     - ./node_modules/.bin/istanbul report cobertura --dir  shippable/codecoverage/
+#     - ./node_modules/.bin/istanbul report cobertura --dir  shippable/codecoverage/
 
 # Pushing to production if everything passes
 # after_success:
