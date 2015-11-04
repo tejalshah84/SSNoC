@@ -8,9 +8,9 @@ var app = express();
 var url = 'http://localhost:8888';
 console.log("start testing!");
 
-//suite('Route Testing', function(){
-describe('Index Route Testing', function(){
-	it('Index Route', function(done){
+
+suite('Index Route Testing', function(){
+	test('Index Route', function(done){
 		request(url)
   	.get('/')
   	.expect('Content-Type', 'text/html')
@@ -19,4 +19,3 @@ describe('Index Route Testing', function(){
 		 });
 	});
 });
-//});
