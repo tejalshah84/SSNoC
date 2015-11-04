@@ -12,7 +12,7 @@ router.get('/', function(req, res) {
 	Message.chathistory.findAll().then(function (msg) {
 		  //res.json(msg);
 			measurePerformance.increGet(); 
-			res.sendStatus(200);
+			res.json(msg);
 	});
 });
 

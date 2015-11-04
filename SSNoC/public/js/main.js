@@ -15,15 +15,22 @@ $(function() {
   var $privInputMessage = $('.privInputMessage');
   var $privMessages = $('.privMessages');
 	
+	// --------------- Iteration 3 -----------------------//
 	var $test_duration = $('#test_duration');	
 	var startTime;
+	var numPOST_s = 0;
+	var numGET_s = 0;
+	var numOfReqest = {"GET": 0, "POST": 0 };
+	var responseGETTimeC,responsePOSTTimeC, responseGETTimeS, responsePOSTTimeS;
+	var test = true;
 
-// --------------- Iteration 3 -----------------------//
+
  $('#start_testing').on('click', function(){
 	 console.log("Sending Ajax Start Testing...");	 
-	 startTime = new Date(); 
+	 restart();
 	 startUseCase();	 
  });
+ 
  
  $('#stop_testing').on('click', function(){
 	 console.log("Stop sending Ajax Testing...");	 
@@ -38,46 +45,67 @@ $(function() {
 		 type: 'GET',
 		 success: function(data) {
 			console.log("Test db has been refreshed! Use Case Starts.");	 
-			 while(!isTimeUp($test_duration.val()/2*1000)){
-			 	sendPOSTReq();	
+			 while(test&&!isTimeUp($test_duration.val()/2*1000)){
+				 sendPOSTReq();	
 			 }
-			 while(!isTimeUp($test_duration.val()*1000)){
+			 responsePOSTTimeC = new Date();
+			 while(test&&!isTimeUp($test_duration.val()*1000)){
 			 	sendGETReq();	
-			 }		
-			 endUseCase();	 
+			 }		 
+			 responseGETTimeC = new Date();
+			 responseTimeC = new Date();
+			 test = false;
+			 console.log("Time is up!");	
+			 var d1 = {
+				 "POST": Math.round((numOfReqest.POST/((responsePOSTTimeC-startTime)/1000))), 
+				 "GET": Math.round((numOfReqest.GET/((responseGETTimeC-startTime)/2/1000)))
+			 };
+			 updateRequestNumber('c',numOfReqest);
+			 updateRequestTime('c',d1);		
+			 //endUseCase();
 		 },
 		 error: function(e) {
 		 }
 		});	
  }
-
+	
+	
  function endUseCase(){
-	 console.log("Time is up!");
 	 $.ajax({
 		 url: '/admin/end_testing',
 		 type: 'GET',
 		 success: function(data) {
-			 console.log("Test db has been dropped! Use Case Ends.");			 
-			 updateRequestNumber(data);	
+			 var d2 = {
+				 "POST": Math.round((numOfReqest.POST/((responsePOSTTimeS-startTime)/1000))), 
+				 "GET": Math.round((numOfReqest.GET/((responseGETTimeS-startTime)/2/1000)))
+			 };		 
+			 updateRequestTime('s',d2);	
+			  console.log("Test db has been dropped! Use Case Ends.");	
 		 },
 		 error: function(e) {
 		 }
 		});	
+	 		 
  }
  function sendGETReq(){
+	 numOfReqest.GET++;
 	 $.ajax({
 		 dataType: "json",
 		 url: '/test_messages',
 		 type: 'GET',
-		 data: {
-		 },
 		 success: function(data) {
+			 responseGETTimeS = new Date();
+			 $('#get_req_num_s').text(++numGET_s);
+			 if(numGET_s == numOfReqest.GET){
+			 	endUseCase();
+			 }
 		 },
 		 error: function(e) {
 		 }
 		});	
  }
  function sendPOSTReq(){
+	 numOfReqest.POST++;
 	 $.ajax({
 		 dataType: "json",
 		 url: '/test_messages',
@@ -87,24 +115,45 @@ $(function() {
 			 chatmsg: makeRandomMessage(20),
 			 timestamp: new Date()
 		 },
-		 success: function(data) {
-			 //console.log("Number of POST: "+(++numOfPost));	 
+		 success: function(data) {	 
+			 responsePOSTTimeS = new Date();
+			 $('#post_req_num_s').text(++numPOST_s);
 		 },
 		 error: function(e) {
 		 }
 		});	
+
+ }
+ function updateRequestNumber(type, data){
+	 $('#get_req_num_'+type).text(data.GET);
+	 $('#post_req_num_'+type).text(data.POST);
+ }
+ function updateRequestTime(type, data){
+	 $('#get_req_time_'+type).text(data.GET);
+	 $('#post_req_time_'+type).text(data.POST);
  }
 
- function updateRequestNumber(data){
-	 $('#get_req_num').text(data.GET);
-	 $('#post_req_num').text(data.POST);
- }
  function makeRandomMessage(numOfChar){
      var text = "";
      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
      for( var i=0; i < numOfChar; i++ )
          text += possible.charAt(Math.floor(Math.random() * possible.length));
      return text;
+ }
+ function restart(){
+	startTime = new Date();
+ 	numOfReqest = {"GET": 0, "POST": 0 };
+	numPOST_s = 0;
+	numGET_s = 0;
+	responseGETTimeC = 0;
+	responsePOSTTimeC = 0;
+	responseGETTimeS = 0; 
+	responsePOSTTimeS = 0;
+	test = true;
+	updateRequestNumber('c',numOfReqest);
+	updateRequestNumber('s',numOfReqest);
+	updateRequestTime('c',numOfReqest);
+	updateRequestTime('s',numOfReqest);
  }
 // --------------- Iteration 3 -----------------------//
 
