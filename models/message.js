@@ -2,6 +2,7 @@ console.log("Sequelize...Creating Chathistory Instance...");
 
 var Sequelize = require('sequelize');
 var sequelize = require('.././sequelize');
+var user = require('.././models/user.js');
 
 var chathistory = sequelize.define('chathistory', {
   id:{
@@ -39,8 +40,8 @@ var chathistory = sequelize.define('chathistory', {
   freezeTableName: true // Model tableName will be the same as the model name
 });
 
-
-
+user.hasMany(chathistory, {foreignKey: 'chatauthor'});
+chathistory.belongsTo(user, {foreignKey: 'chatauthor', targetKey: 'username'});
 
 module.exports = chathistory;
 

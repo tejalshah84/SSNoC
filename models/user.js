@@ -6,13 +6,14 @@ var sequelize = require('.././sequelize');
 var user = sequelize.define('user', {
   id:{
     type: Sequelize.INTEGER,
-      primaryKey: true,
       autoIncrement: true
   },
   username: {
     type: Sequelize.STRING,
+    primaryKey: true,
     allowNull: false,
-    defaultValue: null
+    defaultValue: null,
+    unique: true
   },
   password: {
     type: Sequelize.STRING,
@@ -25,6 +26,11 @@ var user = sequelize.define('user', {
     defaultValue: null
   },
   lastname: {
+    type: Sequelize.TEXT,
+    allowNull: true,
+    defaultValue: null
+  },
+  location: {
     type: Sequelize.TEXT,
     allowNull: true,
     defaultValue: null

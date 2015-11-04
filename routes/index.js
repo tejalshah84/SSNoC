@@ -189,6 +189,18 @@ router.get('/chat/:username', function(req, res) {
   }
 });
 
+router.get('/searchpage', function(req, res) {
+	if (req.session && req.session.user) { 
+		console.log("rendering search...");
+	res.render('searchpage',{
+		user: req.session.user
+	  });	
+	}
+	else{
+	res.redirect('/signin');	
+	}
+});
+
 function goOnline(user){
 	console.log("before user...:");
 	console.log(onlineUsers.getOnlineUsers());

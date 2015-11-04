@@ -62,14 +62,23 @@ exports.convertText = function (arr){
 
 		users.forEach(function(user){
 			if (user.username in user_on) {
-				users_list['online'][user.username] = {'status_id': user.statusid};
+				users_list['online'][user.username] = {'firstname': user.firstname,
+													   'lastname': user.lastname, 
+													   'status_id': user.statusid, 
+													   'location': user.location,
+													   'lastlogin': user.lastlogintime};
 			}else{
-				users_list['offline'][user.username]= {'status_id': user.statusid};
+				users_list['offline'][user.username]= {'firstname': user.firstname,
+													   'lastname': user.lastname,
+				                   					   'status_id': user.statusid, 
+													   'location': user.location,
+													   'lastlogin': user.lastlogintime};
 			}
 		});
 
     users_list.online = sortUsers(users_list.online);
     users_list.offline = sortUsers(users_list.offline);
+    console.log(users_list);
 	return users_list;
 };
 

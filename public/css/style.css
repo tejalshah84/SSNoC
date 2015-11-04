@@ -71,3 +71,14 @@ html, body{
 #searchText {
     flex: 1;
 }
+
+.searchlist_item {
+	padding: 10px; 
+	-webkit-box-shadow: 1px 1px 5px 0px rgba(204,204,204,1); 
+	-moz-box-shadow: 1px 1px 5px 0px rgba(204,204,204,1); 
+	box-shadow: 1px 1px 5px 0px rgba(204,204,204,1);
+	border: 1px solid green;
+}
+.srch_username {
+	float: left;
+}

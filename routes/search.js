@@ -57,14 +57,15 @@ router.get('/', function(req, res) {
 
 			if(searchCriteria === "Announcements"){
 
-				Announce.findAll({
-				  attributes: ['id','publisher_username', 'createdAt', 'updatedAt', 'content'],
+				Announce.findAndCountAll({
+				  attributes: ['id','publisher_username', 'content', 'createdAt'],
 				  where: {
 				    content: {
 				    	$like: searchtxt
 				    }
 				  },
-				  order:'createdAt DESC',
+				  include: [{model: User, attributes: ['location','statusid']}],
+				  order:'announcement.createdAt DESC',
 				  offset: pageCount,
 				  limit: 10
 				  }).then(function (announcements) {
@@ -73,13 +74,14 @@ router.get('/', function(req, res) {
 			}
 			else if (searchCriteria === "Public Messages"){
 
-				Message.findAll({
+				Message.findAndCountAll({
 				  attributes: ['id','chatauthor', 'chatmessage', 'timestamp', 'createdAt'],
 				  where: {
 				    chatmessage: {
 				    	$like: searchtxt
 				    }
 				  },
+				  include: [{model: User, attributes: ['location','statusid']}],
 				  order:'timestamp DESC',
 				  offset: pageCount,
 				  limit: 10
@@ -91,7 +93,7 @@ router.get('/', function(req, res) {
 				
 				var currUser = req.session.user.username;
 
-				privateMessage.findAll({
+				privateMessage.findAndCountAll({
 				  attributes: ['id','chatauthor', 'chattarget','chatmessage', 'timestamp', 'createdAt'],
 				  where: {
 				    chatmessage: {
@@ -100,11 +102,13 @@ router.get('/', function(req, res) {
 				    $or: [{chatauthor: currUser}, 
 				    	{chattarget: currUser}]
 				  },
+				  include: [{model: User, as: 'usertarget', attributes: ['location', 'statusid']},
+				 		   {model: User, as: 'userauthor', attributes: ['location', 'statusid']}],
 				  order:'timestamp DESC',
 				  offset: pageCount,
 				  limit: 10
-				  }).then(function (privmessages) {
-					  res.json(privmessages);
+				}).then(function (privmessages) {
+				  res.json(privmessages);
 				});
 			}
 		}
