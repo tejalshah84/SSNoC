@@ -1,7 +1,7 @@
 console.log("Sequelize...Creating PrivateChathistory Instance...");
 
 var Sequelize = require('sequelize');
-var sequelize = require('.././sequelize');
+var sequelize = require('.././sequelize').sequelize;
 var user = require('.././models/user.js');
 
 
@@ -52,6 +52,3 @@ privatechathistory.belongsTo(user, {as: 'usertarget', foreignKey: 'chattarget', 
 privatechathistory.belongsTo(user, {as: 'userauthor', foreignKey: 'chatauthor', targetKey: 'username'});
 
 module.exports = privatechathistory;
-
-
-

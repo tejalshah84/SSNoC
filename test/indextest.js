@@ -20,12 +20,3 @@ describe('Index Route Testing', function(){
 	});
 });
 //});
-
-
-
-
-
-
-
-
-

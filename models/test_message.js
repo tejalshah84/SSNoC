@@ -1,15 +1,10 @@
-console.log("Sequelize...Creating Chathistory Instance...");
+console.log("Sequelize...Creating Test Chathistory Instance...");
 
 var Sequelize = require('sequelize');
 var sequelize = require('.././sequelize').sequelize;
-var user = require('.././models/user.js');
 
-var chathistory = sequelize.define('chathistory', {
-  id:{
-    type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-  },
+
+var chathistory = sequelize.define('chathistory_test', {
   chatauthor: {
     type: Sequelize.TEXT,
     allowNull: true,
@@ -40,7 +35,18 @@ var chathistory = sequelize.define('chathistory', {
   freezeTableName: true // Model tableName will be the same as the model name
 });
 
-user.hasMany(chathistory, {foreignKey: 'chatauthor'});
-chathistory.belongsTo(user, {foreignKey: 'chatauthor', targetKey: 'username'});
 
-module.exports = chathistory;
+
+exports.chathistory = chathistory;
+
+exports.dropdb = function(db, callback){
+	db.sync({force: true}).then(function () {
+		console.log("Test db has been refreshed...");
+		callback();
+	});
+};
+
+
+
+
+

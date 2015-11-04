@@ -1,7 +1,7 @@
 console.log("Sequelize...Creating Announcement Instance...");
 
 var Sequelize = require('sequelize');
-var sequelize = require('.././sequelize');
+var sequelize = require('.././sequelize').sequelize;
 var user = require('.././models/user.js');
 
 var announce = sequelize.define('announcement', {
@@ -36,6 +36,3 @@ announce.belongsTo(user, {foreignKey: 'publisher_username', targetKey: 'username
 
 
 module.exports = announce;
-
-
-
