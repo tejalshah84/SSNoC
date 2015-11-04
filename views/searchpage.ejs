@@ -22,17 +22,28 @@
  
 
 
+   
+		
+    <!--wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
         <% include ./partials/sidebar %>
 
         <!-- Page Content -->
-        <div id="page-content-wrapper" style="padding: 0px; height: 100%;">
-      
-          <div style="height: 52px;"><% include ./partials/searchnav %></div>
-          <div style="height: calc(100% - 52px); overflow: auto;"><% include ./partials/searchbody %></div>
-        </div><!-- /#page-content-wrapper -->
+        <div id="page-content-wrapper" style="padding: 0px;">
+					
+					<!--Top Navbar-->
+					<div style="height: 14vh;"><% include ./partials/topnav %></div>		
+					<!-- Public Chat Wall -->
+					<div style="height: 2vh;" ></div>
+					<!--Public Chat Wall wrapper -->
+					<div class="clr" style="padding-top:20px;" ></div>
+          <div ><% include ./partials/searchnav %></div>
+          <div ><% include ./partials/searchbody %></div>
+				
+				</div><!-- /#page-content-wrapper -->
     </div>
+    <!-- /#wrapper -->
 
 
     <!--scripts: jquery, bootstrap and other custom js -->

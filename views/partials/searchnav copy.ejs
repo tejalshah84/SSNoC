@@ -1,7 +1,11 @@
-  <div style="width:90%; margin: auto auto;">
+<!--Navbar -->
+<nav class="navbar navbar-default " style="margin-bottom: 0px;border-color: #f8f8f8;">
+  <div class="container-fluid" style="    height: 50px; padding: 8px 0; text-align: center;">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="btn-group">
-        
+        <a class="navbar-brand" href="#menu-toggle" id="menu-toggle" aria-hidden="true">
+          <span  class="glyphicon glyphicon-user user_directory"></span>
+        </a>
         <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="searchCat">Search Category
           <span class="caret"></span>
         </button>
@@ -23,13 +27,12 @@
               <option value="4">No Status</option>
             </select>
           </div>
-      		<div>
+          <span class="input-group-btn">
             <button class="btn btn-default" type="submit" id ="submitSearch"><span class="glyphicon glyphicon-search"></span></button>
-          </div>
-					<div style="padding-left:20px;">
+          </span>  
           <a href="/community"><span>Cancel</span></a>
-				</div>
         </div>
         
-      </div>  
-		</div>	    
+      </div>      
+  </div><!-- /.container-fluid -->
+</nav><!--/Navbar-->
