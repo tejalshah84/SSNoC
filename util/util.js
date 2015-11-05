@@ -13,7 +13,7 @@ exports.checkSearchWords = function(text){
 
 	for(i=0; i<len; i++){
 		 exist = false;
-		 console.log(check[i]);
+		 //console.log(check[i]);
 		   
 		 exist = checkwords.stopWords(check[i].toLowerCase().trim());
            
@@ -78,7 +78,7 @@ exports.convertText = function (arr){
 
     users_list.online = sortUsers(users_list.online);
     users_list.offline = sortUsers(users_list.offline);
-    console.log(users_list);
+    //console.log(users_list);
 	return users_list;
 };
 

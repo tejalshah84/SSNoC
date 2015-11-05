@@ -1,7 +1,4 @@
-console.log("Sequelize...Creating Announcement Instance...");
-
 var Sequelize = require('sequelize');
-//var sequelize = require('.././sequelize').sequelize;
 
 module.exports = function(sequelize){
 	var announce = sequelize.define('announcement', {

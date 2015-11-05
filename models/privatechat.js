@@ -1,8 +1,4 @@
-console.log("Sequelize...Creating PrivateChathistory Instance...");
-
 var Sequelize = require('sequelize');
-//var sequelize = require('.././sequelize').sequelize;
-
 
 module.exports = function(sequelize){
 	var privatechathistory = sequelize.define('privatechathistory', {

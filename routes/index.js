@@ -16,6 +16,15 @@ var models = require('.././models');
 // -------------------------------------------------------------------------------------//
 
 
+var ifSignIn = function (req, res, next) {
+	if (req.session && req.session.user) { 
+		console.log('~~~~~~~~~~~~~~~ Session exist!!!');
+		next();
+	}else{
+		res.redirect('/signin');
+	}  
+}
+
 /* show signin page*/
 router.get('/', function(req, res) {
 	res.render('signin', { error: ""});
@@ -25,23 +34,15 @@ router.get('/signin', function(req, res, next) {
 	res.render('signin', { error: ""});
 });
 
-router.get('/signout', function(req, res){
-	if (req.session && req.session.user) { 
+router.get('/signout', ifSignIn, function(req, res){ 
 		onlineUsers.removeOnlineUsers(req.session.user.username);
 		req.session.destroy();
-		console.log("------- User logout! clearing session...");
 		res.redirect('/signin');
-	}else{
-		res.redirect('/signin');
-	}
 });
 
 /* handle signin request*/
 router.post('/', function(req, res){
-	console.log("Handling signin...");
-	console.log("Username: "+req.body.username);
 	var username = req.body.username;
-	//Retrieve Hash pwd from DB
 	
 	models.user.findOne({
 		  where: {
@@ -50,16 +51,11 @@ router.post('/', function(req, res){
 	}).then(function (result) {
 		if(!result){
 			// If the username isn't in the DB, reset the session and redirect the user to signup an account
-			console.log("Redirected to signin-1");
 			res.render('signin',{error: "Username not found!"});
-		}
-		else{  // If the user is in the DB, retrieve password and compare it
-			
+		}else{  // If the user is in the DB, retrieve password and compare it	
 			var pwd_hash = result.password;
 			var comparison = bcrypt.compareSync(req.body.password, pwd_hash);
-			console.log("Comparing password...");
-			if(comparison){ //If pwd is correct, update new login time to DB and enter the welcome page
-			
+			if(comparison){ //If pwd is correct, update new login time to DB and enter the welcome page	
 				var date = new Date();//Get user login time
 				//var logintime = date.toLocaleTimeString();
 				result.update({
@@ -67,12 +63,10 @@ router.post('/', function(req, res){
 				}).then(function() {
 					req.session.user = result;
 					req.session.isNewUser = false;
-					console.log("Succefully signin!");
 					goOnline(result);
 					res.redirect('/community');
 				});
 			}else{
-				console.log("Password not correct...Redirected to signin");
 				res.render('signin',{error: "Password is incorrect!"});
 			}		
 		}
@@ -85,23 +79,16 @@ router.get('/signup', function(req, res, next) {
 
 //handle user signup request
 router.post('/signup', function(req, res){
-	console.log("Handling signup...");
-	console.log("Username: "+req.body.username);
-	
 	var username = req.body.username;
-
 	if(badUsername.contains(username)){
-		console.log("--- Invalid username");
 		res.render('signup',{error: "Username not valid!"});				
 	}else{
-		console.log("--- valid username");
 		models.user.findOne({
 		  where: {
 		    username: username
 		  }
 		}).then(function (result) {
 			if(result){
-				console.log("--- Existing username");
 				res.render('signup',{error: "Username already exists!"});				
 			}else{
 				// Hash the password with the salt
@@ -136,8 +123,8 @@ router.post('/signup', function(req, res){
   
 });
 
-router.get('/community', function(req, res) {
-	if (req.session && req.session.user) { 
+router.get('/community', ifSignIn, function(req, res) {
+	
 		models.user.findAll().then(function (user) {	
 			var users = user;
 			models.chathistory.findAll().then(function (msg) {	
@@ -154,14 +141,11 @@ router.get('/community', function(req, res) {
 			});
 		});
 		
-	}else {
-    res.redirect('/signin');
-  }
+	
 });
 //req.params.id
 
-router.get('/chat/:username', function(req, res) {
-	if (req.session && req.session.user) { 
+router.get('/chat/:username', ifSignIn, function(req, res) {	
 		if(req.params.username == req.session.user.username){
 			res.redirect('/community');
 		}
@@ -174,37 +158,24 @@ router.get('/chat/:username', function(req, res) {
 			$in: [req.session.user.username, req.params.username]}
 		}
 	}).then(function (msg) {
-		console.log(msg);
   	res.render('chat', { 
 			user: req.session.user,
 			chatHistory: msg,
 			targetName: req.params.username
 			}); 
 		});
-	}else {
-    res.redirect('/signin');
-  }
+	
 });
 
-router.get('/searchpage', function(req, res) {
-	if (req.session && req.session.user) { 
-		console.log("rendering search...");
+router.get('/searchpage', ifSignIn, function(req, res) {
 	res.render('searchpage',{
 		user: req.session.user
 	  });	
-	}
-	else{
-	res.redirect('/signin');	
-	}
 });
 
 
 function goOnline(user){
-	console.log("before user...:");
-	console.log(onlineUsers.getOnlineUsers());
 	onlineUsers.addoOnlineUsers(user);
-	console.log("after Online Users...");
-	console.log(onlineUsers.getOnlineUsers());
 }
 
 

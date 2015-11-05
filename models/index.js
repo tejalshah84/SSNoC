@@ -1,4 +1,3 @@
-console.log("Initializing sequelize...");
 var fs = require('fs'),
   path = require('path'),
   Sequelize = require('sequelize'),

@@ -51,7 +51,7 @@ router.get('/', function(req, res) {
 		if (err){
 
 			var searchtxt = util.convertText(err);
-			console.log(searchtxt);
+			//console.log(searchtxt);
 
 			if(searchCriteria === "Announcements"){
 

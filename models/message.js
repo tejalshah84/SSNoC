@@ -1,9 +1,4 @@
-console.log("Sequelize...Creating Chathistory Instance...");
-
 var Sequelize = require('sequelize');
-//var sequelize = require('.././sequelize').sequelize;
-
-
 
 module.exports = function(sequelize){
 	var chathistory = sequelize.define('chathistory', {
