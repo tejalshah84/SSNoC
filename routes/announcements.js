@@ -2,20 +2,20 @@ var express = require('express');
 var router = express.Router();
 var sequelize = require('.././sequelize');
 //importing models
-var Announce = require('.././models/announcement.js');
+var models = require('.././models');
 
 // -------------------------------------------------------------------------------------//
 
 // GET all Announces
 router.get('/', function(req, res) {
-	Announce.findAll().then(function (announce) {
+	models.announcement.findAll().then(function (announce) {
 		  res.json(announce);
 	});
 });
 
 
 router.get('/latest', function(req, res) {
-	Announce.findAll({
+	models.announcement.findAll({
 	  order:
 		  'id DESC'
 	  , 
@@ -29,7 +29,7 @@ router.get('/latest', function(req, res) {
 
 //get Announce
 router.get('/:id', function(req, res) {
-	Announce.findAll({
+	models.announcement.findAll({
 	  where: {
 	    id: req.params.id
 	  }
@@ -40,7 +40,7 @@ router.get('/:id', function(req, res) {
 
 //create Announce
 router.post('/', function(req, res) {
-	Announce.create({ 
+	models.announcement.create({ 
 		publisher_username: req.session.user.username,
 		content: req.data.content
 	}).then(function() {

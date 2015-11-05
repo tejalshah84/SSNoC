@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var sequelize = require('.././sequelize');
 //importing models
-var User = require('.././models/user.js');
+var models = require('.././models');
+
 var util = require('.././util/util.js');
 var onlineUsers = require('.././lib/onlineUsers.js');
 
@@ -10,14 +11,14 @@ var onlineUsers = require('.././lib/onlineUsers.js');
 
 // GET all users 
 router.get('/', function(req, res) {
-	User.findAll().then(function (user) {
+	models.user.findAll().then(function (user) {
 		  res.json(user);
 	});
 });
 
 // GET all online
 router.get('/online', function(req, res) {
-	User.findAll().then(function (users) {
+	models.user.findAll().then(function (users) {
 		var list = util.divideUsers(users);
 		res.json(list);
 	});
@@ -26,7 +27,7 @@ router.get('/online', function(req, res) {
 
 //get user
 router.get('/:id', function(req, res) {
-	User.findAll({
+	models.user.findAll({
 	  where: {
 	    id: req.params.id
 	  }

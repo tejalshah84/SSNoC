@@ -2,11 +2,9 @@ var express = require('express');
 var router = express.Router();
 var sequelize = require('.././sequelize');
 //importing models
-var Message = require('.././models/message.js');
-var privateMessage = require('.././models/privatechat.js');
-var Announce = require('.././models/announcement.js');
-var User = require('.././models/user.js');
+
 var util = require('.././util/util.js');
+var models = require('.././models');
 
 
 
@@ -18,7 +16,7 @@ router.get('/', function(req, res) {
 
 	if(searchCriteria === "Citizen"){
 
-		User.findAll({
+		models.user.findAll({
 		  attributes: ['username', 'firstname', 'lastname', 'statusid', 'roleid', 'location', 'lastlogintime'],
 		  where: {
 		    username: {
@@ -35,7 +33,7 @@ router.get('/', function(req, res) {
 	}
 	else if(searchCriteria === "Citizen Status"){
 
-		User.findAll({
+		models.user.findAll({
 		  attributes: ['username', 'firstname', 'lastname', 'statusid', 'roleid', 'location','lastlogintime'],
 		  where: {
 		    statusid: searchText
@@ -57,14 +55,14 @@ router.get('/', function(req, res) {
 
 			if(searchCriteria === "Announcements"){
 
-				Announce.findAndCountAll({
+				models.announcement.findAndCountAll({
 				  attributes: ['id','publisher_username', 'content', 'createdAt'],
 				  where: {
 				    content: {
 				    	$like: searchtxt
 				    }
 				  },
-				  include: [{model: User, attributes: ['location','statusid']}],
+				  include: [{model: models.user, attributes: ['location','statusid']}],
 				  order:'announcement.createdAt DESC',
 				  offset: pageCount,
 				  limit: 10
@@ -74,14 +72,14 @@ router.get('/', function(req, res) {
 			}
 			else if (searchCriteria === "Public Messages"){
 
-				Message.findAndCountAll({
+				models.chathistory.findAndCountAll({
 				  attributes: ['id','chatauthor', 'chatmessage', 'timestamp', 'createdAt'],
 				  where: {
 				    chatmessage: {
 				    	$like: searchtxt
 				    }
 				  },
-				  include: [{model: User, attributes: ['location','statusid']}],
+				  include: [{model: models.user, attributes: ['location','statusid']}],
 				  order:'timestamp DESC',
 				  offset: pageCount,
 				  limit: 10
@@ -93,7 +91,7 @@ router.get('/', function(req, res) {
 				
 				var currUser = req.session.user.username;
 
-				privateMessage.findAndCountAll({
+				models.privatechathistory.findAndCountAll({
 				  attributes: ['id','chatauthor', 'chattarget','chatmessage', 'timestamp', 'createdAt'],
 				  where: {
 				    chatmessage: {
@@ -102,8 +100,8 @@ router.get('/', function(req, res) {
 				    $or: [{chatauthor: currUser}, 
 				    	{chattarget: currUser}]
 				  },
-				  include: [{model: User, as: 'usertarget', attributes: ['location', 'statusid']},
-				 		   {model: User, as: 'userauthor', attributes: ['location', 'statusid']}],
+				  include: [{model: models.user, as: 'usertarget', attributes: ['location', 'statusid']},
+				 		   {model: models.user, as: 'userauthor', attributes: ['location', 'statusid']}],
 				  order:'timestamp DESC',
 				  offset: pageCount,
 				  limit: 10

@@ -3,15 +3,16 @@ var router = express.Router();
 var onlineUsers = require('.././lib/onlineUsers.js');
 var measurePerformance = require('.././lib/measurePerformance.js');
 //model
-var User = require('.././models/user.js');
-var TestMessage = require('.././models/test_message.js');
+var models = require('.././models');
+
+
 // -------------------------------------------------------------------------------------//
 
 
 
 router.get('/', function(req, res) {
 	if (req.session && req.session.user) { 
-		User.findAll().then(function (user) {
+		models.user.findAll().then(function (user) {
 		  	res.render('minitor', { 
 					user: req.session.user,
 					userDirectory : user,
@@ -27,7 +28,7 @@ router.get('/start_testing', function(req, res) {
 		console.log("start test...");
 		measurePerformance.restart();
 		measurePerformance.startTest();
-		TestMessage.dropdb(TestMessage.chathistory, function(){
+		models.chathistory_test.dropdb(models.chathistory_test.chathistory, function(){
 			res.sendStatus(200);
 		});
 });
@@ -35,7 +36,7 @@ router.get('/start_testing', function(req, res) {
 router.get('/end_testing', function(req, res) {
 	console.log("*** ending test...");	
 	measurePerformance.endTest();
-	TestMessage.dropdb(TestMessage.chathistory, function(){
+	models.chathistory_test.dropdb(models.chathistory_test.chathistory, function(){
 		console.log(measurePerformance.getRequestNum());
 		res.json(measurePerformance.getRequestNum());
 	});		

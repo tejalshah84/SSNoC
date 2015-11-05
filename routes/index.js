@@ -3,8 +3,6 @@ var router = express.Router();
 
 var db = require('.././testdb'); //database
 //model
-var sequelize = require('.././sequelize');
-var user = require('.././models/user.js');
 var badUsername = require('.././lib/reservedNames.js');
 var onlineUsers = require('.././lib/onlineUsers.js');
 
@@ -12,9 +10,9 @@ var bcrypt = require('bcryptjs');// Load the bcrypt module
 var salt = bcrypt.genSaltSync(10);// Generate a salt
 
 
-var User = require('.././models/user.js');
-var Message = require('.././models/message.js');
-var PrivateMessage = require('.././models/privatechat.js');
+var models = require('.././models');
+
+
 // -------------------------------------------------------------------------------------//
 
 
@@ -45,10 +43,10 @@ router.post('/', function(req, res){
 	var username = req.body.username;
 	//Retrieve Hash pwd from DB
 	
-	User.findOne({
+	models.user.findOne({
 		  where: {
 		    username: username
-	}
+			}
 	}).then(function (result) {
 		if(!result){
 			// If the username isn't in the DB, reset the session and redirect the user to signup an account
@@ -97,7 +95,7 @@ router.post('/signup', function(req, res){
 		res.render('signup',{error: "Username not valid!"});				
 	}else{
 		console.log("--- valid username");
-		User.findOne({
+		models.user.findOne({
 		  where: {
 		    username: username
 		  }
@@ -140,10 +138,9 @@ router.post('/signup', function(req, res){
 
 router.get('/community', function(req, res) {
 	if (req.session && req.session.user) { 
-		User.findAll().then(function (user) {	
+		models.user.findAll().then(function (user) {	
 			var users = user;
-			console.log("Getting all users...");
-			Message.findAll().then(function (msg) {	
+			models.chathistory.findAll().then(function (msg) {	
         var chathistory = msg;
 				
 				// render the welcome page
@@ -168,7 +165,7 @@ router.get('/chat/:username', function(req, res) {
 		if(req.params.username == req.session.user.username){
 			res.redirect('/community');
 		}
-		PrivateMessage.findAll({
+		models.privatechathistory.findAll({
 		where: {
 		chatauthor: {
 			$in: [req.session.user.username, req.params.username]
