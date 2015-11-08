@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "grunt test"
+    "test": "grunt"
   },
   "dependencies": {
-    "bcrypt": "~0.8.5",
+    "bcryptjs": "^2.2.1",
     "body-parser": "~1.13.2",
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
@@ -19,13 +19,16 @@
     "sequelize": "^3.11.0",
     "serve-favicon": "~2.3.0",
     "socket.io": "^1.3.7",
-    "sqlite3": "3.0.10"
+    "sqlite3": "3.0.10",
+    "istanbul": "^0.4.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-mocha-test": "^0.12.7",
+    "grunt-mocha-istanbul": "^3.0.1",
     "mocha": "^2.3.3",
     "should": "^7.1.1",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "mocha-junit-reporter": "^1.8.0"
   }
 }
