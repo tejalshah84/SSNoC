@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var sequelize = require('.././sequelize');
+
 //importing models
 var models = require('.././models');
 
@@ -58,6 +58,7 @@ router.put('/:id', function(req, res) {
 router.delete('/:id', function(req, res) {
   res.send('respond with a resource');
 });
+
 
 
 module.exports = router;

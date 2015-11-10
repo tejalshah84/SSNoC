@@ -21,7 +21,6 @@ fs.readdirSync(__dirname)
     return (file.indexOf(".") !== 0) && (file !== "index.js");
   })
   .forEach(function(file) {
-		console.log("file: "+file);
     var model = sequelize.import(path.join(__dirname, file));
 		if(file == 'test_message.js'){
 			db[model.chathistory.name] = model;
@@ -30,8 +29,9 @@ fs.readdirSync(__dirname)
 		}
     
   });
+	console.log("*****************************************");
 	console.log(db);
-	console.log("*****************");
+	console.log("*****************************************");
 	
 
 	// RUN MODEL ASSOCIATIONS (hasMany, belongsTo, etc.)

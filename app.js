@@ -15,7 +15,7 @@ var db_s = require('./testdb');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-
+app.io = io;
 
 http.listen(8888, function(){
 	console.log('listening on *:8888');
@@ -43,15 +43,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-/*    Routing    */
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var messages = require('./routes/messages');
-var announcements = require('./routes/announcements');
-var privatechats = require('./routes/privatechats');
-var admin = require('./routes/admin');
-var test_messages = require('./routes/test_messages');
-var search = require('./routes/search');
+
+var models = require('./models');
+
+
+
 
 var onlineUsers = require('./lib/onlineUsers.js');
 var measurePerformance = require('./lib/measurePerformance.js');
@@ -61,18 +57,15 @@ require('./chatsocket')(socket_server);
 
 
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/messages', messages);
-app.use('/announcements', announcements);
-app.use('/privatechats', privatechats);
-app.use('/search', search);
-app.use('/test_messages', test_messages);
-app.use('/admin', admin);
+
 
 //importing models
 var Announce = require('./models/announcement.js');
 var Msg = require('./models/message.js');
+
+
+
+var router = require('./controllers')(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -97,7 +97,7 @@ router.post('/signup', function(req, res){
 			//  var logintime = date.toLocaleTimeString();
 	
 				req.session.username = username;
-				User.create({ 
+				models.user.create({ 
 					username: username, 
 					password: pwd_hash,
 					firstname: "",
@@ -106,7 +106,7 @@ router.post('/signup', function(req, res){
 					roleid: 3,
 					lastlogintime: date
 				}).then(function() {
-			    User
+			    models.user
 			      .findOne({where: {username: username}})
 			      .then(function (user) {
 							req.session.user = user;
@@ -177,6 +177,8 @@ router.get('/searchpage', ifSignIn, function(req, res) {
 function goOnline(user){
 	onlineUsers.addoOnlineUsers(user);
 }
+
+
 
 
 module.exports = router;

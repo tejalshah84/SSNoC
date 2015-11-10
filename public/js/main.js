@@ -183,6 +183,7 @@ $(function() {
 	 	}
     $('.new_announcement_content').val('');
  });
+
 	
 	
 	$(window).load(function() {
@@ -400,6 +401,9 @@ $(function() {
 		$('#announcement').show();
 	
   });
+	
+	
+	
    
   socket.on('new status', function (data) {	
     console.log(data.statusid);
