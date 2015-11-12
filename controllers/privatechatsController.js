@@ -43,7 +43,7 @@ router.get('/:id', function(req, res) {
 
 //create message
 router.post('/', function(req, res) {
-res.send('respond with a resource');
+	res.send('respond with a resource');
 });
 
 
