@@ -15,15 +15,20 @@ router.get('/', function(req, res) {
 
 
 router.get('/latest', function(req, res) {
-	models.announcement.findAll({
+	models.announcement.findOne({
 	  order:
 		  'id DESC'
 	  , 
 	  limit:
 	  	1
-	  
 	}).then(function (announce) {
-		  res.json(announce);
+		var latest = announce.dataValues;
+		models.user.findOne({where: {id: latest.publisher_userid}
+		}).then(function(user) {
+			var obj = {"publisher": user.username, "content":latest.content,"createdAt":latest.createdAt};
+			  res.json(obj);
+		});
+		
 	});
 });
 

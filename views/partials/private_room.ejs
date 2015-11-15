@@ -11,7 +11,7 @@
 			<% chatHistory.forEach(function(msg){ %>
 							 <li class="priv_messages_item">
 							 <blockquote><p>
-								 <span class="chat_author"><%= msg.chatauthor%>: </span>
+								 <span class="chat_author"><%= userDirectory[msg.chatauthor_id-1].username%>: </span>
 										<%= msg.chatmessage%> 
 										<span class="chat_timestamp">
 											<small><%= msg.createdAt%></small>

@@ -24,14 +24,14 @@ io.on('connection', function(socket){
   socket.on('change status', function(data) {
 		models.user.findOne({
 		  where: {
-		    username: data.username
+		    id: data.userid
 		  }
 		}).then(function (result) {
 			result.update({
 			statusid: data.status_id
 		}).then(function() {
 			io.sockets.emit('new status', {
-				username: data.username,
+				userid: data.userid,
 				statusid: data.status_id
 			});	
 		});
@@ -41,7 +41,7 @@ io.on('connection', function(socket){
 	
 	
   socket.on('setUserSocketID',function(data){
-		onlineUsers.addUsersSocketID(data.username, socket.id);
+		onlineUsers.addUsersSocketID(data.userid, socket.id);
   });
 	
 
@@ -57,22 +57,23 @@ io.on('connection', function(socket){
   
     socket.on('PrivateChatMsg',function(data){
     	date = new Date();
+			models.user.findOne({where: {id: data.chatauthor_id}
+			}).then(function(user) {
     	models.privatechathistory.create({ 
-          	chatauthor: data.chatauthor,
-          	chattarget: data.chattarget,
+          	chatauthor_id: data.chatauthor_id,
+          	chattarget_id: data.chattarget_id,
           	chatmessage: data.chatmessage, 
             timestamp: date
        		}).then(function() {
-       			console.log(privateRooms[data.chatauthor]);
-						console.log("----- taget's socketid: "+onlineUsers.getOnlineUsers()[data.chattarget]['socket_id']);
-							io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget]['socket_id']]).emit('private chat',{
-       					chatauthor: data.chatauthor,
-       				chattarget: data.chattarget,
+       			console.log(privateRooms[data.chatauthor_id]);
+						console.log("----- taget's socketid: "+onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']);
+							io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']]).emit('private chat',{
+       					chatauthor: user.username,
        				chatmessage: data.chatmessage,
     					createdAt: date
     				});
        		});   	
-    	
+    	 		});  
     });
   
   
@@ -80,33 +81,45 @@ io.on('connection', function(socket){
 
   
    socket.on('new announcement', function(data) {
+		models.user.findOne({where: {id: data.publisher_userid}
+		}).then(function(user) {
    		models.announcement.create({ 
-   			publisher_username: data.publisher_username,
+   			publisher_userid: user.id,
    			content: data.content,
 			createdAt: data.createdAt
    		}).then(function() {
 			io.sockets.emit('new annoucement', {
-   			publisher_username: data.publisher_username,
+   			publisher_username: user.username,
    			content: data.content,
 				createdAt: data.createdAt
 			});
    		});
+			});
    });
 	 
 	 
     socket.on('new message', function(data) {
-			date = new Date();
+			var date = new Date();
+			
+			models.user.findOne({where: {id: data.chatauthor_id}
+			}).then(function(user) {
+				console.log(user);
    		models.chathistory.create({ 
-      	chatauthor: data.chatauthor,
+      	chatauthor_id: user.id,
         timestamp: date,
+				createdAt: date,
+				updateddAt: date,
         chatmessage: data.chatmessage  			
    		}).then(function() {
 				io.sockets.emit('new message', {
-   				chatauthor: data.chatauthor,
+   				chatauthor: user.username,
    				chatmessage: data.chatmessage,
 					createdAt: date
 				});
    		});
+		});
+		
+
     
 
  
@@ -117,3 +130,4 @@ io.on('connection', function(socket){
 
 
 };
+

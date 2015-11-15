@@ -58,10 +58,10 @@ module.exports = function(sequelize){
 	  freezeTableName: true, // Model tableName will be the same as the model name
 		classMethods:{
 			associate: function(models){
-				user.hasMany(models.announcement, {foreignKey: 'publisher_username'});
-				user.hasMany(models.chathistory, {foreignKey: 'chatauthor'});
-				user.hasMany(models.privatechathistory, {foreignKey: 'chattarget'});
-				user.hasMany(models.privatechathistory, {foreignKey: 'chatauthor'});
+				user.hasMany(models.announcement, {foreignKey: 'publisher_userid'});
+				user.hasMany(models.chathistory, {foreignKey: 'chatauthor_id'});
+				user.hasMany(models.privatechathistory, {foreignKey: 'chattarget_id'});
+				user.hasMany(models.privatechathistory, {foreignKey: 'chatauthor_id'});
 			}
 		}
 	});

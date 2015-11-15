@@ -165,7 +165,7 @@ $(function() {
 		console.log("status menu selected: " + $(this).attr('id'));
 		var statusid = status_arr[$(this).attr('id')];
 		socket.emit('change status', {
-		      username: current_user,
+		      userid: current_user,
 		 			status_id: statusid
 		});	
 	});	
@@ -176,7 +176,7 @@ $(function() {
     if($('.new_announcement_content').val() !== ''){
     	console.log('emitting socket for annoucement...');
       socket.emit('new announcement', {
-      	publisher_username: current_user,
+      	publisher_userid: current_user,
 			 	content: $('.new_announcement_content').val(),
         createdAt: new Date()
       });
@@ -187,15 +187,13 @@ $(function() {
 	
 	
 	$(window).load(function() {
-		if($("#public_messages").length > 0){
-			getChatHistory();
-		}
+		
 		if($("#private_messages").length > 0){
 			scrollListBtm();	
 		}
 		getUserDirectory();
     socket.emit('setUserSocketID', {
-        username: current_user
+        userid: current_user
     });
 		retrieveLatestAnnouncement();
 	});
@@ -212,8 +210,7 @@ $(function() {
   		  type: 'GET',
   			data: {},
   		  success: function(data) {
-			  console.log(data[0]);
-			  displayLatestAnnouncement(data[0]);
+			  displayLatestAnnouncement(data);
   		  },
   		  error: function(e) {
   			//console.log(e.message);
@@ -272,18 +269,19 @@ $(function() {
 	 }
 	 
 	 function displayUserDirectory(users){		 
+		 console.log(users.offline);
 		 $('#user_list').empty();
 		 var users_online = users.online;
 		 $('#current_status').removeClass().addClass(status_logo[users_online[current_user].status_id]);
 		 delete users_online[current_user];
 		 $.each(users_online, function(index, element) {
 			 var statusLogo = getUserStatus(element.status_id); 
-	 		 var item = "<a id =\""+index+"\" href=\"/chat/"+index+"\" style=\"color: #62615f;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+index+"</a>";
+	 		 var item = "<a id =\""+index+"\" href=\"/chat/"+index+"\" style=\"color: #62615f;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+element.username+"</a>";
 		 		$('#user_list').append("<li id='targetName'>"+item+"</li>");	 		
 			});
 	 	 $.each(users.offline, function(index, element) {
 		 	var statusLogo = getUserStatus(element.status_id); 
-			var item = " <a id =\""+index+"\" href=\"/chat/"+index+"\" style=\"color: #a7a6a4;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+index+"</a>";
+			var item = " <a id =\""+index+"\" href=\"/chat/"+index+"\" style=\"color: #a7a6a4;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+element.username+"</a>";
 			$('#user_list').append("<li>"+item+"</li>");
 		});
 	 }
@@ -332,7 +330,7 @@ $(function() {
     if($('.inputMessage').val() !== ''){
       console.log('emitting chat...');
         socket.emit('new message', {
-          chatauthor: $('#user').text(),
+          chatauthor_id: $('#user').text(),
           location: $('#location').text(),
           status: parseInt($('#status').text(),10),
           timestamp: new Date().toLocaleTimeString(),
@@ -352,7 +350,7 @@ $(function() {
       abc = $('.privInputMessage').val();
       console.log(abc);
 			var data = {
-				chatauthor: current_user,
+				chatauthor: $('#current_username').text(),
 				chatmessage: $('.privInputMessage').val(),
 				createdAt: new Date()
 			}
@@ -360,8 +358,8 @@ $(function() {
       addPrivChatMessage(data);
 			console.log("current user: "+current_user+"   target: "+$('#targetUserName').text());
       socket.emit('PrivateChatMsg', {
-          chatauthor: current_user,
-          chattarget: $('#targetUserName').text(),
+          chatauthor_id: current_user,
+          chattarget_id: $('#targetUserName').text(),
           chatmessage: $('.privInputMessage').val(),
           timestamp: new Date().toLocaleTimeString()
         });
@@ -407,10 +405,10 @@ $(function() {
    
   socket.on('new status', function (data) {	
     console.log(data.statusid);
-    if(data.username == current_user){
+    if(data.userid == current_user){
 			$('#current_status').removeClass().addClass(status_logo[data.statusid]);    
 		}
-		$('#'+data.username+" .statuslogo").empty().append(getUserStatus(data.statusid));	
+		$('#'+data.userid+" .statuslogo").empty().append(getUserStatus(data.statusid));	
   });
    
 	function dateForamt(date){
@@ -423,7 +421,7 @@ $(function() {
   
   function displayLatestAnnouncement(data){		
 		$('#new_announce_post').empty();
-  	var post = "<strong>"+data.content+"</strong>"+"   - posted by: "+data.publisher_username+" at "+dateForamt(data.createdAt);
+  	var post = "<strong>"+data.content+"</strong>"+"   - posted by: "+data.publisher+" at "+dateForamt(data.createdAt);
   	$('#new_announce_post').append(post);
   	$('#announcement').show();
     if($('#postAnnouncementModal').length > 0){

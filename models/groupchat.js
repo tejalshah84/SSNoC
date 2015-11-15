@@ -1,7 +1,8 @@
 var Sequelize = require('sequelize');
 
+
 module.exports = function(sequelize){
-	var privatechathistory = sequelize.define('privatechathistory', {
+	var chathistory = sequelize.define('chathistory', {
 	  id:{
 	    type: Sequelize.INTEGER,
 	      primaryKey: true,
@@ -9,20 +10,19 @@ module.exports = function(sequelize){
 	  },
 	  chatauthor_id: {
 	    type: Sequelize.INTEGER,
-	    allowNull: true,
-	    defaultValue: null
 	  },
-	  chattarget_id: {
-		    type: Sequelize.INTEGER,
-		    allowNull: true,
-		    defaultValue: null
-		  },
 	  chatmessage: {
 	    type: Sequelize.TEXT,
 	    allowNull: true,
 	    defaultValue: null
 	  },
- 
+	  //store image
+	  image: {
+	    type: Sequelize.BLOB,
+	    allowNull: true,
+           defaultValue: null
+	  },
+	  //
 	  timestamp: {
 	    type: Sequelize.DATE,
 	    allowNull: true,
@@ -42,14 +42,12 @@ module.exports = function(sequelize){
 	  freezeTableName: true, // Model tableName will be the same as the model name
 		classMethods:{
 			associate: function(models){
-				privatechathistory.belongsTo(models.user, {as: 'usertarget_id', foreignKey: 'chattarget_id', targetKey: 'id'});
-				privatechathistory.belongsTo(models.user, {as: 'userauthor_id', foreignKey: 'chatauthor_id', targetKey: 'id'});
-				
+				chathistory.belongsTo(models.user, {foreignKey: 'chatauthor_id', targetKey: 'id'});
 			}
 		}
 	});
 
 	
-	
-	return privatechathistory;
+
+	return chathistory;
 };

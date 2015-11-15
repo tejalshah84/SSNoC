@@ -22,7 +22,7 @@ module.exports = function(app){
 	var searchController = require('./searchController');
 	var test_messagesController = require('./test_messagesController');
 	var usersController = require('./usersController');
-	var missingPeopleController = require('./missingPeopleController');
+	var groupchatController = require('./groupchatController');
 	
  // var registeredDevicesController = require('./registeredDevicesController')(app.io);
 
@@ -34,7 +34,8 @@ module.exports = function(app){
 	router.use('/search', searchController);
 	router.use('/test_messages', test_messagesController);	
 	router.use('/users', usersController);
-	router.use('/missing', missingPeopleController);
+	router.use('/groupchat', groupchatController);
+	
 	
 	// ROUTING
   app.use(router);

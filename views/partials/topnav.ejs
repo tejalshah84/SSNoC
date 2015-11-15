@@ -13,29 +13,28 @@
       <a class="navbar-brand" href="#menu-toggle" id="menu-toggle" aria-hidden="true">
 				<span  class="glyphicon glyphicon-user user_directory"></span>
       </a>
-      
-	<span class="input-group-btn">
-             <a href="/searchpage">
-             <button class="btn btn-default" type="submit" id ="search-page">
-             <span class="glyphicon glyphicon-search"></span>
-           </button></a>
-         </span>
-      
+
+        <span class="input-group-btn">
+            <a href="/searchpage">
+          <button class="btn btn-default" type="submit" id ="search-page">
+          <span class="glyphicon glyphicon-search"></span>
+          </button>
+            </a>
+        </span> 
+
     </div>
-				
+		
 			
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-right" id="top_menu_dropdown">
       <ul class="nav navbar-nav">
        <li><a>Profile</a></li>
-			 
 			<% if (user.roleid < 3) { %>
        <li><a data-toggle="modal" data-target="#postAnnouncementModal">Post Announce</a></li>
 			<% }%>	
 			<% if (user.roleid == 1) { %>
        <li><a href="/admin">Monitor</a></li>
 			<% }%>
-			<li><a href="/missing/deck">Missing People</a></li>
        <li><a href="/signout" id="signout">Sign out</a></li>
 
       </ul>
@@ -46,5 +45,7 @@
 
 <div style="clear: both"></div>
 <div id="announcement" class="alert alert-info" role="alert">
-	<span id="new_announce_post"><strong></strong></span> 
+	<span id="new_announce_post">
+		<strong></strong> 
+	</span> 
 </div>

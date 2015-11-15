@@ -8,7 +8,8 @@
 										  	<button type="button" class="btn btn-default">
 										    	<div>
 														<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-														<span style="padding-left:0px;" id="current_user"><%= user.username%></span>
+														<p hidden id="current_user"><%=user.id%></p>
+														<span style="padding-left:0px;" id="current_username" ><%= user.username%></span>
 													</div>
 												</button>
 											</div>
@@ -36,13 +37,21 @@
 								<li style="font-weight: bold; color: #62615f;">
 									<a href="/community">Public Chat</a>   
 								</li>
+				
+								<li style="font-weight: bold; color: #62615f;">
+									<a href="/">Group Chat <button type="button" class="btn btn-default">
+										<style>.glyphicon-plus-sign {color: red;}</style>
+									</button></a> 
+									
+								</li>
+								
 								<li style="font-weight: bold; color: #62615f;">
 									All Users   
 								</li>	
 								<li>
 								<ul id="user_list">	
                 
- 							</ul>
+ 							   </ul>
  						</li>
             </ul>
         </div>
