@@ -18,10 +18,10 @@ router.get('/', function(req, res) {
 	models.privatechathistory.findAll({
 where: {
 chatauthor: {
-	$in: [req.query.chatauthor, req.query.chattarget]
+	$in: [req.query.chatauthor_id, req.query.chattarget_id]
 },
 chattarget:{ 	  
-$in: [req.query.chatauthor, req.query.chattarget]}
+$in: [req.query.chatauthor_id, req.query.chattarget_id]}
 }
 }).then(function (msg) {
 	console.log('RoomTest');

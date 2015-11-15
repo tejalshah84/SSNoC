@@ -4,6 +4,18 @@
   	<div class="clr" style="height:2vh;"></div>              
 		<div style="height:68vh;overflow-y: auto; position: relative; top: 60px;" id="public_messages">						               
 			<ul id="messages" class="messages" style="list-style-type:none;-webkit-padding-start: 0px;">		
+				<% chatHistory.forEach(function(msg){ %>
+								 <li class="messages_item">
+								 <blockquote><p>
+									 <span class="chat_author"><%= userDirectory[msg.chatauthor_id-1].username%>: </span>
+											<%= msg.chatmessage%> 
+											<span class="chat_timestamp">
+												<small><%= msg.createdAt%></small>
+											</span>
+									</p></blockquote>
+								</li>
+					
+							  <%  });  %>
 			</ul>
   	</div>                  
 	
@@ -12,7 +24,7 @@
 		<div style="">
 		<div class="well" style=""> 
 			<form class="form" action="/message" method="post"> <!--POST to backend-->
-				<p hidden id="user"><%=user.username %></p>
+				<p hidden id="user"><%=user.id %></p>
 				<p hidden id="location"><%=user.location %></p>
 				<p hidden id="status"><%=user.statusid %></p>
 				<div class="input-group text-center">

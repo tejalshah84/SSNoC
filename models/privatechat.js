@@ -7,13 +7,13 @@ module.exports = function(sequelize){
 	      primaryKey: true,
 	      autoIncrement: true
 	  },
-	  chatauthor: {
-	    type: Sequelize.TEXT,
+	  chatauthor_id: {
+	    type: Sequelize.INTEGER,
 	    allowNull: true,
 	    defaultValue: null
 	  },
-	  chattarget: {
-		    type: Sequelize.TEXT,
+	  chattarget_id: {
+		    type: Sequelize.INTEGER,
 		    allowNull: true,
 		    defaultValue: null
 		  },
@@ -42,8 +42,8 @@ module.exports = function(sequelize){
 	  freezeTableName: true, // Model tableName will be the same as the model name
 		classMethods:{
 			associate: function(models){
-				privatechathistory.belongsTo(models.user, {as: 'usertarget', foreignKey: 'chattarget', targetKey: 'username'});
-				privatechathistory.belongsTo(models.user, {as: 'userauthor', foreignKey: 'chatauthor', targetKey: 'username'});
+				privatechathistory.belongsTo(models.user, {as: 'usertarget_id', foreignKey: 'chattarget_id', targetKey: 'id'});
+				privatechathistory.belongsTo(models.user, {as: 'userauthor_id', foreignKey: 'chatauthor_id', targetKey: 'id'});
 				
 			}
 		}

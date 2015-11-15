@@ -35,7 +35,7 @@ router.get('/signin', function(req, res, next) {
 });
 
 router.get('/signout', ifSignIn, function(req, res){ 
-		onlineUsers.removeOnlineUsers(req.session.user.username);
+		onlineUsers.removeOnlineUsers(req.session.user.id);
 		req.session.destroy();
 		res.redirect('/signin');
 });
@@ -145,26 +145,29 @@ router.get('/community', ifSignIn, function(req, res) {
 });
 //req.params.id
 
-router.get('/chat/:username', ifSignIn, function(req, res) {	
-		if(req.params.username == req.session.user.username){
+router.get('/chat/:id', ifSignIn, function(req, res) {	
+		if(req.params.id == req.session.user.id){
 			res.redirect('/community');
 		}
+		models.user.findAll().then(function (user) {	
+			var users = user;	
 		models.privatechathistory.findAll({
 		where: {
-		chatauthor: {
-			$in: [req.session.user.username, req.params.username]
+		chatauthor_id: {
+			$in: [req.session.user.id, req.params.id]
 		},
-		chattarget:{ 	  
-			$in: [req.session.user.username, req.params.username]}
+		chattarget_id:{ 	  
+			$in: [req.session.user.id, req.params.id]}
 		}
 	}).then(function (msg) {
   	res.render('chat', { 
 			user: req.session.user,
+			userDirectory : users,
 			chatHistory: msg,
-			targetName: req.params.username
+			targetName: req.params.id
 			}); 
 		});
-	
+		});
 });
 
 router.get('/searchpage', ifSignIn, function(req, res) {

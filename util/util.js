@@ -55,20 +55,23 @@ exports.convertText = function (arr){
 
 
  exports.divideUsers = function(users){
-	var users_list = {};
-	    users_list.online={};
-	    users_list.offline={};
+	 var users_list = {'online':{}, 'offline': {}};
+	 
+	   
 	var user_on = onlineUsers.getOnlineUsers();	
-
 		users.forEach(function(user){
-			if (user.username in user_on) {
-				users_list['online'][user.username] = {'firstname': user.firstname,
+			if (user.id in user_on) {
+				users_list['online'][user.id] = {
+														'username': user.username,
+														'firstname': user.firstname,
 													   'lastname': user.lastname, 
 													   'status_id': user.statusid, 
 													   'location': user.location,
 													   'lastlogin': user.lastlogintime};
 			}else{
-				users_list['offline'][user.username]= {'firstname': user.firstname,
+				users_list['offline'][user.id]= {
+														'username': user.username,
+															'firstname': user.firstname,
 													   'lastname': user.lastname,
 				                   					   'status_id': user.statusid, 
 													   'location': user.location,
@@ -76,8 +79,9 @@ exports.convertText = function (arr){
 			}
 		});
 
-    users_list.online = sortUsers(users_list.online);
-    users_list.offline = sortUsers(users_list.offline);
+//    users_list.online = sortUsers(users_list.online);
+//    users_list.offline = sortUsers(users_list.offline);
+
     //console.log(users_list);
 	return users_list;
 };
@@ -90,10 +94,10 @@ function sortUsers(userlist){
 
 	for (var key in userlist){
 		if (userlist.hasOwnProperty(key)){
-			keys.push(key);
+			var value = userlist[key].username;
+			keys.push(value);
 		}
 	}
-
 	keys.sort(insensitive);
 	len = keys.length;
 

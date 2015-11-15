@@ -7,8 +7,8 @@ module.exports = function(sequelize){
 	      primaryKey: true,
 	      autoIncrement: true
 	  },
-	  publisher_username: {
-	    type: Sequelize.TEXT,
+	  publisher_userid: {
+	    type: Sequelize.INTEGER,
 	    allowNull: true,
 	    defaultValue: null
 	  },
@@ -27,7 +27,7 @@ module.exports = function(sequelize){
 	  freezeTableName: true, // Model tableName will be the same as the model name
 		classMethods:{
 			associate: function(models){
-				announce.belongsTo(models.user, {foreignKey: 'publisher_username', targetKey: 'username'});
+				announce.belongsTo(models.user, {foreignKey: 'publisher_userid', targetKey: 'id'});
 			}
 		}
 	});

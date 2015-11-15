@@ -1,5 +1,6 @@
 var Sequelize = require('sequelize');
 
+
 module.exports = function(sequelize){
 	var chathistory = sequelize.define('chathistory', {
 	  id:{
@@ -7,10 +8,8 @@ module.exports = function(sequelize){
 	      primaryKey: true,
 	      autoIncrement: true
 	  },
-	  chatauthor: {
-	    type: Sequelize.TEXT,
-	    allowNull: true,
-	    defaultValue: null
+	  chatauthor_id: {
+	    type: Sequelize.INTEGER,
 	  },
 	  chatmessage: {
 	    type: Sequelize.TEXT,
@@ -37,7 +36,7 @@ module.exports = function(sequelize){
 	  freezeTableName: true, // Model tableName will be the same as the model name
 		classMethods:{
 			associate: function(models){
-				chathistory.belongsTo(models.user, {foreignKey: 'chatauthor', targetKey: 'username'});
+				chathistory.belongsTo(models.user, {foreignKey: 'chatauthor_id', targetKey: 'id'});
 			}
 		}
 	});
