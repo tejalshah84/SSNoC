@@ -22,17 +22,18 @@ $(function() {
 	var numGET_s = 0;
 	var numOfReqest = {"GET": 0, "POST": 0 };
 	var responseGETTimeC,responsePOSTTimeC, responseGETTimeS, responsePOSTTimeS;
-	var test = true;
+	var terminate = false;
 
 
  $('#start_testing').on('click', function(){
 	 console.log("Sending Ajax Start Testing...");	 
 	 restart();
-	 startUseCase();	 
+	 setTimeout(startUseCase, 1);
  });
  
  
  $('#stop_testing').on('click', function(){
+	 terminate = true;
 	 console.log("Stop sending Ajax Testing...");	 
 	 endUseCase();	 
  });
@@ -40,33 +41,28 @@ $(function() {
 	 return ((new Date()-startTime) > duration);
  }
  function startUseCase(){
-	 $.ajax({
-		 url: '/admin/start_testing',
-		 type: 'GET',
-		 success: function(data) {
-			console.log("Test db has been refreshed! Use Case Starts.");	 
-			 while(test&&!isTimeUp($test_duration.val()/2*1000)){
-				 sendPOSTReq();	
-			 }
-			 responsePOSTTimeC = new Date();
-			 while(test&&!isTimeUp($test_duration.val()*1000)){
-			 	sendGETReq();	
-			 }		 
-			 responseGETTimeC = new Date();
-			 responseTimeC = new Date();
-			 test = false;
-			 console.log("Time is up!");	
-			 var d1 = {
-				 "POST": Math.round((numOfReqest.POST/((responsePOSTTimeC-startTime)/1000))), 
-				 "GET": Math.round((numOfReqest.GET/((responseGETTimeC-startTime)/2/1000)))
-			 };
-			 updateRequestNumber('c',numOfReqest);
-			 updateRequestTime('c',d1);		
-			 //endUseCase();
-		 },
-		 error: function(e) {
-		 }
-		});	
+	 if(terminate){		 
+		 return;
+	 }
+	 if(!isTimeUp($test_duration.val()/2*1000)){
+		 sendPOSTReq();	
+		 responsePOSTTimeC = new Date();
+	 }else{
+		  sendGETReq();	
+			responseGETTimeC = new Date();
+	 }	 
+	 responseTimeC = new Date();
+	 var d1 = {
+		 "POST": Math.round((numOfReqest.POST/((responsePOSTTimeC-startTime)/1000))), 
+		 "GET": Math.round((numOfReqest.GET/((responseGETTimeC-startTime)/1000)))
+	 };
+	 updateRequestNumber('c',numOfReqest);
+	 updateRequestTime('c',d1);		
+	 if(!isTimeUp($test_duration.val()*1000)){
+		  setTimeout(startUseCase, 1);
+		}
+
+	
  }
 	
 	
@@ -75,11 +71,6 @@ $(function() {
 		 url: '/admin/end_testing',
 		 type: 'GET',
 		 success: function(data) {
-			 var d2 = {
-				 "POST": Math.round((numOfReqest.POST/((responsePOSTTimeS-startTime)/1000))), 
-				 "GET": Math.round((numOfReqest.GET/((responseGETTimeS-startTime)/2/1000)))
-			 };		 
-			 updateRequestTime('s',d2);	
 			  console.log("Test db has been dropped! Use Case Ends.");	
 		 },
 		 error: function(e) {
@@ -96,6 +87,7 @@ $(function() {
 		 success: function(data) {
 			 responseGETTimeS = new Date();
 			 $('#get_req_num_s').text(++numGET_s);
+			 $('#get_req_time_s').text(Math.round((numGET_s/((responseGETTimeS-startTime)/1000))));
 			 if(numGET_s == numOfReqest.GET){
 			 	endUseCase();
 			 }
@@ -118,6 +110,8 @@ $(function() {
 		 success: function(data) {	 
 			 responsePOSTTimeS = new Date();
 			 $('#post_req_num_s').text(++numPOST_s);
+			 $('#post_req_time_s').text(Math.round((numPOST_s/((responsePOSTTimeS-startTime)/1000))));
+			 
 		 },
 		 error: function(e) {
 		 }
@@ -149,7 +143,7 @@ $(function() {
 	responsePOSTTimeC = 0;
 	responseGETTimeS = 0; 
 	responsePOSTTimeS = 0;
-	test = true;
+	terminate = false;
 	updateRequestNumber('c',numOfReqest);
 	updateRequestNumber('s',numOfReqest);
 	updateRequestTime('c',numOfReqest);
