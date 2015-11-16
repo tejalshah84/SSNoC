@@ -1,0 +1,42 @@
+<% missingPeople.forEach(function(person){ %>
+	<% if( person.id == 1){%>
+    <div class="buddy card-<%= person.id%> current" style="display: block;">
+	<% }else{%>
+		 <div class="buddy card-<%= person.id%>" style="display: block;">
+	<% }%>
+			<div class="avatar"  style="display: block;">
+				<div class="missing_people_deck_<%= person.id%>" style="display: block;">
+						<div class="col-xs-6"><div class="photo" style="background-color: #666; "></div></div>
+						<div class="col-xs-6">
+							<p hidden class="missingPeopleId"><%=person.id %></p>
+							<p><strong><%= person.firstname%> <%= person.lastname%></strong></p>
+							<p><strong><%= person.age%> Years Old</strong></p>
+							<p><strong><%= person.height%> CM</strong></p>
+							<p><strong><%= person.weight%> KGS</strong></p>
+							<p><strong><%= person.location%></strong></p>
+						</div>
+
+					  <div class="clr" style="height:10px;"></div>
+						<div class="col-xs-12">
+							<p><strong>Description</strong></p>
+							<p>
+								<%= person.description%>
+							</p>
+						</div>	
+		
+						<div class="col-xs-12">
+							<p><strong>Note</strong></p>
+							<p>
+								<%= person.note%> 
+							</p>
+						</div>
+						<div class="col-xs-12">
+							<p><strong>Last Seen</strong> <%= person.lastseen%></p>
+						</div>
+				</div>
+			</div>
+		</div>
+<% }); %> 
+
+    
+		<% include .././missing/citizenFound %> 

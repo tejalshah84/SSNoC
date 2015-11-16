@@ -15,6 +15,64 @@ $(function() {
   var $privInputMessage = $('.privInputMessage');
   var $privMessages = $('.privMessages');
 	
+	
+	
+	var currentPersonCard = 1;
+	
+	// --------------- Iteration 4 -----------------------//
+	$('.modal').on('shown.bs.modal', function() {
+	  //Make sure the modal and backdrop are siblings (changes the DOM)
+	  $(this).before($('.modal-backdrop'));
+	  //Make sure the z-index is higher than the backdrop
+	  $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
+	});
+	
+	$('.btn-pass').on('click', function(){
+		$('.card-'+currentPersonCard).addClass('rotate-left').delay(700).fadeOut(1);
+		$('.card-'+currentPersonCard).removeClass('current');
+    
+		if ( $('.card-'+currentPersonCard).is(':first-child') ) {
+			currentPersonCard = 1;
+			$('.card-'+(currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(300);
+			$('.card-'+currentPersonCard).addClass('current');
+		}else{
+			$('.card-'+(++currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(400);
+			$('.card-'+currentPersonCard).addClass('current');
+		}
+	});
+	
+	$(".buddy").on("swiperight",function(){
+	      $(this).addClass('rotate-left').delay(700).fadeOut(1);
+	      
+	      if ( $(this).is(':last-child') ) {
+	        $('.buddy:nth-child(1)').removeClass ('rotate-left rotate-right').fadeIn(300);
+	       } else {
+	          $(this).next().removeClass('rotate-left rotate-right').fadeIn(400);
+	       }
+	 });  
+
+	   $(".buddy").on("swipeleft",function(){
+	    $(this).addClass('rotate-right').delay(700).fadeOut(1);
+	   
+	    if ( $(this).is(':last-child') ) {
+	     $('.buddy:nth-child(1)').removeClass ('rotate-left rotate-right').fadeIn(300);
+	      alert('Na-na!');
+	     } else {
+	        $(this).next().removeClass('rotate-left rotate-right').fadeIn(400);
+	    } 
+	  });
+	
+	
+	
+	
+	
+	
+	
+	// --------------- Iteration 4 -----------------------//
+	
+	
+	
+	
 	// --------------- Iteration 3 -----------------------//
 	var $test_duration = $('#test_duration');	
 	var startTime;

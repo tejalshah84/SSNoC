@@ -11,13 +11,13 @@
   margin: 20px auto;
 	padding-top: 40px;
 }
-.controll-panel > div > button{
+.controll-panel > div > a{
   width: 100%;
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
 
-h4{
+h3{
 	text-align: center;
 }
 
@@ -68,8 +68,8 @@ h4{
 }
 
 .photo-wrap:hover{
-  animation: turn 600ms ease-in-out;
-  animation-fill-mode: forwards;
+/*  animation: turn 600ms ease-in-out;
+  animation-fill-mode: forwards;*/
 }
 
 .photo:active {
@@ -135,8 +135,54 @@ h4{
   top: -210px;
   font-weight: 300;
   font-size: 21px;
-  Z-index: -1;
+  z-index: -1;
 }
 
 
 
+.ui-loader{
+	display:none;
+}
+
+
+.buddy {
+  display: none;
+  background-color: #f2f2f2;
+
+  width: 365px;
+  height: 360px;
+
+  position: absolute;
+  cursor: hand;
+}
+.rotate-left {
+  transform: rotate(30deg) scale(0.8);
+  transition: 1s;
+  margin-left: 400px;
+  cursor: e-resize;
+  opacity: 0;
+}
+.rotate-right {
+  transform: rotate(-30deg) scale(0.8);
+  transition: 1s;
+  opacity: 0;
+  margin-left: -400px;
+  cursor: w-resize;
+}
+.avatar {
+  width: 365px;
+
+  display: block;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+
+
+/* new form*/
+.citizenMissingResult{
+	min-height:150px;
+	padding: 5px 10px;
+  border: 2px solid #f2f2f2;
+  border-radius: 10px;
+}
