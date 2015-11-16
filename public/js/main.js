@@ -17,6 +17,7 @@ $(function() {
 	
 	// --------------- Iteration 3 -----------------------//
 	var $test_duration = $('#test_duration');	
+	var timeFunc = '';
 	var startTime;
 	var numPOST_s = 0;
 	var numGET_s = 0;
@@ -25,44 +26,69 @@ $(function() {
 	var terminate = false;
 
 
- $('#start_testing').on('click', function(){
+ $('#start_testing_get').on('click', function(){
 	 console.log("Sending Ajax Start Testing...");	 
 	 restart();
-	 setTimeout(startUseCase, 1);
+	 setTimeout(startUseCase_GET, 1);
+ });
+ 
+ $('#start_testing_post').on('click', function(){
+	 console.log("Sending POST Ajax Start Testing...");	 
+	 restart();
+	 setTimeout(startUseCase_POST, 1);
  });
  
  
  $('#stop_testing').on('click', function(){
 	 terminate = true;
-	 console.log("Stop sending Ajax Testing...");	 
+	 console.log("Stop GET sending Ajax Testing...");	 
+	 endUseCase();	 
+ });
+ $('#end_testing').on('click', function(){
+	 terminate = true;
+	 console.log("End Testing...");	 
 	 endUseCase();	 
  });
  function isTimeUp(duration){
 	 return ((new Date()-startTime) > duration);
  }
- function startUseCase(){
+ function startUseCase_GET(){
 	 if(terminate){		 
 		 return;
 	 }
-	 if(!isTimeUp($test_duration.val()/2*1000)){
-		 sendPOSTReq();	
-		 responsePOSTTimeC = new Date();
-	 }else{
-		  sendGETReq();	
-			responseGETTimeC = new Date();
-	 }	 
+  sendGETReq();	
+	responseGETTimeC = new Date();
+	 responseTimeC = new Date();
+	 var d1 = {
+		 "POST": 0, 
+		 "GET": Math.round((numOfReqest.GET/((responseGETTimeC-startTime)/1000)))
+	 };
+//	 updateRequestNumber('c',numOfReqest);
+//	 updateRequestTime('c',d1);		
+	 $('#get_req_num_c').text(numOfReqest.GET);
+	 $('#get_req_time_c').text(d1.GET);
+	 if(!isTimeUp($test_duration.val()*1000)){
+		  setTimeout(startUseCase_GET, 1);
+		}
+ }
+ function startUseCase_POST(){
+	 if(terminate){		 
+		 return;
+	 }
+	 sendPOSTReq();	
+	 responsePOSTTimeC = new Date();
 	 responseTimeC = new Date();
 	 var d1 = {
 		 "POST": Math.round((numOfReqest.POST/((responsePOSTTimeC-startTime)/1000))), 
-		 "GET": Math.round((numOfReqest.GET/((responseGETTimeC-startTime)/1000)))
+		 "GET": 0
 	 };
-	 updateRequestNumber('c',numOfReqest);
-	 updateRequestTime('c',d1);		
+//	 updateRequestNumber('c',numOfReqest);
+//	 updateRequestTime('c',d1);	
+	 $('#post_req_num_c').text(numOfReqest.POST);
+	 $('#post_req_time_c').text(d1.POST);
 	 if(!isTimeUp($test_duration.val()*1000)){
-		  setTimeout(startUseCase, 1);
+		  setTimeout(startUseCase_POST, 1);
 		}
-
-	
  }
 	
 	
@@ -89,7 +115,8 @@ $(function() {
 			 $('#get_req_num_s').text(++numGET_s);
 			 $('#get_req_time_s').text(Math.round((numGET_s/((responseGETTimeS-startTime)/1000))));
 			 if(numGET_s == numOfReqest.GET){
-			 	endUseCase();
+				// endUseCase();
+				 
 			 }
 		 },
 		 error: function(e) {
@@ -111,7 +138,6 @@ $(function() {
 			 responsePOSTTimeS = new Date();
 			 $('#post_req_num_s').text(++numPOST_s);
 			 $('#post_req_time_s').text(Math.round((numPOST_s/((responsePOSTTimeS-startTime)/1000))));
-			 
 		 },
 		 error: function(e) {
 		 }
@@ -148,6 +174,7 @@ $(function() {
 	updateRequestNumber('s',numOfReqest);
 	updateRequestTime('c',numOfReqest);
 	updateRequestTime('s',numOfReqest);
+	console.log("restart...");
  }
 // --------------- Iteration 3 -----------------------//
 
