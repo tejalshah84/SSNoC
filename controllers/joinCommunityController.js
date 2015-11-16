@@ -177,6 +177,8 @@ router.get('/searchpage', ifSignIn, function(req, res) {
 });
 
 
+
+
 function goOnline(user){
 	onlineUsers.addoOnlineUsers(user);
 }

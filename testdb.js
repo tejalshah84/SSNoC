@@ -31,6 +31,79 @@ db.serialize(function() {
               console.log("chat_history table initialized");
           }
       });
+
+db.run("CREATE Table if NOT EXISTS resourcecategory (id INTEGER PRIMARY KEY AUTOINCREMENT, cat_description TEXT UNIQUE, createdAt DATETIME, updatedAt DATETIME)", function (err){
+
+          if(err!==null){
+              console.log("Error occured while creating resource category table");
+          }
+          else{
+              console.log("resourcecategory table initialized");
+          }
+      });
+
+/*stmt = db.prepare("INSERT INTO resourcecategory (cat_description, createdAt, updatedAt) VALUES (?,?,?)");
+  
+  stmt.run("Medical Supplies", new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.run("Food Supplies", new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.run("Other Supplies", new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.finalize();*/
+
+db.run("CREATE Table if NOT EXISTS resourcetype (id INTEGER PRIMARY KEY AUTOINCREMENT, resource_cat_id INTEGER, type_description TEXT UNIQUE, units TEXT, createdAt DATETIME, updatedAt DATETIME)", function (err){
+
+          if(err!==null){
+              console.log("Error occured while creating resource type table");
+          }
+          else{
+              console.log("resourcetype table initialized");
+          }
+      });
+
+/*stmt = db.prepare("INSERT INTO resourcetype (resource_cat_id, type_description, units, createdAt, updatedAt) VALUES (?,?,?,?,?)");
+
+  stmt.run(1, "Paracetamol", "Blister", new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.run(1, "Band-aids", "Box", new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.run(1, "Anti-biotics", "Blister", new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.run(1, "Cough-syrup", "Bottle", new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.run(2, "Bread", "Loaf", new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.run(2, "Baked Beans", "Can", new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.run(2, "Water", "Crate", new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.run(3, "Blankets", "Sheet", new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.finalize();*/
+
+db.run("CREATE Table if NOT EXISTS inventory (resource_type_id INTEGER PRIMARY KEY NOT NULL, quantity_inventory INTEGER, createdAt DATETIME, updatedAt DATETIME)", function (err){
+
+          if(err!==null){
+              console.log("Error occured while creating inventory table");
+          }
+          else{
+              console.log("inventory table initialized");
+          }
+      });
+
+/*stmt = db.prepare("INSERT INTO inventory (resource_type_id, quantity_inventory, createdAt, updatedAt) VALUES (?,?,?,?)");
+
+  stmt.run(1, 2, new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.run(2, 2, new Date().toLocaleString(), new Date().toLocaleString());
+  stmt.finalize(); */
+
+
+db.run("CREATE Table if NOT EXISTS resourcerequest (id INTEGER PRIMARY KEY AUTOINCREMENT, resource_type_id INTEGER NOT NULL, quantity_requested INTEGER, requested_by_id INTEGER, requested_date DATETIME, pickedup_ind VARCHAR(1), pickedup_from_id INTEGER, pickedup_date DATETIME, createdAt DATETIME, updatedAt DATETIME)", function (err){
+
+          if(err!==null){
+              console.log("Error occured while creating resourcerequest table");
+          }
+          else{
+              console.log("resourcerequest table initialized");
+          }
+      });
+
+/*stmt = db.prepare("INSERT INTO resourcerequest (resource_type_id, quantity_requested, pickedup_ind) VALUES (?,?,?)");
+
+  stmt.run(2, 1, "N");
+  stmt.run(2, 1, "N");
+  stmt.finalize();*/
+
  /* var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,online,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?,?)");
   
 	

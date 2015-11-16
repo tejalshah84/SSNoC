@@ -1,0 +1,64 @@
+<!--Navbar -->
+<nav class="navbar navbar-default " style="margin-bottom: 0px;border-color: #f8f8f8;">
+  <div class="container-fluid">
+   
+
+    <div class="navbar-header">
+      	<a class="navbar-brand" href="/resources/resourcepage" aria-hidden="t/rue" style="float:left;"><span class="glyphicon glyphicon-chevron-left"></span></a>	
+      	<h4>Donation Form</h4>
+      
+    </div>
+			
+			
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-right" id="top_menu_dropdown">
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav><!--/Navbar-->
+
+<div style="clear: both"></div>
+<div id="announcement" class="alert alert-info" role="alert">
+	<span id="new_announce_post"><strong></strong></span> 
+</div>
+
+
+
+<div id="donation-form" style="padding: 15px;">
+
+<p class="err-msg" style="color:red;"></p>
+	
+	<form action="/resources/adddonation" method="post">
+		<fieldset>
+		<div id="resource-cat" style="">
+			<label>Resource Category:</label>
+            <select id="resource-cat-opt" name="resourcecat" style="padding: 7px; width: 200px; border-color: #ccc;">
+              
+            </select>
+        </div>
+        </br>
+        <div id="resource-type" style="">
+            <label>Resource Type:</label>
+            <select id="resource-type-opt" name="resourcetype" style="padding: 7px; width: 200px; border-color: #ccc;">
+        
+            </select>
+        </div>
+        </br>
+        
+        <div id="qty-avail">
+			<label>Quantity Available:</label>
+			<span></span>
+		</div>
+		
+		<div id="qty-donate">
+			<label>Quantity Donated:</label>
+			<input type="text" name="donation" id="donate-amt"/>
+			<span></span>
+		</div>	
+
+		<input id="add-donation" type="submit" value="Submit Donation" onclick="return validateDonation()";/>
+		
+	   </fieldset>
+	</form>
+	
+</div> 

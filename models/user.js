@@ -4,13 +4,12 @@ module.exports = function(sequelize){
 	var user = sequelize.define('user', {
 	  id:{
 	    type: Sequelize.INTEGER,
-	      autoIncrement: true
+	      autoIncrement: true,
+	      primaryKey: true
 	  },
 	  username: {
 	    type: Sequelize.STRING,
-	    primaryKey: true,
 	    allowNull: false,
-	    defaultValue: null,
 	    unique: true
 	  },
 	  password: {
@@ -62,6 +61,8 @@ module.exports = function(sequelize){
 				user.hasMany(models.chathistory, {foreignKey: 'chatauthor_id'});
 				user.hasMany(models.privatechathistory, {foreignKey: 'chattarget_id'});
 				user.hasMany(models.privatechathistory, {foreignKey: 'chatauthor_id'});
+				user.hasMany(models.resourcerequest, {foreignKey: 'requested_by_id'});
+				user.hasMany(models.resourcerequest, {foreignKey: 'pickedup_from_id'});
 			}
 		}
 	});
