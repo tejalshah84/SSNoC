@@ -24,6 +24,7 @@ module.exports = function(app){
 	var usersController = require('./usersController');
 	var groupchatController = require('./groupchatController');
 	
+	
  // var registeredDevicesController = require('./registeredDevicesController')(app.io);
 
   router.use('/', joinCommunityController);

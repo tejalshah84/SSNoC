@@ -37,13 +37,15 @@
 								<li style="font-weight: bold; color: #62615f;">
 									<a href="/community">Public Chat</a>   
 								</li>
-				
-								<li style="font-weight: bold; color: #62615f;">
-									<a href="/">Group Chat <button type="button" class="btn btn-default">
-										<style>.glyphicon-plus-sign {color: red;}</style>
-									</button></a> 
-									
+								
+								<li style="font-weight: bold; color: #62615f;"><a data-toggle="modal" data-target="#addroomModal">Group Chat<button type="button" class="btn btn-default btn-xs" id="myBtn">+</button></a>
+								
 								</li>
+								
+								<li>
+								  <ul id="room_list"></ul>
+		 						</li>
+								
 								
 								<li style="font-weight: bold; color: #62615f;">
 									All Users   
@@ -51,8 +53,20 @@
 								<li>
 								<ul id="user_list">	
                 
- 							   </ul>
+ 							</ul>
  						</li>
             </ul>
         </div>
+	 
+ 	<% include .././partials/addroom %>
+	 
+	 <script>
+	 /*$(document).ready(function(){
+	     $("#myBtn").click(function(){
+	         $("#addroomModal").modal("toggle");
+	     });
+	 });*/
+	 </script>
+	 
+	 
 <!-- /#sidebar-wrapper -->

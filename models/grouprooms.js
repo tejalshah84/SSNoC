@@ -2,7 +2,7 @@ var Sequelize = require('sequelize');
 
 
 module.exports = function(sequelize){
-	var chathistory = sequelize.define('chathistory', {
+	var roomchathistory = sequelize.define('roomchathistory', {
 	  id:{
 	    type: Sequelize.INTEGER,
 	      primaryKey: true,
@@ -16,13 +16,12 @@ module.exports = function(sequelize){
 	    allowNull: true,
 	    defaultValue: null
 	  },
-	  //store image
-	  image: {
-	    type: Sequelize.BLOB,
-	    allowNull: true,
-           defaultValue: null
-	  },
-	  //
+ 	  roomname:{
+	    type: Sequelize.TEXT,
+	    allowNull: true,	  	
+	    defaultValue: null
+ 	  },
+	   
 	  timestamp: {
 	    type: Sequelize.DATE,
 	    allowNull: true,
@@ -42,12 +41,12 @@ module.exports = function(sequelize){
 	  freezeTableName: true, // Model tableName will be the same as the model name
 		classMethods:{
 			associate: function(models){
-				chathistory.belongsTo(models.user, {foreignKey: 'chatauthor_id', targetKey: 'id'});
+				roomchathistory.belongsTo(models.user, {foreignKey: 'chatauthor_id', targetKey: 'id'});
 			}
 		}
 	});
 
 	
 
-	return chathistory;
+	return roomchathistory;
 };

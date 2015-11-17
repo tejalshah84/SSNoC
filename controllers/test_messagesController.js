@@ -9,6 +9,23 @@ var Message = require('.././models/test_message.js');
 var ready = true;
 // -------------------------------------------------------------------------------------//
 
+
+
+var requestLimit = function (req, res, next){
+	if (measurePerformance.getRequestNum()["POST"] > 1000){ //Post Request Limit Rule
+		console.log("------ num of POST exceed 1000!");
+		models.chathistory_test.chathistory.destroy({
+			truncate: true
+		}).then(function() {
+			measurePerformance.getRequestNum()["POST"]=0;
+				next();
+		});	
+	}else{
+		next();
+	}
+}
+
+
 // GET all messages
 router.get('/', function(req, res) {
 	models.chathistory_test.chathistory.findAll().then(function (msg) {
@@ -30,19 +47,14 @@ router.get('/:id', function(req, res) {
 });
 
 //create message
-router.post('/', function(req, res) {
+router.post('/', requestLimit, function(req, res) {
 	createMsg(req,res);
 });
 
-function requestLimit(){
-	if (measurePerformance.getRequestNum()["POST"] > 1000){ //Post Request Limit Rule
-		console.log("------ num of POST exceed 1000!");
-		if(models.chathistory_test.dropdb(models.chathistory_test.chathistory)){
-			measurePerformance.getRequestNum()["POST"] = 0;
-			console.log("------ Refresh db. Continue to process post");
-		}
-	}
-}
+
+
+
+
 function createMsg(req,res){
 	models.chathistory_test.chathistory.create({ 
   	chatauthor: req.body.chatauthor,

@@ -22,17 +22,18 @@ $(function() {
 	var numGET_s = 0;
 	var numOfReqest = {"GET": 0, "POST": 0 };
 	var responseGETTimeC,responsePOSTTimeC, responseGETTimeS, responsePOSTTimeS;
-	var test = true;
+	var terminate = false;
 
 
  $('#start_testing').on('click', function(){
 	 console.log("Sending Ajax Start Testing...");	 
 	 restart();
-	 startUseCase();	 
+	 setTimeout(startUseCase, 1);
  });
  
  
  $('#stop_testing').on('click', function(){
+	 terminate = true;
 	 console.log("Stop sending Ajax Testing...");	 
 	 endUseCase();	 
  });
@@ -40,33 +41,28 @@ $(function() {
 	 return ((new Date()-startTime) > duration);
  }
  function startUseCase(){
-	 $.ajax({
-		 url: '/admin/start_testing',
-		 type: 'GET',
-		 success: function(data) {
-			console.log("Test db has been refreshed! Use Case Starts.");	 
-			 while(test&&!isTimeUp($test_duration.val()/2*1000)){
-				 sendPOSTReq();	
-			 }
-			 responsePOSTTimeC = new Date();
-			 while(test&&!isTimeUp($test_duration.val()*1000)){
-			 	sendGETReq();	
-			 }		 
-			 responseGETTimeC = new Date();
-			 responseTimeC = new Date();
-			 test = false;
-			 console.log("Time is up!");	
-			 var d1 = {
-				 "POST": Math.round((numOfReqest.POST/((responsePOSTTimeC-startTime)/1000))), 
-				 "GET": Math.round((numOfReqest.GET/((responseGETTimeC-startTime)/2/1000)))
-			 };
-			 updateRequestNumber('c',numOfReqest);
-			 updateRequestTime('c',d1);		
-			 //endUseCase();
-		 },
-		 error: function(e) {
-		 }
-		});	
+	 if(terminate){		 
+		 return;
+	 }
+	 if(!isTimeUp($test_duration.val()/2*1000)){
+		 sendPOSTReq();	
+		 responsePOSTTimeC = new Date();
+	 }else{
+		  sendGETReq();	
+			responseGETTimeC = new Date();
+	 }	 
+	 responseTimeC = new Date();
+	 var d1 = {
+		 "POST": Math.round((numOfReqest.POST/((responsePOSTTimeC-startTime)/1000))), 
+		 "GET": Math.round((numOfReqest.GET/((responseGETTimeC-startTime)/1000)))
+	 };
+	 updateRequestNumber('c',numOfReqest);
+	 updateRequestTime('c',d1);		
+	 if(!isTimeUp($test_duration.val()*1000)){
+		  setTimeout(startUseCase, 1);
+		}
+
+	
  }
 	
 	
@@ -75,11 +71,6 @@ $(function() {
 		 url: '/admin/end_testing',
 		 type: 'GET',
 		 success: function(data) {
-			 var d2 = {
-				 "POST": Math.round((numOfReqest.POST/((responsePOSTTimeS-startTime)/1000))), 
-				 "GET": Math.round((numOfReqest.GET/((responseGETTimeS-startTime)/2/1000)))
-			 };		 
-			 updateRequestTime('s',d2);	
 			  console.log("Test db has been dropped! Use Case Ends.");	
 		 },
 		 error: function(e) {
@@ -96,6 +87,7 @@ $(function() {
 		 success: function(data) {
 			 responseGETTimeS = new Date();
 			 $('#get_req_num_s').text(++numGET_s);
+			 $('#get_req_time_s').text(Math.round((numGET_s/((responseGETTimeS-startTime)/1000))));
 			 if(numGET_s == numOfReqest.GET){
 			 	endUseCase();
 			 }
@@ -118,6 +110,8 @@ $(function() {
 		 success: function(data) {	 
 			 responsePOSTTimeS = new Date();
 			 $('#post_req_num_s').text(++numPOST_s);
+			 $('#post_req_time_s').text(Math.round((numPOST_s/((responsePOSTTimeS-startTime)/1000))));
+			 
 		 },
 		 error: function(e) {
 		 }
@@ -149,7 +143,7 @@ $(function() {
 	responsePOSTTimeC = 0;
 	responseGETTimeS = 0; 
 	responsePOSTTimeS = 0;
-	test = true;
+	terminate = false;
 	updateRequestNumber('c',numOfReqest);
 	updateRequestNumber('s',numOfReqest);
 	updateRequestTime('c',numOfReqest);
@@ -171,13 +165,39 @@ $(function() {
 	});	
 
 
+
+
+	$('.add_room').on('click', function(){     //---------------------------for Group Chat Rm---------------------------
+    if($('.new_roomname_content').val() !== ''){
+      socket.emit('new room', {
+      	 chatauthor_id: current_user,
+	 roomname: $('.new_roomname_content').val(),
+      });
+	 	}
+    $('.new_roomname_content').val('');
+ });
+ 
+ 
+ socket.on('new room', function (data) {	//---------------------------for Group Chat Rm---------------------------
+   console.log(data.roomname);
+
+  		//$('#room_list').empty();
+   var room = data.roomname;
+  	$('#room_list').append(post);
+  	$('#room_list').show();
+
+ });
+ 
+ 
+
+
 	$('.post_announcement').on('click', function(){
 		console.log("Sending Ajax request to server...");
     if($('.new_announcement_content').val() !== ''){
     	console.log('emitting socket for annoucement...');
       socket.emit('new announcement', {
       	publisher_userid: current_user,
-			 	content: $('.new_announcement_content').val(),
+	content: $('.new_announcement_content').val(),
         createdAt: new Date()
       });
 	 	}
@@ -201,7 +221,100 @@ $(function() {
 	//handling user directoy display
 	 $('.user_directory').on('click', function(){
 		 getUserDirectory();
+		 getRoomDirectory();//---------------------------for Group Chat Rm---------------------------
 	 });
+	 
+	 
+	 function getRoomDirectory(){          //---------------------------for Group Chat Rm---------------------------
+		 console.log("Sending Ajax request to server...");	
+ 			$.ajax({
+ 			dataType: "json",
+ 		  	url: '/room',
+ 		  	type: 'GET',
+ 			data: {},
+ 		  	success: function(data) {
+ 					displayRoomDirectory(data);
+ 		  	},
+ 		  	error: function(e) {
+ 					//console.log(e.message);
+ 		  	}
+ 			});	
+	 }
+	 
+	 
+	 function displayRoomDirectory(rooms){	//---------------------------for Group Chat Rm---------------------------	 
+		// console.log(users.offline);
+		 $('#room_list').empty();
+		 var room_list = rooms.name;
+		 $.each(users_online, function(index, element) {
+			 var statusLogo = getUserStatus(element.status_id); 
+	 		 var item = "<a id =\""+index+"\" href=\"/chat/"+index+"\" style=\"color: #62615f;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+element.username+"</a>";
+		 		$('#user_list').append("<li id='targetName'>"+item+"</li>");	 		
+			});
+	 	 
+	 }
+	 
+
+	 function getGroupChatHistory(element){   //---------------------------for Group Chat Rm---------------------------	 
+		 console.log("Sending Ajax PrivChatHistory..."); 		 
+		 $.ajax({
+			 dataType: "json",
+			 url: '/groupchats',
+			 type: 'GET',
+			 data: {},
+			 success: function(data) {
+				 loadGroupChatHistory(data);
+			 },
+			 error: function(e) {
+			 }
+ 		});	
+	 }
+
+        
+ 
+	 
+ 	function loadGroupChatHistory(data){      //---------------------------for Group Chat Rm---------------------------
+ 	data.forEach(function(msg){
+ 		console.log("I am loading group chat history!");
+ 		console.log(msg);
+ 		var chatContent = "<blockquote><p><span class=\"chat_author\">"+msg.chatauthor+": </span>"+	
+ 						msg.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(msg.createdAt)+"</small></span></p></blockquote>";
+ 		var item = "<li id=\"group_messages_item\">"+chatContent+"</li>";
+ 		$('#groupMsgList').append(item);
+ 	});
+ 		scrollListBtm();		
+ }
+		 
+	 
+/*	 
+ function addGroupChatMessage (data) {
+  console.log('I am in addGroupChatMessage Function');
+  console.log(data); 
+	var chatContent = "<blockquote><p><span class=\"chat_author\">"+data.chatauthor+": </span>"+	
+							data.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(data.createdAt)+"</small></span></p></blockquote>";					
+	var item = "<li class=\"priv_messages_item\">"+chatContent+"</li>";
+	$('#privMsgList').append(item);
+	scrollListBtm();	
+	
+	//updating userdir with msg badge
+	var $badge = $("#"+data.chatauthor+" .badge");
+	if($("#"+data.chatauthor+" .badge").length > 0){
+		$("#"+data.chatauthor+" .badge").text(incrementNumMsg($("#"+data.chatauthor+" .badge")));
+	}else{
+		var msgNotification = "<span class=\"badge\">"+1+"</span>";
+		$("#"+data.chatauthor).append(msgNotification);			
+	}			
+}*/
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	 
 	 function retrieveLatestAnnouncement(){
   		$.ajax({
@@ -221,10 +334,10 @@ $(function() {
 	 function getUserDirectory(){
 		 console.log("Sending Ajax request to server...");	
  			$.ajax({
- 				dataType: "json",
+ 			dataType: "json",
  		  	url: '/users/online',
  		  	type: 'GET',
- 				data: {},
+ 			data: {},
  		  	success: function(data) {
  					displayUserDirectory(data);
  		  	},
@@ -233,6 +346,10 @@ $(function() {
  		  	}
  			});	
 	 }
+	 
+
+
+	
 	 
 	 
 	 function getChatHistory(){
@@ -285,6 +402,12 @@ $(function() {
 			$('#user_list').append("<li>"+item+"</li>");
 		});
 	 }
+	 
+	
+	 
+	 
+	 
+	 
  
 	 function getUserStatus(num){ 
 	      if(num===1){
@@ -399,6 +522,15 @@ $(function() {
 		$('#announcement').show();
 	
   });
+  
+  
+  
+  
+  
+  
+  
+  
+  
 	
 	
 	
@@ -508,6 +640,16 @@ $(function() {
 		    scrollTop: last_pri_li
 		  }, 1000);
 		}
+		
+		if($("#groupchat_messages #groupMsgList li").length > 0){
+			//var last_pri_li = $("#privMsgList li:last-child").offset().top; 
+			var last_pri_li = $("#groupMsgList")[0].scrollHeight;	
+			$("#group_messages").animate({
+		    scrollTop: last_pri_li
+		  }, 1000);
+		}
+
+		
 	}
    
 });

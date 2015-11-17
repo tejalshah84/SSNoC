@@ -1,6 +1,5 @@
 var Sequelize = require('sequelize');
 
-
 module.exports = function(sequelize){
 	var chathistory = sequelize.define('chathistory', {
 	  id:{
