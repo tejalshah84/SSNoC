@@ -20,6 +20,22 @@ $(function() {
 	var currentPersonCard = 1;
 	
 	// --------------- Iteration 4 -----------------------//
+	
+	
+	$('.find_person').on('click', function(){
+		console.log('current person# '+currentPersonCard);
+ 	 $.ajax({
+ 		 url: '/missing/'+currentPersonCard+'/found',
+ 		 type: 'GET',
+ 		 success: function(data) { 
+ 			  console.log("Person is found.");	
+				$('#citizenFoundModal').modal('hide');
+ 		 },
+ 		 error: function(e) {
+ 		 }
+ 		});	
+	});
+	
 	$('.modal').on('shown.bs.modal', function() {
 	  //Make sure the modal and backdrop are siblings (changes the DOM)
 	  $(this).before($('.modal-backdrop'));
@@ -40,6 +56,36 @@ $(function() {
 			$('.card-'+currentPersonCard).addClass('current');
 		}
 	});
+	
+	
+	$(".buddy").swipe(function( direction, offset ) {
+	  console.log( "Moving", direction.x);
+	  console.log( "Touch moved by", offset.x, "horizontally ");
+		
+		if (offset.x < 150) { return; }
+		if (direction.x == "right") { 
+			$('.card-'+currentPersonCard).addClass('rotate-left').delay(700).fadeOut(1);
+			$('.card-'+currentPersonCard).removeClass('current');
+		
+    
+			if ( $('.card-'+currentPersonCard).is(':first-child') ) {
+				currentPersonCard = 1;
+				$('.card-'+(currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(300);
+				$('.card-'+currentPersonCard).addClass('current');
+			}else{
+				$('.card-'+(++currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(400);
+				$('.card-'+currentPersonCard).addClass('current');
+			}    
+		}
+		if (direction.x == "left") { 
+		
+		} 
+		
+		
+		
+		
+	});
+	
 	
 	$(".buddy").on("swiperight",function(){
 	      $(this).addClass('rotate-left').delay(700).fadeOut(1);

@@ -53,6 +53,7 @@ router.get('/new',ifSignIn, function(req, res) {
 
 //get message
 router.get('/:id/found', function(req, res) {
+	console.log("people# "+req.params.id);
 	models.missingperson.findOne({
 		where:{
 			id: req.params.id
