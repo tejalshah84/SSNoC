@@ -37,9 +37,6 @@ function getInventory(){
 
 function displayInventory(cattype, reserve){
 
-	console.log('displayInventory');
-	console.log(cattype);
-	console.log(reserve);
 
 	$.each(cattype, function(index, element){
 
