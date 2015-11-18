@@ -5,8 +5,8 @@
 
     <div class="navbar-header">
       	<a class="navbar-brand" href="/community" aria-hidden="true" style="float:left;"><span class="glyphicon glyphicon-home"></span></a>
-        <span stye="position:center;">Resource Inventory</span>
-        <a class="navbar-brand" href="/resourcedonation" aria-hidden="true" style="float:right;"><span class="glyphicon glyphicon-plus"></span></a>		
+        <span stye="position:center;">My Requests</span>
+        <a class="navbar-brand" href="/addrequest" aria-hidden="true" style="float:right;"><span class="glyphicon glyphicon-plus"></span></a>		
       
     </div>
 			
@@ -25,18 +25,19 @@
 
 
 
-<div id="resource-inventory" style="padding: 15px;">
+<div class="request-list" style="padding: 15px;">
 
 	
 	<div class="medical-box">
 		<h4><span class="glyphicon glyphicon-briefcase"></span> Medical Supplies </h3>
 		<div>
-			<table id="medical-inventory">
+			<table class="medical-requests">
 			<tr>
-			<th>Resource Type</th>
-			<th>Quantity Available</th>
-			<th>Quanity Reserved</th>
-			<th>Units</th>
+			<th>Picked Up</th>
+			<th>Resource Requested</th>
+			<th>Quantity Requested (Units)</th>
+			<th>Request Date</th>
+			<th>Picked Up Date</th>
 			</tr>
 			</table>
 		</div>
@@ -45,12 +46,13 @@
 	<div class="food-box">
 		<h4><span class="glyphicon glyphicon-apple"></span> Food Supplies </h3>
 		</div>
-		<table id="food-inventory">
+		<table class="food-requests">
 			<tr>
-			<th>Resource Type</th>
-			<th>Quantity Available</th>
-			<th>Quanity Reserved</th>
-			<th>Units</th>
+			<th>Picked Up</th>
+			<th>Resource Requested</th>
+			<th>Quantity Requested (Units)</th>
+			<th>Request Date</th>
+			<th>Picked Up Date</th>
 			</tr>
 		</table>
 		</div>

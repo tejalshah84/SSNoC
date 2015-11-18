@@ -24,6 +24,9 @@ $(function() {
 	var responseGETTimeC,responsePOSTTimeC, responseGETTimeS, responsePOSTTimeS;
 	var test = true;
 
+	localStorage.setItem('userinfo', $('#user').text());
+	localStorage.setItem('userrole', $('#role').text());
+
 
  $('#start_testing').on('click', function(){
 	 console.log("Sending Ajax Start Testing...");	 

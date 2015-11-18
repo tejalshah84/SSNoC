@@ -5,8 +5,7 @@
 
     <div class="navbar-header">
       	<a class="navbar-brand" href="/community" aria-hidden="true" style="float:left;"><span class="glyphicon glyphicon-home"></span></a>
-        <span stye="position:center;">Resource Inventory</span>
-        <a class="navbar-brand" href="/resourcedonation" aria-hidden="true" style="float:right;"><span class="glyphicon glyphicon-plus"></span></a>		
+        <span stye="position:center;">Reserved Resources</span>		
       
     </div>
 			
@@ -25,18 +24,19 @@
 
 
 
-<div id="resource-inventory" style="padding: 15px;">
-
+<div class="request-list" style="padding: 15px;">
+	<p class="err-msg" style="color:red;"></p>
 	
 	<div class="medical-box">
 		<h4><span class="glyphicon glyphicon-briefcase"></span> Medical Supplies </h3>
 		<div>
-			<table id="medical-inventory">
+			<table class="medical-requests">
 			<tr>
-			<th>Resource Type</th>
-			<th>Quantity Available</th>
-			<th>Quanity Reserved</th>
-			<th>Units</th>
+			<th></th>
+			<th>Resource Requested</th>
+			<th>Quantity Requested (Units)</th>
+			<th>Requested By</th>
+			<th>Request Date</th>
 			</tr>
 			</table>
 		</div>
@@ -45,15 +45,22 @@
 	<div class="food-box">
 		<h4><span class="glyphicon glyphicon-apple"></span> Food Supplies </h3>
 		</div>
-		<table id="food-inventory">
+		<table class="food-requests">
 			<tr>
-			<th>Resource Type</th>
-			<th>Quantity Available</th>
-			<th>Quanity Reserved</th>
-			<th>Units</th>
+			<th></th>
+			<th>Resource Requested</th>
+			<th>Quantity Requested (Units)</th>
+			<th>Requested By</th>
+			<th>Request Date</th>
 			</tr>
 		</table>
 		</div>
+	</div>
+
+	<div>
+	</br>
+	<input id="req-picked" type="submit" value="Mark as Picked" onclick="picked()";/>
+	<input id="req-cancelled" type="submit" value="Cancel Requests" onclick="cancelled()";/>
 	</div>
 
 </div> 

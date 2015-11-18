@@ -23,6 +23,7 @@ module.exports = function(app){
 	var test_messagesController = require('./test_messagesController');
 	var usersController = require('./usersController');
 	var resourcesController = require('./resourcesController');
+	var requestsController = require('./requestsController');
 	
  // var registeredDevicesController = require('./registeredDevicesController')(app.io);
 
@@ -35,6 +36,7 @@ module.exports = function(app){
 	router.use('/test_messages', test_messagesController);	
 	router.use('/users', usersController);
 	router.use('/resources', resourcesController);
+	router.use('/requests', requestsController);
 	
 	// ROUTING
   app.use(router);

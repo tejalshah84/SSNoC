@@ -17,9 +17,17 @@
       <a class="navbar-brand" href="/searchpage" id="search-page" aria-hidden="true">
         <span  class="glyphicon glyphicon-search"></span>
       </a>
-
-      <a class="navbar-brand" href="/resources/resourcepage" id="search-page" aria-hidden="true">
+      <% if (user.roleid === 3) { %>
+      <a class="navbar-brand" href="/resourcepage" id="search-page" aria-hidden="true">
         <span  class="glyphicon glyphicon-briefcase"></span>
+      </a>
+
+      <a class="navbar-brand" href="/requestapproval" id="search-page" aria-hidden="true">
+        <span  class="glyphicon glyphicon-check"></span>
+      </a>
+      <% }%>
+      <a class="navbar-brand" href="/myrequestpage" id="search-page" aria-hidden="true">
+        <span  class="glyphicon glyphicon-shopping-cart"></span>
       </a>
     </div>
 	

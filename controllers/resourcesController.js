@@ -5,16 +5,6 @@ var sequelize = require('.././sequelize');
 var models = require('.././models');
 
 
-var ifSignIn = function (req, res, next) {
-	if (req.session && req.session.user) { 
-		console.log('~~~~~~~~~~~~~~~ Session exist!!!');
-		next();
-	}else{
-		res.redirect('/signin');
-	}  
-}
-
-
 router.get('/', function(req, res) {
 	models.resourcecategory.findAll({
 		attributes: ['id', 'cat_description'],
@@ -25,19 +15,6 @@ router.get('/', function(req, res) {
 	});
 });
 
-router.get('/resourcepage', ifSignIn, function(req, res) {
-
-	res.render('resourcepage',{
-		user: req.session.user
-	  });	
-});
-
-router.get('/resourcedonation', ifSignIn, function(req, res) {
-	console.log('@@@@@@@@@@ResourceDonation');
-		res.render('resourcedonation',{
-		user: req.session.user
-	  	});	
-});
 
 router.get('/categories', function(req, res) {
 	models.resourcecategory.findAll({
@@ -120,29 +97,6 @@ router.post('/adddonation', function(req,res){
 
 });
 
-
-router.get('/allrequests', function(req, res) {
-	models.resourcerequest.findAll({
-		where: {
-			pickedup_ind: 'N'
-		},
-		order: 'requested_date DESC'
-	}).then(function (requests) {
-		  res.json(requests);
-	});
-});
-
-
-router.get('/myrequests/:id', function(req, res) {
-	models.resourcerequest.findAll({
-		where: {
-			requested_by_id: req.params.id
-		},
-		order: 'requested_date DESC'
-	}).then(function (requests) {
-		  res.json(requests);
-	});
-});
 
 
 router.get('/:id', function(req, res) {

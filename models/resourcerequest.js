@@ -50,8 +50,8 @@ module.exports = function(sequelize){
 		classMethods:{
 			associate: function(models){
 				resourcerequest.belongsTo(models.resourcetype, {foreignKey: 'resource_type_id', targetKey: 'id'});
-				resourcerequest.belongsTo(models.user, {foreignKey: 'requested_by_id', targetKey: 'id'});
-				resourcerequest.belongsTo(models.user, {foreignKey: 'requested_by_id', targetKey: 'id'});
+				resourcerequest.belongsTo(models.user, {as: 'requestby', foreignKey: 'requested_by_id', targetKey: 'id'});
+				resourcerequest.belongsTo(models.user, {as: 'pickupfrom', foreignKey: 'pickedup_from_id', targetKey: 'id'});
 			}
 		},
 		instanceMethods: {

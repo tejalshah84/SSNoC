@@ -176,7 +176,43 @@ router.get('/searchpage', ifSignIn, function(req, res) {
 	  });	
 });
 
+router.get('/resourcepage', ifSignIn, function(req, res) {
 
+	res.render('resourcepage',{
+		user: req.session.user
+	  });	
+});
+
+router.get('/resourcedonation', ifSignIn, function(req, res) {
+		res.render('resourcedonation',{
+		user: req.session.user
+	  	});	
+});
+
+router.get('/myrequestpage', ifSignIn, function(req, res){
+	
+	res.render('myrequestpage',{
+		user: req.session.user,
+	  });
+
+});
+
+router.get('/addrequest', ifSignIn, function(req, res){
+	
+	res.render('requestresource',{
+		user: req.session.user,
+		error: ""
+	  });
+
+});
+
+router.get('/requestapproval', ifSignIn, function(req, res){
+	
+	res.render('requestapproval',{
+		user: req.session.user
+	  });
+
+});
 
 
 function goOnline(user){
