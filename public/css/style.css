@@ -1,0 +1,89 @@
+body{padding-top:20px;}
+
+html, body{
+	/*width: 100%;
+	height: 100%;	*/
+	margin: 0;
+	padding: 0;
+  font-family: sans-serif;
+	max-width: 100%;
+	    overflow-x: hidden;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.clr{
+	clear:both;
+	width:100%;
+}
+
+#user_list{
+	list-style-type:none;
+}
+#user_list li{
+	text-indent: 0px;
+}
+/*
+.well{ 
+	position: fixed; 
+	width: 85%;
+	left: 4%;
+	transform: translate(-10%, 0);
+	bottom:0%;
+	margin-bottom: 10px; 
+}
+.messages{
+	margin-bottom: 180px;
+}*/
+
+.status_list li{
+	text-indent: 0px; 
+}
+.status_list li>a{
+	text-align: center;
+}
+.status_list li>a:hover{
+	color:#000 !important;
+}
+
+.ok{
+	color:green !important;
+}
+.messages_item{
+	background: #eee;
+}
+.chat_author{
+	padding-right:10px;
+	font-weight:bold;
+}
+
+.chat_timestamp{
+	float:right;
+}
+.badge{
+	margin-left:10px;
+}
+.flexContainer {
+    display: flex;
+}
+#searchText {
+    flex: 1;
+}
+
+.searchlist_item {
+	padding: 10px; 
+	-webkit-box-shadow: 1px 1px 5px 0px rgba(204,204,204,1); 
+	-moz-box-shadow: 1px 1px 5px 0px rgba(204,204,204,1); 
+	box-shadow: 1px 1px 5px 0px rgba(204,204,204,1);
+	border: 1px solid green;
+}
+.srch_username {
+	float: left;
+}
+.navbar-header{
+	white-space: nowrap;
+	 width: 100 px;
+	 height: 5 px;
+}
