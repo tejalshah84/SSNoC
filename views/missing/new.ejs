@@ -2,7 +2,7 @@
 <div class="clr" style="height:60px;"></div> 
 <h3>New Missing Person</h3>
 <div class="clr" style="height:20px;"></div> 
-<form class="form-horizontal" action="/missing" method="post">
+<form id="new_missing_person" class="form-horizontal" action="/missing" method="post" enctype='multipart/form-data'>
 	<div style="text-align:center;">
 		<a data-toggle="modal" data-target="#citizenMissingModal">
 			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> 
@@ -14,7 +14,7 @@
     <label class="col-xs-3 control-label">Picture</label>
 		<div class="col-xs-9">
     	<div class="" style="background-color: #666; min-height:100px;">
-    		<input type="file" name="">
+    		<input type="file" name='file' placeholder="Select file"/>
     	</div>
 		</div>
   </div>
@@ -57,7 +57,7 @@
   <div class="form-group">
     <label class="col-xs-3 control-label">Last Seen</label>
 		<div class="col-xs-9">
-    	<input type="text" class="form-control" placeholder="Last Seen" name="lastseen">
+    	<input type="datetime" class="form-control" placeholder="Last Seen" name="lastseen"  value="2015-11-06T10:57Z">
 		</div>
   </div>
   <div class="form-group">

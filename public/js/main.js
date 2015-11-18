@@ -17,24 +17,84 @@ $(function() {
 	
 	
 	
-	var currentPersonCard = 1;
+	
 	
 	// --------------- Iteration 4 -----------------------//
 	
 	
-	$('.find_person').on('click', function(){
-		console.log('current person# '+currentPersonCard);
- 	 $.ajax({
- 		 url: '/missing/'+currentPersonCard+'/found',
- 		 type: 'GET',
- 		 success: function(data) { 
- 			  console.log("Person is found.");	
-				$('#citizenFoundModal').modal('hide');
- 		 },
- 		 error: function(e) {
- 		 }
- 		});	
+	// this is the id of the form
+	$('.find_person').on('click', function() {
+		
+		$.ajax({
+		  url: '/missing/'+currentPersonCard+'/found',
+		  type: 'POST',
+			data: {
+				note: 'xxx',
+				lastseen: $('#found_report_lastseen').val(),
+				location: $('#found_report_location').val()
+			},
+		  success: function(data) {
+				console.log("#####");
+				console.log(data);
+				var chatmsg = "Hey, I found "+data.person.firstname+" around "+$('#found_report_lastseen').val()+" at "+$('#found_report_location').val();
+				var data = {"id": data.id, "reporter_userid": data.reporter_userid, "founder": data.founder, "chatmessage": chatmsg};
+				emitPushNotification(data);
+			 var re = new RegExp(/^.*\//);
+			 var redirect = re.exec(window.location.href);
+			 window.location.replace(redirect+"deck");
+		  },
+		  error: function(e) {
+			//console.log(e.message);
+		  }
+		});	
+	   
+
+	  
 	});
+	
+	$('.file_found_report').on('click', function(){
+  	 $.ajax({
+  		 url: '/missing/'+currentPersonCard,
+  		 type: 'GET',
+  		 success: function(data) { 
+  			  console.log("Person is found.");	
+					displayPersonReport(data);
+  		 },
+  		 error: function(e) {
+  		 }
+  		});	
+	});
+	function displayPersonReport(person){
+		$('.report_pname').text(person.firstname+" "+person.lastname);
+		$('.report_page').text(person.age);
+		$('.report_plocation').text(person.location);
+		$('.report_plastseen').text(person.lastseen);
+		$('.report_pimage').attr("src", "/uploads/"+person.picture);
+	}
+	
+	function emitPushNotification(data){
+		socket.emit('push notification', data);	
+	}
+	
+	$('.btn-emit-push-notification').on('click', function(){
+		var data = {"id": 2, "reporter_userid": 'EileenW' };
+		emitPushNotification(data);
+	});
+	
+
+	
+  socket.on('new notification', function (data) {
+    console.log("new notification need to be appended!");
+		
+	 var re = new RegExp(/^.*\//);
+	 var redirect = re.exec(window.location.href);
+	 var content = data.chatauthor+" has found the person that you're looking for! "+'<a href=\'/chat/'+data.chatauthor+'\'> See more! </a>';
+	 var view = "<div class=\"alert alert-warning alert-dismissible\" role=\"alert\" style=\"top:0; position:absolute;z-index:1000000;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong class=\"notification_content\">"+content+"</strong></div>";
+		$('#push_notification').append(view);
+		
+		
+  });
+	
 	
 	$('.modal').on('shown.bs.modal', function() {
 	  //Make sure the modal and backdrop are siblings (changes the DOM)
@@ -43,70 +103,8 @@ $(function() {
 	  $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
 	});
 	
-	$('.btn-pass').on('click', function(){
-		$('.card-'+currentPersonCard).addClass('rotate-left').delay(700).fadeOut(1);
-		$('.card-'+currentPersonCard).removeClass('current');
-    
-		if ( $('.card-'+currentPersonCard).is(':first-child') ) {
-			currentPersonCard = 1;
-			$('.card-'+(currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(300);
-			$('.card-'+currentPersonCard).addClass('current');
-		}else{
-			$('.card-'+(++currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(400);
-			$('.card-'+currentPersonCard).addClass('current');
-		}
-	});
 	
 	
-	$(".buddy").swipe(function( direction, offset ) {
-	  console.log( "Moving", direction.x);
-	  console.log( "Touch moved by", offset.x, "horizontally ");
-		
-		if (offset.x < 150) { return; }
-		if (direction.x == "right") { 
-			$('.card-'+currentPersonCard).addClass('rotate-left').delay(700).fadeOut(1);
-			$('.card-'+currentPersonCard).removeClass('current');
-		
-    
-			if ( $('.card-'+currentPersonCard).is(':first-child') ) {
-				currentPersonCard = 1;
-				$('.card-'+(currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(300);
-				$('.card-'+currentPersonCard).addClass('current');
-			}else{
-				$('.card-'+(++currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(400);
-				$('.card-'+currentPersonCard).addClass('current');
-			}    
-		}
-		if (direction.x == "left") { 
-		
-		} 
-		
-		
-		
-		
-	});
-	
-	
-	$(".buddy").on("swiperight",function(){
-	      $(this).addClass('rotate-left').delay(700).fadeOut(1);
-	      
-	      if ( $(this).is(':last-child') ) {
-	        $('.buddy:nth-child(1)').removeClass ('rotate-left rotate-right').fadeIn(300);
-	       } else {
-	          $(this).next().removeClass('rotate-left rotate-right').fadeIn(400);
-	       }
-	 });  
-
-	   $(".buddy").on("swipeleft",function(){
-	    $(this).addClass('rotate-right').delay(700).fadeOut(1);
-	   
-	    if ( $(this).is(':last-child') ) {
-	     $('.buddy:nth-child(1)').removeClass ('rotate-left rotate-right').fadeIn(300);
-	      alert('Na-na!');
-	     } else {
-	        $(this).next().removeClass('rotate-left rotate-right').fadeIn(400);
-	    } 
-	  });
 	
 	
 	
@@ -291,6 +289,9 @@ $(function() {
 	
 	
 	$(window).load(function() {
+		if($('#push_notification').length > 0){
+			$('#push_notification').fadeIn('slow');
+		}
 		if($("#public_messages").length > 0){
 			getChatHistory();
 		}

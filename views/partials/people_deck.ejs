@@ -1,14 +1,20 @@
+<div id="card-deck">
 <% missingPeople.forEach(function(person){ %>
 	<% if( person.id == 1){%>
     <div class="buddy card-<%= person.id%> current" style="display: block;">
 	<% }else{%>
 		 <div class="buddy card-<%= person.id%>" style="display: block;">
 	<% }%>
+			<p hidden class="missingPeopleId"><%=person.id %></p>
 			<div class="avatar"  style="display: block;">
 				<div class="missing_people_deck_<%= person.id%>" style="display: block;">
-						<div class="col-xs-6"><div class="photo" style="background-color: #666; "></div></div>
+						<div class="col-xs-6"><div class="photo" style="max-height:160px;background:#fff;">
+							<img src="/uploads/<%= person.picture%>" alt="Mountain View" style="max-width:100%;
+max-height:100%;"/>
+						</div>
+					</div>
 						<div class="col-xs-6">
-							<p hidden class="missingPeopleId"><%=person.id %></p>
+							
 							<p><strong><%= person.firstname%> <%= person.lastname%></strong></p>
 							<p><strong><%= person.age%> Years Old</strong></p>
 							<p><strong><%= person.height%> CM</strong></p>
@@ -37,6 +43,6 @@
 			</div>
 		</div>
 <% }); %> 
-
+</div>
     
 		<% include .././missing/citizenFound %> 

@@ -74,6 +74,31 @@ io.on('connection', function(socket){
        		});   	
     	
     });
+		
+		
+    socket.on('push notification',function(data){
+			console.log("Received push notification request!");
+			console.log(data);
+    	date = new Date();
+			console.log(onlineUsers.getOnlineUsers());
+			
+			
+    	models.privatechathistory.create({ 
+          	chatauthor: data.founder,
+          	chattarget: data.reporter_userid,
+          	chatmessage: data.chatmessage, 
+            timestamp: date
+       		}).then(function() {
+						io.sockets.to([onlineUsers.getOnlineUsers()[data.reporter_userid]['socket_id']]).emit('new notification', {
+							chatauthor: data.founder,
+							chatauthor_id: 3
+						});
+       		});   	
+					
+			
+			
+    	
+    });
   
   
   

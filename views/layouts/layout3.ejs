@@ -15,11 +15,15 @@
     <link href="../css/style.css" rel="stylesheet">
 		<link href="../css/missingPeople.css" rel="stylesheet">
 		
-
+		<script>
+		var currentPersonCard = 1;
+		var lastPersonCard;
+		var firstPersonCard;
+		</script>
   </head>
 
   <body>
-
+		<% include .././partials/push_notification%>
     <!--wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
@@ -45,6 +49,7 @@
     <script src="../js/utility.js"></script>
 		<script src="../js/swipe.js"></script>
 		<script src="../js/main.js"></script>
+		<script src="../js/swipeevent.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
 		
 	<!--	  <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
