@@ -28,9 +28,9 @@ router.get('/start_testing', function(req, res) {
 		console.log("start test...");
 		measurePerformance.restart();
 		measurePerformance.startTest();
-		models.chathistory_test.dropdb(models.chathistory_test.chathistory, function(){
+//		models.chathistory_test.dropdb(models.chathistory_test.chathistory, function(){
 			res.sendStatus(200);
-		});
+//		});
 });
 
 router.get('/end_testing', function(req, res) {

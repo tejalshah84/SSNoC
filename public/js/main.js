@@ -61,7 +61,7 @@ $(function() {
 	 responseTimeC = new Date();
 	 var d1 = {
 		 "POST": 0, 
-		 "GET": Math.round((numOfReqest.GET/((responseGETTimeC-startTime)/1000)))
+		 "GET": (numOfReqest.GET/((responseGETTimeC-startTime)/1000))
 	 };
 //	 updateRequestNumber('c',numOfReqest);
 //	 updateRequestTime('c',d1);		
@@ -79,7 +79,7 @@ $(function() {
 	 responsePOSTTimeC = new Date();
 	 responseTimeC = new Date();
 	 var d1 = {
-		 "POST": Math.round((numOfReqest.POST/((responsePOSTTimeC-startTime)/1000))), 
+		 "POST": (numOfReqest.POST/((responsePOSTTimeC-startTime)/1000)), 
 		 "GET": 0
 	 };
 //	 updateRequestNumber('c',numOfReqest);
@@ -113,7 +113,7 @@ $(function() {
 		 success: function(data) {
 			 responseGETTimeS = new Date();
 			 $('#get_req_num_s').text(++numGET_s);
-			 $('#get_req_time_s').text(Math.round((numGET_s/((responseGETTimeS-startTime)/1000))));
+			 $('#get_req_time_s').text((numGET_s/((responseGETTimeS-startTime)/1000)));
 			 if(numGET_s == numOfReqest.GET){
 				// endUseCase();
 				 
@@ -137,7 +137,7 @@ $(function() {
 		 success: function(data) {	 
 			 responsePOSTTimeS = new Date();
 			 $('#post_req_num_s').text(++numPOST_s);
-			 $('#post_req_time_s').text(Math.round((numPOST_s/((responsePOSTTimeS-startTime)/1000))));
+			 $('#post_req_time_s').text((numPOST_s/((responsePOSTTimeS-startTime)/1000)));
 		 },
 		 error: function(e) {
 		 }
