@@ -23,11 +23,13 @@ module.exports = function(app){
 	var test_messagesController = require('./test_messagesController');
 	var usersController = require('./usersController');
 	var missingPeopleController = require('./missingPeopleController');
+	var apiController = require('./apiController');
 	
- // var registeredDevicesController = require('./registeredDevicesController')(app.io);
 
-  router.use('/', joinCommunityController);
-  router.use('/admin', adminController);
+  
+	router.use('/', joinCommunityController);
+  router.use('/api', apiController);
+	router.use('/admin', adminController);
   router.use('/announcements', announcementsController);
   router.use('/messages', messagesController);
   router.use('/privatechats', privatechatsController);
@@ -35,6 +37,7 @@ module.exports = function(app){
 	router.use('/test_messages', test_messagesController);	
 	router.use('/users', usersController);
 	router.use('/missing', missingPeopleController);
+	
 	
 	// ROUTING
   app.use(router);

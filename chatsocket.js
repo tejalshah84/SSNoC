@@ -6,7 +6,7 @@ var models = require('./models');
 
 var privateRooms = {};
 var socket_server = "";
-
+var create = require('./util/createUtil.js');
 
 
 module.exports = function(io) {
@@ -100,13 +100,23 @@ io.on('connection', function(socket){
     	
     });
   
-  
+	
+		//done
+	  socket.on('new announcement', function(data) {
+			create.createAnnouncement(data, function(){
+				io.sockets.emit('new annoucement', {
+	   			publisher_username: data.publisher_userid,
+	   			content: data.content,
+					createdAt: data.createdAt
+				});	
+			});
+	   });
   
 
   
-   socket.on('new announcement', function(data) {
+/*   socket.on('new announcement', function(data) {
    		models.announcement.create({ 
-   			publisher_username: data.publisher_username,
+   			publisher_useid: data.publisher_userid,
    			content: data.content,
 			createdAt: data.createdAt
    		}).then(function() {
@@ -116,7 +126,7 @@ io.on('connection', function(socket){
 				createdAt: data.createdAt
 			});
    		});
-   });
+   });*/
 	 
 	 
     socket.on('new message', function(data) {

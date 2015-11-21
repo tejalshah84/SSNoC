@@ -278,7 +278,7 @@ $(function() {
     if($('.new_announcement_content').val() !== ''){
     	console.log('emitting socket for annoucement...');
       socket.emit('new announcement', {
-      	publisher_username: current_user,
+      	publisher_userid: current_user,
 			 	content: $('.new_announcement_content').val(),
         createdAt: new Date()
       });
@@ -313,7 +313,7 @@ $(function() {
 	 function retrieveLatestAnnouncement(){
   		$.ajax({
   			dataType: "json",
-  		  url: '/announcements/latest',
+  		  url: '/api/messages/announcement/latest',
   		  type: 'GET',
   			data: {},
   		  success: function(data) {
@@ -330,7 +330,7 @@ $(function() {
 		 console.log("Sending Ajax request to server...");	
  			$.ajax({
  				dataType: "json",
- 		  	url: '/users/online',
+ 		  	url: '/api/users/online',
  		  	type: 'GET',
  				data: {},
  		  	success: function(data) {
