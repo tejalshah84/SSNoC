@@ -17,18 +17,21 @@
       <a class="navbar-brand" href="/searchpage" id="search-page" aria-hidden="true">
         <span  class="glyphicon glyphicon-search"></span>
       </a>
-      <% if (user.roleid === 3) { %>
-      <a class="navbar-brand" href="/resourcepage" id="search-page" aria-hidden="true">
+
+      <a class="navbar-brand" href="/myrequestpage" id="search-page" aria-hidden="true" title="My Requests">
+        <span  class="glyphicon glyphicon-shopping-cart"></span>
+      </a>
+      
+      <% if (user.roleid === 1) { %>
+      <a class="navbar-brand" href="/resourcepage" id="search-page" aria-hidden="true" title="Resource Inventory">
         <span  class="glyphicon glyphicon-briefcase"></span>
       </a>
 
-      <a class="navbar-brand" href="/requestapproval" id="search-page" aria-hidden="true">
+      <a class="navbar-brand" href="/requestapproval" id="search-page" aria-hidden="true" title="Requests Pending Pickup">
         <span  class="glyphicon glyphicon-check"></span>
       </a>
       <% }%>
-      <a class="navbar-brand" href="/myrequestpage" id="search-page" aria-hidden="true">
-        <span  class="glyphicon glyphicon-shopping-cart"></span>
-      </a>
+      
     </div>
 	
 			

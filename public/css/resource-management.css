@@ -1,0 +1,82 @@
+html, body{
+	height: 100%;
+}
+
+.addResource{
+	float: left;
+	padding: 5px; 
+	margin: 10px 0; 
+	color: white; 
+	background: #007AFF; 
+	border-radius: 4px;
+	font-weight: bold;
+}
+
+.addResource a{
+	color: white;
+}
+
+.addResource a:hover{
+	text-decoration: none;
+}
+
+.medical-box, .food-requests{
+	margin-bottom: 20px;
+}
+
+table{
+	border: 1px solid #607579;
+}
+
+table, td, th {
+    padding: 5px 10px;
+}
+
+th {
+    background-color: #607579;
+    color: white;
+}
+
+tr:nth-child(even) {background: #DCD8D5}
+tr:nth-child(odd) {background: #FFF}
+
+.main-content{
+	flex: 1;
+	padding: 0 15px;
+}
+
+.footer{
+    height: 50px;
+    padding: 10px;
+    text-align: center;
+    background: #f8f8f8;
+}
+
+.footer input{
+	background-color: #007AFF;
+    padding: 5px 10px;
+    border: 0;
+    border-radius: 4px;
+    color: white;
+
+}
+
+label {
+	width: 150px;
+}
+
+.qty-avail{
+    height: 34px;
+    margin-bottom: 10px;
+    padding: 7px 0px;
+}
+
+.qty{
+	height: 34px;
+}
+
+.qty input{
+	width: 200px;
+    height: 34px;
+    border: 1px solid #ccc;
+}

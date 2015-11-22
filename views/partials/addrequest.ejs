@@ -1,34 +1,24 @@
 <!--Navbar -->
 <nav class="navbar navbar-default " style="margin-bottom: 0px;border-color: #f8f8f8;">
-  <div class="container-fluid">
-   
-
-    <div class="navbar-header">
-      	<a class="navbar-brand" href="/myrequestpage" aria-hidden="t/rue" style="float:left;"><span class="glyphicon glyphicon-chevron-left"></span></a>	
-      	<h4>Request Form</h4>
-      
-    </div>
-			
-			
+<div class="container-fluid" style="width: 100%;">
+    <div class="navbar-header" style="width: 100%;">
+    	<div style="float:left; width: 50px;">
+    		<a class="navbar-brand" href="/myrequestpage" aria-hidden="true"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    	</div>
+      	<div style="float:left; width: calc(100% - 100px); text-align: center;">
+      		<p style="font-size: 20px; font-weight: bold; margin:0; padding: 11px 0;">Request Form</p>
+      	</div>
+      	<div style="clear: both"></div>
+    </div>		
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-right" id="top_menu_dropdown">
-
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav><!--/Navbar-->
-
-<div style="clear: both"></div>
-<div id="announcement" class="alert alert-info" role="alert">
-	<span id="new_announce_post"><strong></strong></span> 
-</div>
-
-
-
-<div id="request-form" style="padding: 15px;">
+<div id="request-form" class="main-content">
 
 <p class="err-msg" style="color:red;"><%=error %></p>
-	
-	<form action="/requests/addrequest" method="post">
+	<form id="addRequest" action="/requests/addrequest" method="post">
 		<fieldset>
 		<div class="resource-cat" style="">
 			<label>Resource Category:</label>
@@ -57,9 +47,9 @@
 		</div>	
 
 		<input hidden id="requser" name="requser"/>
-		<input id="add-request" type="submit" value="Submit Request" onclick="return validateRequest()";/>
-		
 	   </fieldset>
 	</form>
-	
 </div> 
+<div class="footer">
+	<input id="add-donation" type="submit" form="addRequest" value="Submit" onclick="return validateRequest()";/>
+</div>

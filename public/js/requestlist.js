@@ -61,8 +61,8 @@ function makeRequestRows(element){
 		console.log(picked);
 		var resrcType = "<td> " + element.resourcetype.type_description + " </td>";
 		var quantreq = "<td> " + element.quantity_requested + " (" + element.resourcetype.units + ") </td>";
-		var reqdate = element.requested_date ? "<td> " + element.requested_date + " </td>" : "<td></td>";
-		var pickdate = element.pickedup_date ? "<td> " + element.pickedup_date + " </td>" : "<td></td>";
+		var reqdate = element.requested_date ? "<td> " + dateForamt(element.requested_date) + " </td>" : "<td></td>";
+		var pickdate = element.pickedup_date ? "<td> " + dateForamt(element.pickedup_date) + " </td>" : "<td></td>";
 
 		console.log(reqdate);
 		console.log(pickdate);
@@ -74,6 +74,13 @@ function makeRequestRows(element){
 } 
 
 
+function dateForamt(date){
+		var d = new Date(date);
+    var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var date = d.getDate() + " " + month[d.getMonth()] + ", " +  d.getFullYear();
+    var time = d.toLocaleTimeString().toLowerCase();
+    return (date + " at " + time); 
+}
 
 
 

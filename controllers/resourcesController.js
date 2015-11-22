@@ -93,6 +93,8 @@ router.post('/adddonation', function(req,res){
 	  			});	
 			})
 		}
+	}).catch(function(err){
+		console.log('error testing');
 	})
 
 });

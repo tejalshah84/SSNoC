@@ -59,7 +59,7 @@ function makeAllRequestRows(element){
 		var resrcType = "<td> " + element.resourcetype.type_description + " </td>";
 		var quantreq = "<td> " + element.quantity_requested + " (" + element.resourcetype.units + ") </td>";
 		var reqby = "<td value=\""+ element.requestby.id + "\"> " + element.requestby.username + " </td>";
-		var reqdate = element.requested_date ? "<td> " + element.requested_date + " </td>" : "<td></td>";
+		var reqdate = element.requested_date ? "<td> " + dateForamt(element.requested_date) + " </td>" : "<td></td>";
 		var cancel = "<td> </td>";
 
 
@@ -69,6 +69,14 @@ function makeAllRequestRows(element){
 
 	return row;
 } 
+
+function dateForamt(date){
+		var d = new Date(date);
+    var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var date = d.getDate() + " " + month[d.getMonth()] + ", " +  d.getFullYear();
+    var time = d.toLocaleTimeString().toLowerCase();
+    return (date + " at " + time); 
+}
 
 
 })

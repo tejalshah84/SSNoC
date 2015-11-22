@@ -10,6 +10,7 @@
 
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/resource-management.css" rel="stylesheet">
     
     <!-- Custom CSS -->
     <link href="../css/style.css" rel="stylesheet">
@@ -21,24 +22,15 @@
 
   <body>
 
-    <!--wrapper -->
-    <div id="wrapper">
-       
-
+  <div id="wrapper" style="height: 100%;">
+      
         <!-- Page Content -->
-        <div id="page-content-wrapper" style="padding: 0px;">
+        <div id="page-content-wrapper" style="padding: 0px; height: 100%;">
           
-          <div><% include ./partials/addrequest %></div>
+          <div style="height: 100%; display: flex; flex-direction: column;"><% include ./partials/addrequest %></div>
 
         </div><!-- /#page-content-wrapper -->
-    </div>
-    <!-- /#wrapper -->
-
-
-    
-
-
-  
+    </div>  
     <!--welcomeModal--> 
   <%if (user.roleid != 3) { %>
     <% include ./partials/announceMsg %>
