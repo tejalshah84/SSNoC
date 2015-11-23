@@ -117,6 +117,7 @@ function insensitive(k1, k2) {
 }
 
 
+
 //return the user hash: online and offline
 /*function divideUsers(users){
 	var users_list = {};

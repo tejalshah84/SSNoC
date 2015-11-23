@@ -62,6 +62,30 @@ module.exports = function(sequelize){
 				user.hasMany(models.chathistory, {foreignKey: 'chatauthor_id'});
 				user.hasMany(models.privatechathistory, {foreignKey: 'chattarget_id'});
 				user.hasMany(models.privatechathistory, {foreignKey: 'chatauthor_id'});
+				user.hasMany(models.missingperson, {foreignKey: 'reporter_userid'});
+				user.hasMany(models.missingperson, {foreignKey: 'missing_userid'});
+			},
+			all: function(models, next){
+				models.user.findAll().then(function (users) {
+					next(users);
+				});
+			},
+			findById: function(models, id, next){
+				models.user.findOne({ where: { id: id}}).then(function(user){
+					next(user);
+				}).catch(function(e){
+					console.log(e);
+					next(null);
+				});
+			},
+			findByUsername: function(models, username, next){
+				models.user.findOne({ where: { username: username}}).then(function(user){
+					next(user);
+				}).catch(function(e){
+					console.log(e);
+					next(null);
+				});
+
 			}
 		}
 	});

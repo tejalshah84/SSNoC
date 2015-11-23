@@ -29,12 +29,14 @@
     <div class="collapse navbar-collapse navbar-right" id="top_menu_dropdown">
       <ul class="nav navbar-nav">
        <li><a>Profile</a></li>
+			 
 			<% if (user.roleid < 3) { %>
        <li><a data-toggle="modal" data-target="#postAnnouncementModal">Post Announce</a></li>
 			<% }%>	
-			<% if (user.roleid == 1) { %>
+			<% if (user.roleid < 2) { %>
        <li><a href="/admin">Monitor</a></li>
 			<% }%>
+			<li><a href="/missing/deck">Missing People</a></li>
        <li><a href="/signout" id="signout">Sign out</a></li>
 
       </ul>

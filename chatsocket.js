@@ -6,7 +6,7 @@ var models = require('./models');
 
 var privateRooms = {};
 var socket_server = "";
-
+var create = require('./util/createUtil.js');
 
 
 module.exports = function(io) {
@@ -75,27 +75,49 @@ io.on('connection', function(socket){
        		});   	
     	 		});  
     });
+		
+		
+    socket.on('push notification',function(data){
+			console.log("Received push notification request!");
+			console.log(data);
+    	date = new Date();
+			console.log(onlineUsers.getOnlineUsers());
+			
+			
+    	models.privatechathistory.create({ 
+          	chatauthor: data.founder,
+          	chattarget: data.reporter_userid,
+          	chatmessage: data.chatmessage, 
+            timestamp: date
+       		}).then(function() {
+						io.sockets.to([onlineUsers.getOnlineUsers()[data.reporter_userid]['socket_id']]).emit('new notification', {
+							chatauthor: data.founder,
+							chatauthor_id: 3
+						});
+       		});   	
+					
+			
+			
+    	
+    });
   
-  
+	
+		//done
+	  socket.on('new announcement', function(data) {
+			models.user.findById(models, data.publisher_userid, function(user){
+				create.createAnnouncement(data, function(){
+					io.sockets.emit('new annoucement', {
+		   			publisher_username: user.username,
+		   			content: data.content,
+						createdAt: data.createdAt
+					});	
+				});
+			});
+
+	   });
   
 
-  
-   socket.on('new announcement', function(data) {
-		models.user.findOne({where: {id: data.publisher_userid}
-		}).then(function(user) {
-   		models.announcement.create({ 
-   			publisher_userid: user.id,
-   			content: data.content,
-			createdAt: data.createdAt
-   		}).then(function() {
-			io.sockets.emit('new annoucement', {
-   			publisher_username: user.username,
-   			content: data.content,
-				createdAt: data.createdAt
-			});
-   		});
-			});
-   });
+ 
 	 
 	 
     socket.on('new message', function(data) {

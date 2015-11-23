@@ -15,6 +15,108 @@ $(function() {
   var $privInputMessage = $('.privInputMessage');
   var $privMessages = $('.privMessages');
 	
+	
+	
+	
+	
+	// --------------- Iteration 4 -----------------------//
+	
+	
+	// this is the id of the form
+	$('.find_person').on('click', function() {
+		
+		$.ajax({
+		  url: '/missing/'+currentPersonCard+'/found',
+		  type: 'POST',
+			data: {
+				note: 'xxx',
+				lastseen: $('#found_report_lastseen').val(),
+				location: $('#found_report_location').val()
+			},
+		  success: function(data) {
+				console.log("#####");
+				console.log(data);
+				var chatmsg = "Hey, I found "+data.person.firstname+" around "+$('#found_report_lastseen').val()+" at "+$('#found_report_location').val();
+				var data = {"id": data.id, "reporter_userid": data.reporter_userid, "founder": data.founder, "chatmessage": chatmsg};
+				emitPushNotification(data);
+			 var re = new RegExp(/^.*\//);
+			 var redirect = re.exec(window.location.href);
+			 window.location.replace(redirect+"deck");
+		  },
+		  error: function(e) {
+			//console.log(e.message);
+		  }
+		});	
+	   
+
+	  
+	});
+	
+	$('.file_found_report').on('click', function(){
+  	 $.ajax({
+  		 url: '/missing/'+currentPersonCard,
+  		 type: 'GET',
+  		 success: function(data) { 
+  			  console.log("Person is found.");	
+					displayPersonReport(data);
+  		 },
+  		 error: function(e) {
+  		 }
+  		});	
+	});
+	function displayPersonReport(person){
+		$('.report_pname').text(person.firstname+" "+person.lastname);
+		$('.report_page').text(person.age);
+		$('.report_plocation').text(person.location);
+		$('.report_plastseen').text(person.lastseen);
+		$('.report_pimage').attr("src", "/uploads/"+person.picture);
+	}
+	
+	function emitPushNotification(data){
+		socket.emit('push notification', data);	
+	}
+	
+	$('.btn-emit-push-notification').on('click', function(){
+		var data = {"id": 2, "reporter_userid": 'EileenW' };
+		emitPushNotification(data);
+	});
+	
+
+	
+  socket.on('new notification', function (data) {
+    console.log("new notification need to be appended!");
+		
+	 var re = new RegExp(/^.*\//);
+	 var redirect = re.exec(window.location.href);
+	 var content = data.chatauthor+" has found the person that you're looking for! "+'<a href=\'/chat/'+data.chatauthor+'\'> See more! </a>';
+	 var view = "<div class=\"alert alert-warning alert-dismissible\" role=\"alert\" style=\"top:0; position:absolute;z-index:1000000;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong class=\"notification_content\">"+content+"</strong></div>";
+		$('#push_notification').append(view);
+		
+		
+  });
+	
+	
+	$('.modal').on('shown.bs.modal', function() {
+	  //Make sure the modal and backdrop are siblings (changes the DOM)
+	  $(this).before($('.modal-backdrop'));
+	  //Make sure the z-index is higher than the backdrop
+	  $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// --------------- Iteration 4 -----------------------//
+	
+	
+	
+	
 	// --------------- Iteration 3 -----------------------//
 	var $test_duration = $('#test_duration');	
 	var timeFunc = '';
@@ -208,7 +310,14 @@ $(function() {
 	
 	
 	$(window).load(function() {
-		
+
+		if($('#push_notification').length > 0){
+			$('#push_notification').fadeIn('slow');
+		}
+		if($("#public_messages").length > 0){
+			getChatHistory();
+		}
+
 		if($("#private_messages").length > 0){
 			scrollListBtm();	
 		}
@@ -227,7 +336,7 @@ $(function() {
 	 function retrieveLatestAnnouncement(){
   		$.ajax({
   			dataType: "json",
-  		  url: '/announcements/latest',
+  		  url: '/api/messages/announcement/latest',
   		  type: 'GET',
   			data: {},
   		  success: function(data) {
@@ -243,7 +352,7 @@ $(function() {
 		 console.log("Sending Ajax request to server...");	
  			$.ajax({
  				dataType: "json",
- 		  	url: '/users/online',
+ 		  	url: '/api/users/online',
  		  	type: 'GET',
  				data: {},
  		  	success: function(data) {
