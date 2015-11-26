@@ -5,114 +5,68 @@ var sequelize = require('.././sequelize');
 var models = require('.././models');
 
 
-router.get('/', function(req, res) {
-	models.resourcecategory.findAll({
-		attributes: ['id', 'cat_description'],
-		include: [{model: models.resourcetype, attributes: ['id','type_description','units']}],
-		order: 'resourcecategory.id ASC'
-	}).then(function (resources) {
-		  res.json(resources);
-	});
-});
-
-
+//List all resource categories
 router.get('/categories', function(req, res) {
-	models.resourcecategory.findAll({
-		attributes: ['id', 'cat_description'],
-		order: 'resourcecategory.id ASC'
-	}).then(function (resources) {
-		  res.json(resources);
+	models.resourcecategory.getCategories(models, function(resources) {
+		  res.type('json').status(200).send(resources);
 	});
 });
 
+//List all categories and types of resources
+router.get('/', function(req, res) {
+	models.resourcecategory.listAll(models, function(resources){
+		res.type('json').status(200).send(resources);
+	});
+});
 
+//List inventory at resource category and type level
 router.get('/catinventory', function(req, res) {
-	console.log('router catinventory enter');
-	models.resourcecategory.findAll({
-		attributes: ['id', 'cat_description'],
-		include: [{model: models.resourcetype, attributes: ['id','type_description','units'],
-				 include: [{model: models.inventory, required: false, attributes: ['quantity_inventory']}]
-		}],
-		order: 'resourcecategory.id ASC'
-	}).then(function (resources) {
-		  res.json(resources);
+	models.inventory.getCategoryInventory(models, function(inventory) {
+		  res.type('json').status(200).send(inventory);
 	});
 });
 
+//List all inventory at resource type level
 router.get('/inventory', function(req, res) {
-	models.resourcetype.findAll({
-			attributes: ['id'],
-			include: [{model: models.inventory, required: false, attributes: ['quantity_inventory']}],
-			order: 'resourcetype.id ASC'
-	}).then(function (resources) {
-		  res.json(resources);
+	models.inventory.getTypeInventory(models, function(inventory) {
+		  res.type('json').status(200).send(inventory);
 	});
 });
 
-
+//Total requests pending pickup at resource type level
 router.get('/reserved', function(req, res) {
-	console.log('router reserved enter');
-	models.resourcetype.findAll({
-		attributes: ['id', [models.sequelize.fn('SUM', models.sequelize.col('quantity_requested')), 'quantity_reserved']],
-		include: [{model: models.resourcerequest, required: false, attributes: [], where: {pickedup_ind: "N"}}],
-		group: ['resourcetype.id'],
-		order: 'resourcetype.id ASC'
-	}).then(function (resources) {
-		  res.json(resources);
+	
+	models.resourcerequest.getReserved(models, function(resources){
+		res.type('json').status(200).send(resources);
+	})
+});
+
+
+//Find all resource types for a particular category id
+router.get('/:id', function(req, res) {
+	models.resourcecategory.getByCategoryID(models, req.params.id, function(resources){
+		  res.type('json').status(200).send(resources);
 	});
 });
 
 
+//Update Inventory with Donation Amount
 router.post('/adddonation', function(req,res){
 	var type = Number(req.body.resourcetype);
-	console.log(type);
 	var donate = Number(req.body.donation);
 
-	models.inventory.findOne({
-		  where: {
-		    resource_type_id: type
-			}
-	}).then(function (result) {
-		if (!result){
-			models.inventory.create({
-				resource_type_id: type,
-				quantity_inventory: donate
-			}).then(function(){
-				res.render('resourcepage',{
+	models.inventory.addDonation(models, type, donate, function(nextpage){
+		if(nextpage){
+			res.render('resourcepage',{
 					user: req.session.user
-	  			});	
-			})
+			});	
 		}
-		else{
-			var available = result.quantity_inventory + donate;
-			result.update({
-				quantity_inventory: available
-			}).then(function(){
-				res.render('resourcepage',{
-					user: req.session.user
-	  			});	
-			})
+		else {
+			console.log('error updating inventory')
 		}
-	}).catch(function(err){
-		console.log('error testing');
 	})
 
 });
-
-
-
-router.get('/:id', function(req, res) {
-	models.resourcetype.findAll({
-		attributes: ['id', 'type_description','units'],
-		  where: {
-		    resource_cat_id: req.params.id
-		   },
-		   order:'type_description ASC'
-	}).then(function (resources) {
-		  res.json(resources);
-	});
-});
-
 
 
 module.exports = router;
