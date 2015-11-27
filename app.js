@@ -61,7 +61,7 @@ require('./chatsocket')(socket_server);
 
 //importing models
 var Announce = require('./models/announcement.js');
-var Msg = require('./models/message.js');
+var Msg = require('./models/publicwall.js');
 
 
 

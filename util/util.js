@@ -52,11 +52,8 @@ exports.convertText = function (arr){
 	}
 };
 
-
-
  exports.divideUsers = function(users){
 	 var users_list = {'online':{}, 'offline': {}};
-	 
 	   
 	var user_on = onlineUsers.getOnlineUsers();	
 		users.forEach(function(user){

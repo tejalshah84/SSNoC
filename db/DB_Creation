@@ -1,0 +1,117 @@
+CREATE TABLE user (
+    id            INTEGER  PRIMARY KEY AUTOINCREMENT
+                           NOT NULL,
+    username      TEXT     NOT NULL,
+    password      TEXT     NOT NULL,
+    firstname     BLOB,
+    lastname      NUMERIC,
+    location      TEXT,
+    statusid      INTEGER,
+    roleid        INTEGER,
+    lastlogintime DATETIME,
+    createdAt     DATETIME,
+    updatedAt     DATETIME,
+    CONSTRAINT fkey0 FOREIGN KEY (
+        statusid
+    )
+    REFERENCES status (id),
+    CONSTRAINT fkey1 FOREIGN KEY (
+        roleid
+    )
+    REFERENCES role (id),
+    UNIQUE (
+        username ASC
+    )
+);
+
+CREATE TABLE announcement (
+    id               INTEGER NOT NULL
+                             PRIMARY KEY AUTOINCREMENT
+                             UNIQUE,
+    publisher_userid INTEGER REFERENCES user (id),
+    createdAt        INTEGER,
+    updatedAt        INTEGER,
+    content          TEXT
+);
+
+
+CREATE TABLE chathistory (
+    id            INTEGER  PRIMARY KEY AUTOINCREMENT
+                           UNIQUE,
+    chatauthor_id INTEGER,
+    chatmessage   TEXT,
+    timestamp     DATETIME,
+    createdAt     DATETIME,
+    updatedAt     DATETIME,
+    FOREIGN KEY (
+        chatauthor_id
+    )
+    REFERENCES user (id) 
+);
+
+
+CREATE TABLE privatechathistory (
+    id            INTEGER  PRIMARY KEY AUTOINCREMENT
+                           NOT NULL,
+    chatauthor_id INTEGER  REFERENCES user (id),
+    chattarget_id INTEGER  REFERENCES user (id),
+    chatmessage   TEXT,
+    timestamp     DATETIME,
+    createdAt     DATETIME,
+    updatedAt     DATETIME
+);
+
+
+CREATE TABLE status (
+    id          INTEGER NOT NULL,
+    description TEXT,
+    PRIMARY KEY (
+        id
+    ),
+    CONSTRAINT id UNIQUE (
+        id ASC
+    )
+    ON CONFLICT IGNORE
+);
+
+
+CREATE TABLE role (
+    id          INTEGER NOT NULL,
+    description TEXT,
+    PRIMARY KEY (
+        id ASC
+    ),
+    CONSTRAINT id UNIQUE (
+        id ASC
+    )
+    ON CONFLICT IGNORE
+);
+
+CREATE TABLE missingperson (
+    id              INTEGER  NOT NULL
+                             PRIMARY KEY AUTOINCREMENT
+                             UNIQUE,
+    reporter_userid INTEGER  NOT NULL,
+    missing_userid  INTEGER,
+    firstname       TEXT,
+    lastname        TEXT,
+    age             NUMERIC,
+    height          NUMERIC,
+    weight          NUMERIC,
+    location        TEXT,
+    lastseen        TEXT,
+    description     TEXT,
+    note            TEXT,
+    missing         BOOL,
+    picture         TEXT,
+    createdAt       DATETIME,
+    updatedAt       DATETIME,
+    FOREIGN KEY (
+        reporter_userid
+    )
+    REFERENCES user (id),
+    FOREIGN KEY (
+        missing_userid
+    )
+    REFERENCES user (id) 
+);

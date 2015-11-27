@@ -369,7 +369,7 @@ $(function() {
 		 console.log("Sending Ajax request to server...");		
 		 $.ajax({
 			 dataType: "json",
-			 url: '/messages',
+			 url: '/api/messages/wall',
 			 type: 'GET',
 			 data: {},
 			 success: function(data) {
@@ -387,8 +387,8 @@ $(function() {
 			 url: '/privatechats',
 			 type: 'GET',
 			 data: {
-				 chatauthor:current_user,
-				 chattarget: element
+				 chatauthor_id:current_user,
+				 chattarget_id: element
 			 },
 			 success: function(data) {
 				 loadPrivChatHistory(data);
@@ -480,7 +480,7 @@ $(function() {
       abc = $('.privInputMessage').val();
       console.log(abc);
 			var data = {
-				chatauthor: $('#current_username').text(),
+				chatauthor_id: $('#current_username').text(),
 				chatmessage: $('.privInputMessage').val(),
 				createdAt: new Date()
 			}
@@ -495,8 +495,8 @@ $(function() {
         });
     //Setting username for Private Chat  
       socket.emit('setUsername', {
-    	  chatauthor: current_user,
-    	  chattarget: $('#targetName').text(),
+    	  chatauthor_id: current_user,
+    	  chattarget_id: $('#targetName').text(),
     	  });
         $('.privInputMessage').val('');
       }
@@ -576,7 +576,7 @@ $(function() {
 	data.forEach(function(msg){
 		console.log("I am loading private chat history!!!!!!");
 		console.log(msg);
-		var chatContent = "<blockquote><p><span class=\"chat_author\">"+msg.chatauthor+": </span>"+	
+		var chatContent = "<blockquote><p><span class=\"chat_author\">"+msg.chatauthor_id+": </span>"+	
 						msg.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(msg.createdAt)+"</small></span></p></blockquote>";
 		var item = "<li id=\"priv_messages_item\">"+chatContent+"</li>";
 		$('#privMsgList').append(item);
