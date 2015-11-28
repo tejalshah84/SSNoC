@@ -126,13 +126,8 @@ router.post('/signup', function(req, res){
 });
 
 router.get('/community', ifSignIn, function(req, res) {
-		console.log(req.session.newUserCount);
-		console.log(req.session.isNewUser);
 
 		++req.session.newUserCount;
-
-		console.log('@@@@@@@@@@@@@@@@@@@@@@');
-		console.log(req.session.newUserCount);
 
 		if (req.session.newUserCount>1){
 			req.session.isNewUser = false;

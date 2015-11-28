@@ -7,32 +7,9 @@ var current_username = $('#current_username').text();
 var current_roleid = Number($('#current_roleid').text());
 var target_user;
 var socket = io();
-var status_arr = {'ok':3, 'help':2, 'emergency': 1, 'no_status': 4};
-var status_logo = {3:'glyphicon glyphicon-ok-sign', 2:'glyphicon glyphicon-exclamation-sign', 1:'glyphicon glyphicon-plus-sign', 4: 'glyphicon glyphicon-question-sign'};
 var $privMessageslist = $('.privMessageslist');
 var $privInputMessage = $('.privInputMessage');
 var $privMessages = $('.privMessages');
-//Menu configuring access to various features
-var menu = {		
-
-	'home': "<li class=\"c-menu__item\">" +
-	"<a href=\"/community\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-home\" aria-hidden=\"true\"></span> Home</a></li>",
-
-    'missing': "<li class=\"c-menu__item\">" +
-    "<a href=\"/missing/deck\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-question-sign\" aria-hidden=\"true\"></span> Missing People</a></li>",
-
-    'announcement': "<li class=\"c-menu__item\">" +
-    "<a data-toggle=\"modal\" data-target=\"#postAnnouncementModal\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-volume-up\" aria-hidden=\"true\"></span> Post Announcement</a></li>",
-
-    'userprofile': "<li class=\"c-menu__item\">" +
-    "<a href=\"#\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-cog\" aria-hidden=\"true\"></span> Admin User Profile</a></li>",
-        
-    'monitorperform': "<li class=\"c-menu__item\">" +
-    "<a href=\"/admin\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-equalizer\" aria-hidden=\"true\"></span> Measure Performance</a></li>",
-        
-    'signout': "<li class=\"c-menu__item\">" +
-    "<a href=\"/signout\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-log-out\" aria-hidden=\"true\"></span> Signout</a></li>"
-}
 
 
 $(window).load(function() {
@@ -144,7 +121,7 @@ socket.on('private chat', function (data) {
    addPrivChatMessage(data);
 });
 
-//------------------Change Status Code---------------------------------------------------
+//------------------Change Status Socket---------------------------------------------------
 
 //Change Status Socket Emit
 $('.status_list').on('click', 'li', function(event) {
@@ -165,7 +142,7 @@ socket.on('new status', function (data) {
 	$('#'+data.userid+" .statuslogo").empty().append(getUserStatus(data.statusid));	
 });
 
-//-------------------Post Announcement Code--------------------------------------------------
+//-------------------Post Announcement Socket--------------------------------------------------
 
 //Publish new announcement via socket emit
 $('.post_announcement').on('click', function(){
@@ -374,16 +351,6 @@ function incrementNumMsg(badge){
 //-----------Common Functions-------------------------------------------------------------
 
 
-//Format Date Function
-function dateForamt(date){
-	var d = new Date(date);
-    var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var date = d.getDate() + " " + month[d.getMonth()] + ", " +  d.getFullYear();
-    var time = d.toLocaleTimeString().toLowerCase();
-    return (date + " at " + time); 
-}
-
-
 //Scroll Chat Window to Bottom
 function scrollListBtm(){
 	if($("#public_messages #messages li").length > 0){
@@ -401,219 +368,12 @@ function scrollListBtm(){
 	}
 }
    
-		
-// Prevents input from having injected markup
-function cleanInput (input) {
-    return $('<div/>').text(input).text();
-}
-
-//Retrieve Status Logo given status id
-function getUserStatus(num){ 
-	if(num===3){
-	    statusLogo = "<span class=\"" + status_logo[3]+ "\" aria-hidden=\"true\" style=\"padding-right:10px;\"></span>";
-	}
-	else if (num===2){
-	     statusLogo = "<span class=\"" + status_logo[2]+ "\" aria-hidden=\"true\" style=\"padding-right:10px;\"></span>";
-	}
-	else if (num===1){
-	    statusLogo = "<span class=\"" + status_logo[1]+ "\" aria-hidden=\"true\" style=\"padding-right:10px;\"></span>";			 
-	}
-	else{
-	    statusLogo = "<span class=\"" + status_logo[4]+ "\" aria-hidden=\"true\" style=\"padding-right:10px;\"></span>";
-	}
-	return statusLogo;
-}
 		 
 // Focus input when clicking on the message input's border
 $('.inputMessage').click(function () {
     $('.inputMessage').focus();
 });
 
-
-function loadRightBarMenu(roleid){
-
-	var menulist = " ";
-
-	if (roleid ===1){
-		menulist = menu['home'] + menu['missing'] +  menu['monitorperform'] + menu['signout'];
-		$('.c-menu__items').append(menulist);
-	}
-	else if (roleid ===2){
-		menulist = menu['home'] + menu['missing'] +  menu['userprofile'] + menu['signout'];
-		$('.c-menu__items').append(menulist);
-	}
-	else if (roleid ===3){
-		menulist = menu['home'] + menu['missing'] +  menu['announcement'] + menu['signout'];
-		$('.c-menu__items').append(menulist);
-	}
-	else if (roleid ===4){
-		menulist = menu['home'] + menu['missing'] + menu['signout'];
-		$('.c-menu__items').append(menulist);
-	}
-}
-
-
-
-//-----------Measure Performance (I3)-------------------------------------------------------------
-
-
-var $test_duration = $('#test_duration');	
-var timeFunc = '';
-var startTime;
-var numPOST_s = 0;
-var numGET_s = 0;
-var numOfReqest = {"GET": 0, "POST": 0 };
-var responseGETTimeC,responsePOSTTimeC, responseGETTimeS, responsePOSTTimeS;
-var terminate = false;
-
-
-$('#start_testing_get').on('click', function(){	 
-	restart();
-	setTimeout(startUseCase_GET, 1);
-});
- 
-$('#start_testing_post').on('click', function(){	 
-	restart();
-	setTimeout(startUseCase_POST, 1);
-});
- 
-$('#stop_testing').on('click', function(){
-	terminate = true;	 
-	endUseCase();	 
-});
-
-$('#end_testing').on('click', function(){
-	terminate = true;	 
-	endUseCase();	 
-});
-
-function isTimeUp(duration){
-	return ((new Date()-startTime) > duration);
-}
- 
-function startUseCase_GET(){
-	if(terminate){		 
-		return;
-	}
-	sendGETReq();	
-	responseGETTimeC = new Date();
-	responseTimeC = new Date();
-	var d1 = {
-		"POST": 0, 
-		"GET": (numOfReqest.GET/((responseGETTimeC-startTime)/1000))
-	};		
-	$('#get_req_num_c').text(numOfReqest.GET);
-	$('#get_req_time_c').text(d1.GET);
-	if(!isTimeUp($test_duration.val()*1000)){
-		setTimeout(startUseCase_GET, 1);
-	}
-}
- 
-function startUseCase_POST(){
-	if(terminate){		 
-		return;
-	}
-	sendPOSTReq();	
-	responsePOSTTimeC = new Date();
-	responseTimeC = new Date();
-	var d1 = {
-		"POST": (numOfReqest.POST/((responsePOSTTimeC-startTime)/1000)), 
-		"GET": 0
-	};
-	$('#post_req_num_c').text(numOfReqest.POST);
-	$('#post_req_time_c').text(d1.POST);
-	if(!isTimeUp($test_duration.val()*1000)){
-		setTimeout(startUseCase_POST, 1);
-	}
-}
-	
-
-function endUseCase(){
-	$.ajax({
-		url: '/admin/end_testing',
-		type: 'GET',
-		success: function(data) {
-			console.log("Test db has been dropped! Use Case Ends.");	
-		},
-		error: function(e) {
-		}
-	});	
-	 		 
-}
-
-function sendGETReq(){
-	numOfReqest.GET++;
-	$.ajax({
-		dataType: "json",
-		url: '/test_messages',
-		type: 'GET',
-		success: function(data) {
-			responseGETTimeS = new Date();
-			$('#get_req_num_s').text(++numGET_s);
-			$('#get_req_time_s').text((numGET_s/((responseGETTimeS-startTime)/1000)));
-			if(numGET_s == numOfReqest.GET){
-			}
-		},
-		error: function(e) {
-		}
-	});	
-}
-
-function sendPOSTReq(){
-	numOfReqest.POST++;
-	$.ajax({
-		dataType: "json",
-		url: '/test_messages',
-		type: 'POST',
-		data: {
-			chatauthor: "EileenW",
-			chatmsg: makeRandomMessage(20),
-			timestamp: new Date()
-		},
-		success: function(data) {	 
-			responsePOSTTimeS = new Date();
-			$('#post_req_num_s').text(++numPOST_s);
-			$('#post_req_time_s').text((numPOST_s/((responsePOSTTimeS-startTime)/1000)));
-		},
-		error: function(e) {
-		}
-	});	
-}
-
-function updateRequestNumber(type, data){
-	$('#get_req_num_'+type).text(data.GET);
-	$('#post_req_num_'+type).text(data.POST);
-}
-
-function updateRequestTime(type, data){
-	$('#get_req_time_'+type).text(data.GET);
-	$('#post_req_time_'+type).text(data.POST);
-}
-
-function makeRandomMessage(numOfChar){
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for( var i=0; i < numOfChar; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
-}
- 
-function restart(){
-	startTime = new Date();
- 	numOfReqest = {"GET": 0, "POST": 0 };
-	numPOST_s = 0;
-	numGET_s = 0;
-	responseGETTimeC = 0;
-	responsePOSTTimeC = 0;
-	responseGETTimeS = 0; 
-	responsePOSTTimeS = 0;
-	terminate = false;
-	updateRequestNumber('c',numOfReqest);
-	updateRequestNumber('s',numOfReqest);
-	updateRequestTime('c',numOfReqest);
-	updateRequestTime('s',numOfReqest);
-	console.log("restart...");
-}
 
 
 //-----------Missing People (I4)-------------------------------------------------------------

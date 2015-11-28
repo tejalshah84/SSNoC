@@ -32,3 +32,50 @@ var pushRightBtn = document.querySelector('#c-button--push-right');
   e.preventDefault;
   pushRight.open();
 });
+
+
+//Menu configuring access to various features
+var menu = {    
+
+  'home': "<li class=\"c-menu__item\">" +
+  "<a href=\"/community\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-home\" aria-hidden=\"true\"></span> Home</a></li>",
+
+    'missing': "<li class=\"c-menu__item\">" +
+    "<a href=\"/missing/deck\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-question-sign\" aria-hidden=\"true\"></span> Missing People</a></li>",
+
+    'announcement': "<li class=\"c-menu__item\">" +
+    "<a data-toggle=\"modal\" data-target=\"#postAnnouncementModal\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-volume-up\" aria-hidden=\"true\"></span> Post Announcement</a></li>",
+
+    'userprofile': "<li class=\"c-menu__item\">" +
+    "<a href=\"#\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-cog\" aria-hidden=\"true\"></span> Admin User Profile</a></li>",
+        
+    'monitorperform': "<li class=\"c-menu__item\">" +
+    "<a href=\"/admin\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-equalizer\" aria-hidden=\"true\"></span> Measure Performance</a></li>",
+        
+    'signout': "<li class=\"c-menu__item\">" +
+    "<a href=\"/signout\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-log-out\" aria-hidden=\"true\"></span> Signout</a></li>"
+}
+
+
+function loadRightBarMenu(roleid){
+
+  var menulist = " ";
+
+  if (roleid ===1){
+    menulist = menu['home'] + menu['missing'] +  menu['monitorperform'] + menu['signout'];
+    $('.c-menu__items').append(menulist);
+  }
+  else if (roleid ===2){
+    menulist = menu['home'] + menu['missing'] +  menu['userprofile'] + menu['signout'];
+    $('.c-menu__items').append(menulist);
+  }
+  else if (roleid ===3){
+    menulist = menu['home'] + menu['missing'] +  menu['announcement'] + menu['signout'];
+    $('.c-menu__items').append(menulist);
+  }
+  else if (roleid ===4){
+    menulist = menu['home'] + menu['missing'] + menu['signout'];
+    $('.c-menu__items').append(menulist);
+  }
+}
+

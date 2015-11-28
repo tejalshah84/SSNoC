@@ -14,21 +14,10 @@
 
   <body>
 
-    <!--Posted Announcement Start-->
-    <% include ./partials/push_notification%>
-     <!--Posted Announcement End-->
-
-
     <div id="o-wrapper" class="o-wrapper"> 
-        <!--Search Nav Bar Start-->
-        <% include ./partials/searchnav%>
-        <!--Search Nav Bar End-->
-
-        <!--Body Start -->
-        <div style="width:90%; margin: auto auto;">
-        <% include ./partials/searchbody%>
-        </div>
-        <!--Body End-->
+        <!--Search Nav and Body Start-->
+        <% include ./partials/searchcontent%>
+        <!--Search Nav and Body End-->
     </div>
    
     <div id="c-mask" class="c-mask"></div><!-- /c-mask -->
@@ -37,6 +26,7 @@
     <script src="../js/jquery-1.11.3.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <!--Scripts: Custom -->
+    <script src="../js/utility.js"></script>
     <script src="../js/search.js"></script>
    
     

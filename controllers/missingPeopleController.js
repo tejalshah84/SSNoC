@@ -46,7 +46,7 @@ router.get('/deck', ifSignIn, function(req, res) {
 // new missing people
 router.get('/new',ifSignIn, function(req, res) {
 	models.user.findAll().then(function (user) {	
-	res.render('missing/new', { 
+	res.render('newmissing', { 
 		user: req.session.user,
 		userDirectory : user,
 		onlineUsers: onlineUsers.getOnlineUsers()
