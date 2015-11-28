@@ -314,13 +314,13 @@ $(function() {
 		if($('#push_notification').length > 0){
 			$('#push_notification').fadeIn('slow');
 		}
-		if($("#public_messages").length > 0){
+/*		if($("#public_messages").length > 0){
 			getChatHistory();
 		}
 
 		if($("#private_messages").length > 0){
 			scrollListBtm();	
-		}
+		}*/
 		getUserDirectory();
     socket.emit('setUserSocketID', {
         userid: current_user

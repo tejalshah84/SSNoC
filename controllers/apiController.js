@@ -116,7 +116,8 @@ router.get('/messages/wall/:id', function(req, res){
 
 //Post a message on public wall from a user
 router.post('/messages/wall', function(req, res){
-	create.createchathistory(req.body, function(){
+	console.log(req.body);
+	create.createPublicMessage(req.body, function(){
 		res.type('json').status(200);
 	})
 });

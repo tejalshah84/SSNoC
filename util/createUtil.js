@@ -11,8 +11,10 @@ exports.createUser = function(data, callback){
 };
 
 exports.createPublicMessage = function(data, callback){
-	models.messages.create({ 
-		
+	models.chathistory.create({ 
+		chatauthor_id: data.chatauthor_id,
+		chatmessage: data.chatmessage,
+		timestamp:new Date()		
 	}).then(function(message) {		
 		console.log("New Message Created!");
 		callback(message['dataValues']);
