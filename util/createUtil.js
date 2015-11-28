@@ -22,10 +22,13 @@ exports.createPublicMessage = function(data, callback){
 };
 
 exports.createPrivateMessage = function(data, callback){
-	models.messages.create({ 
-		
+	models.privatechathistory.create({ 
+		chatauthor_id: data.chatauthor_id,
+      	chattarget_id: data.chattarget_id,
+      	chatmessage: data.chatmessage, 
+        timestamp: new Date()
 	}).then(function(message) {		
-		console.log("New Message Created!");
+		console.log("New Private Message Created!");
 		callback(message['dataValues']);
 	});
 };
