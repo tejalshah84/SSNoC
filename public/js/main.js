@@ -81,7 +81,6 @@ $(function() {
 		emitPushNotification(data);
 	});
 	
-
 	
   socket.on('new notification', function (data) {
     console.log("new notification need to be appended!");
@@ -108,7 +107,8 @@ $(function() {
 	
 	
 	
-	
+
+
 	
 	
 	
@@ -365,15 +365,16 @@ $(function() {
 	 }
 	 
 	 
-	 function getChatHistory(){
+	 function getUser(str, callback){
 		 console.log("Sending Ajax request to server...");		
 		 $.ajax({
 			 dataType: "json",
-			 url: '/messages',
+			 url: '/api/users/' + str,
 			 type: 'GET',
 			 data: {},
 			 success: function(data) {
- 				loadChatHistory(data);
+
+				 callback(data);
 			 },
 			 error: function(e) {
  		  }
@@ -399,22 +400,55 @@ $(function() {
 	 }
 	 
 	 function displayUserDirectory(users){		 
-		 console.log(users.offline);
-		 $('#user_list').empty();
+		 console.log(users);
+		 $('user_list').empty();
 		 var users_online = users.online;
 		 $('#current_status').removeClass().addClass(status_logo[users_online[current_user].status_id]);
 		 delete users_online[current_user];
+		 
 		 $.each(users_online, function(index, element) {
 			 var statusLogo = getUserStatus(element.status_id); 
 	 		 var item = "<a id =\""+index+"\" href=\"/chat/"+index+"\" style=\"color: #62615f;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+element.username+"</a>";
 		 		$('#user_list').append("<li id='targetName'>"+item+"</li>");	 		
 			});
 	 	 $.each(users.offline, function(index, element) {
+			 console.log(element['accountStatus']);
 		 	var statusLogo = getUserStatus(element.status_id); 
 			var item = " <a id =\""+index+"\" href=\"/chat/"+index+"\" style=\"color: #a7a6a4;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+element.username+"</a>";
 			$('#user_list').append("<li>"+item+"</li>");
 		});
+		
+		
+ 	 	$.each(users.offline, function(index, element) {
+	 		var statusLogo = getUserStatus(element.status_id); 
+			var item = " </span>" + element.username + "</span>";
+			$('#user_list1').append("<option>"+item+"</option>");
+		});
+ 	 	$.each(users.online, function(index, element) {
+	 		var statusLogo = getUserStatus(element.status_id); 
+			var item = element.username;
+			$('#user_list1').append('<option value=' + item + '>' + item + '</option>');
+		});
+		
+		
+	 	$("#user_list1").change(function(){
+	 		var selectedValue = $(this).find(":selected").val();
+			getUser(selectedValue, function(data) {
+				console.log(data);
+		 		console.log("the value you selected: " + selectedValue);
+				$('input[name=new_username]').val(selectedValue);
+				// $('input[name=password]').val(data['password']);
+				$('#role').val(data['roleid']);
+				$('#accountStatus').val(data['accountStatus']);
+			});
+	 	});
 	 }
+	 
+ 	
+	 
+
+	 
+	 
  
 	 function getUserStatus(num){ 
 	      if(num===1){

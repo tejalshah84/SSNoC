@@ -1,0 +1,76 @@
+ <% layout('./layouts/layout2') -%>
+<div class="clr" style="height:60px;"></div> 
+<h3>Administer Profile</h3>
+<div class="clr" style="height:20px;"></div> 
+<form id="update_profile" class="form-horizontal" action="/profile/update" method="post">
+	
+	<div class="clr" style="height:10px;"></div>
+	<p id="statusUpdate"></p>
+	</br>
+	
+  <div class="form-group">
+     <label class="col-xs-3 control-label">Choose User</label>
+ 		<div class="col-xs-9">
+ 		<select class="form-control" id="user_list1" name="username">
+ 	         <option > </option>
+ 	      </select>
+	      <p id="userData"></p>
+ 		</div>
+   </div>
+
+  
+  
+  
+  <div class="form-group">
+    <label class="col-xs-3 control-label">Change User Name</label>
+		<div class="col-xs-9">
+    	<input type="text" class="form-control" placeholder="Enter new user name" name="new_username">
+		</div>
+  </div>
+  
+  
+  <div class="form-group">
+    <label class="col-xs-3 control-label">Change P/W</label>
+		<div class="col-xs-9">
+    	<input type="text" class="form-control" placeholder="Enter new P/W" name="password">
+		</div>
+  </div>
+  
+  
+  
+  <div class="form-group">
+    <label class="col-xs-3 control-label">Change Role ID</label>
+		<div class="col-xs-9">
+		<select class="form-control" id="role" name="roleid">
+			<option></option>
+	         <option>1</option>
+	         <option>2</option>
+	         <option>3</option>
+	         <option>4</option>
+	         <option>5</option>
+	      </select>
+		</div>
+  </div>
+  
+  
+  <div class="form-group">
+    <label class="col-xs-3 control-label">Change Account Status</label>
+		<div class="col-xs-9">
+		<select class="form-control" id="accountStatus" name="accountStatus">
+			<option></option>
+	         <option>0</option>
+	         <option>1</option>
+	      </select>
+		</div>
+  </div>
+  
+  
+  
+	<div class="clr" style="height:20px;"></div>
+	<div class="form-group">
+	    <div class="col-xs-offset-3 col-xs-9">
+				<a href="/profile" class="btn btn-default" >Cancel</a>
+		  	<button type="submit" class="btn btn-success" >Submit</button>
+	    </div>
+	  </div>
+</form>
