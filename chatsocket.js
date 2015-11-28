@@ -39,7 +39,6 @@ io.on('connection', function(socket){
 	});
 
 	
-	
   socket.on('setUserSocketID',function(data){
 		onlineUsers.addUsersSocketID(data.userid, socket.id);
   });
@@ -67,12 +66,15 @@ io.on('connection', function(socket){
        		}).then(function() {
        			console.log(privateRooms[data.chatauthor_id]);
 						console.log("----- taget's socketid: "+onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']);
+							
+				//create.createPrivateMessage(data, function(){
 							io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']]).emit('private chat',{
        					chatauthor: user.username,
        				chatmessage: data.chatmessage,
     					createdAt: date
     				});
-       		});   	
+       		//});   	
+				});			
     	 		});  
     });
 		
@@ -90,11 +92,14 @@ io.on('connection', function(socket){
           	chatmessage: data.chatmessage, 
             timestamp: date
        		}).then(function() {
-						io.sockets.to([onlineUsers.getOnlineUsers()[data.reporter_userid]['socket_id']]).emit('new notification', {
-							chatauthor: data.founder,
+		
+			//create.createPrivateMessage(data, function(){		
+						io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']]).emit('new notification', {
+							chatauthor: data.chatauthor_id,
 							chatauthor_id: 3
 						});
-       		});   	
+			});			
+       		//});   	
 					
 			
 			
@@ -116,9 +121,6 @@ io.on('connection', function(socket){
 
 	   });
   
-
- 
-	 
 	 
     socket.on('new message', function(data) {
 			var date = new Date();
@@ -126,28 +128,23 @@ io.on('connection', function(socket){
 			models.user.findOne({where: {id: data.chatauthor_id}
 			}).then(function(user) {
 				console.log(user);
-   		models.chathistory.create({ 
+			create.createPublicMessage(data, function(){
+   		/*models.chathistory.create({ 
       	chatauthor_id: user.id,
         timestamp: date,
 				createdAt: date,
 				updateddAt: date,
         chatmessage: data.chatmessage  			
-   		}).then(function() {
+   		}).then(function() { */
 				io.sockets.emit('new message', {
    				chatauthor: user.username,
    				chatmessage: data.chatmessage,
 					createdAt: date
 				});
-   		});
+   		//});
+		   });		
 		});
-		
-
-    
-
- 
     });
-
-
 });
 
 

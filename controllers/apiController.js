@@ -43,14 +43,9 @@ router.put('/users/:id', function(req, res) {
 	 
 });
 
-
-
-
-//Retrieve all users with whom a user has privately chatted with
+//Retrieve all users with whom a user has privately chat with
 router.get('/users/chatbuddies/:user', function(req, res) {
-	 
-});
-
+});	
 //**************************** Messages ****************************//
 
 //Post an announcements 
@@ -95,7 +90,6 @@ router.get('/messages/announcement/:id', function(req, res) {
 	});
 });
 
-
 // Public Messages
 router.get('/messages/wall', function(req, res){
 	models.chathistory.findAll().then(function (msg) {
@@ -116,10 +110,10 @@ router.get('/messages/wall/:id', function(req, res){
 
 //Post a message on public wall from a user
 router.post('/messages/wall', function(req, res){
-	console.log(req.body);
+	//console.log(req.body);
 	create.createPublicMessage(req.body, function(){
 		res.type('json').status(200);
-	})
+	});
 });
 
 //Retrieve all private messages with all users with whom a user has privately done chat with
@@ -136,6 +130,7 @@ router.get('/messages/privatechat/:sender', function(req, res){
 
 //Retrieve all private messages between sender and receiver
 router.get('/messages/privatechat/:sender/:receiver', function(req, res){
+	if(!isInteger(req.params.sender)){
 	models.privatechathistory.findAll({
 	  attributes: ['id','chatauthor_id', 'chattarget_id','chatmessage', 'timestamp', 'createdAt'],
 	   include: [{model: models.user, as: 'usertarget_id', attributes: ['username'],where: {username: req.params.receiver}},
@@ -144,6 +139,16 @@ router.get('/messages/privatechat/:sender/:receiver', function(req, res){
 	}).then(function (privmessages) {
 	  res.json(privmessages);
 	});
+	}else{
+		models.privatechathistory.findAll({
+			where: {
+			chatauthor_id: req.params.sender,
+			chattarget_id: req.params.receiver
+			}
+			}).then(function (msg) {
+				res.json(msg); 
+			});	
+	}
 });
 
 //Retrieve a private wall message by ID
@@ -158,21 +163,14 @@ router.get('/messages/privatechat/:sender/:receiver', function(req, res){
 });*/
 
 //Retrieve all private chat messages between two users
-router.get('/messages/privatechat/:sender_id/:receiver_id', function(req, res){
-	models.privatechathistory.findAll({
-		where: {
-		chatauthor_id: req.params.sender_id,
-		chattarget_id: req.params.receiver_id
-		}
-		}).then(function (msg) {
-			res.json(msg); 
-		});
-});
-
+//router.get('/messages/privatechat/:sender_id/:receiver_id', function(req, res){
+//});
 
 //Send a chat message to another user
-router.post('/messages/:sender/:receiver', function(req, res){
-	
+router.post('/messages/privatechat/sender/receiver', function(req, res){
+	create.createPrivateMessage(req.body, function(){
+		res.type('json').status(200);
+	})
 });
 
 function isInteger(x) {
