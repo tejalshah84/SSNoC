@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width; initial-scale = 1.0; maximum-scale=1.0; user-scalable=no" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>SSNoC</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/simple-sidebar.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link href="../css/style.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+ <% include ./partials/push_notification%>
+
+
+   
+		
+    <!--wrapper -->
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <% include ./partials/sidebar %>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" style="padding: 0px;">
+					
+					<!--Top Navbar-->
+					<div style="height: 14vh;"><% include ./partials/topnav %></div>		
+					<!-- Public Chat Wall -->
+					<div style="height: 2vh;" ></div>
+					<!--Public Chat Wall wrapper -->
+					<div class="clr" style="padding-top:20px;" ></div>
+          <div ><% include ./partials/searchnav %></div>
+          <div ><% include ./partials/searchbody %></div>
+				
+				</div><!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+
+    <!--scripts: jquery, bootstrap and other custom js -->
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/utility.js"></script>
+    <script src="../js/search.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+
+        <!--welcomeModal--> 
+
+  
+    <!--welcomeModal--> 
+  <%if (user.roleid != 3) { %>
+    <% include ./partials/announceMsg %>
+  <% } %>
+
+
+
+  </body>
+
+</html>

@@ -56,24 +56,26 @@ io.on('connection', function(socket){
   
   
     socket.on('PrivateChatMsg',function(data){
-    	date = new Date();
-			models.user.findOne({where: {id: data.chatauthor_id}
+ 
+			models.user.findOne({
+				where: {id: data.chatauthor_id}
 			}).then(function(user) {
-    	models.privatechathistory.create({ 
-          	chatauthor_id: data.chatauthor_id,
-          	chattarget_id: data.chattarget_id,
-          	chatmessage: data.chatmessage, 
-            timestamp: date
-       		}).then(function() {
-       			console.log(privateRooms[data.chatauthor_id]);
+    			models.privatechathistory.create({ 
+		          	chatauthor_id: data.chatauthor_id,
+		          	chattarget_id: data.chattarget_id,
+		          	chatmessage: data.chatmessage, 
+		            timestamp: data.timestamp
+       			}).then(function() {
+       				console.log(privateRooms[data.chatauthor_id]);
 						console.log("----- taget's socketid: "+onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']);
 							io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']]).emit('private chat',{
-       					chatauthor: user.username,
-       				chatmessage: data.chatmessage,
-    					createdAt: date
-    				});
-       		});   	
-    	 		});  
+       							chatauthor_id: data.chatauthor_id,
+       							chatauthor: data.chatauthor,
+       							chatmessage: data.chatmessage,
+    							timestamp: data.timestamp
+    						});
+       			});   	
+    	 	});  
     });
 		
 		
@@ -121,22 +123,17 @@ io.on('connection', function(socket){
 	 
 	 
     socket.on('new message', function(data) {
-			var date = new Date();
-			
 			models.user.findOne({where: {id: data.chatauthor_id}
 			}).then(function(user) {
-				console.log(user);
-   		models.chathistory.create({ 
-      	chatauthor_id: user.id,
-        timestamp: date,
-				createdAt: date,
-				updateddAt: date,
-        chatmessage: data.chatmessage  			
-   		}).then(function() {
-				io.sockets.emit('new message', {
-   				chatauthor: user.username,
-   				chatmessage: data.chatmessage,
-					createdAt: date
+   				models.chathistory.create({ 
+	      			chatauthor_id: user.id,
+	        		timestamp: data.timestamp,
+	        		chatmessage: data.chatmessage  			
+   				}).then(function() {
+					io.sockets.emit('new message', {
+   					chatauthor: user.username,
+   					chatmessage: data.chatmessage,
+					timestamp: data.timestamp
 				});
    		});
 		});

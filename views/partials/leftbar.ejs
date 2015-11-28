@@ -1,0 +1,42 @@
+<!-- Left Side Bar for User Directory Partial -->
+<nav id="c-menu--push-left" class="c-menu c-menu--push-left">
+    <button style="display:none;" class="c-menu__close"><span  class="glyphicon glyphicon-menu-left"></span></button>
+    <div style="height: 50px; border-bottom: 1px solid; padding: 10px; 20px;">
+        <div class="pull-left" style="margin-right: 10px; color: white;"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></div>
+        <div style="float: left; color: white;">
+            <p hidden id="current_user"><%=user.id%></p>
+            <p hidden id="current_roleid"><%=user.roleid%></p>
+            <p hidden id="location"><%=user.location %></p>
+            <p hidden id="status"><%=user.statusid %></p>
+            <div style="padding-left:0px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px;" id="current_username" ><%= user.username%></div>
+        </div>
+        <div class="btn-group" role="group" style="float: left;">
+            <button type="button" style="border: none; padding: 4px 10px; background: none" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span id="current_status" class="glyphicon glyphicon-ok-sign" aria-hidden="true">
+                    <style>.glyphicon-ok-sign {color: green;}</style>
+                    <style>.glyphicon-exclamation-sign {color: yellow;}</style>
+                    <style>.glyphicon-plus-sign {color: red;}</style>
+                </span>
+                <span class="caret" style="color: white"></span>
+            </button>
+            <ul class="dropdown-menu status_list" style="min-width:100%;">
+                <li id="ok"> <a class="ok" href="#"><span class="glyphicon glyphicon-ok-sign" style="color:green" aria-hidden="true"></span></a></li>
+                <li id="help"><a href="#"><span class="glyphicon glyphicon-exclamation-sign" style="color:yellow" aria-hidden="true"></span></a></li>
+                <li id="emergency"><a href="#"><span class="glyphicon glyphicon-plus-sign" style="color:red" aria-hidden="true"></span></a></li>
+            </ul>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <ul class="user-list">
+        <li style="color: #62615f; padding: 10px 0;">
+            <span style="padding-right: 10px; color: white;" class="glyphicon glyphicon-globe"></span>
+            <a style="color: white;" href="/community">Community Forum</a>   
+        </li>   
+        <li>
+            <p style="font-weight: bold; color: white; margin: 0;">Online</p>
+            <ul id="online_list" style="list-style: none; padding-left: 20px;"></ul>
+            <p style="font-weight: bold; color: white; margin: 0;">Offline</p>
+            <ul id="offline_list" style="list-style: none; padding-left: 20px;"></ul>
+        </li>
+    </ul>
+</nav><!-- /c-menu push-left -->
