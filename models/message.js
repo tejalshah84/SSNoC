@@ -36,7 +36,7 @@ module.exports = function(sequelize){
 	  freezeTableName: true, // Model tableName will be the same as the model name
 		classMethods:{
 			associate: function(models){
-				chathistory.belongsTo(models.user, {foreignKey: 'chatauthor_id', targetKey: 'id'});
+				chathistory.belongsTo(models.user, {as: 'chatauthor', foreignKey: 'chatauthor_id', targetKey: 'id'});
 			}
 		}
 	});

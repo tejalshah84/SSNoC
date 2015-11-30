@@ -1,0 +1,64 @@
+
+<header class="o-header">
+    <nav class="navbar navbar-default" style="margin-bottom: 0; background-color: #ABC8E2; border: none; border-radius: 0;">
+      <div style="text-align: center; padding: 11px 0;">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="btn-group">
+        
+        <button class="btn btn-primary dropdown-toggle search-options" data-toggle="dropdown" id="searchCat">Search Category
+          <span class="caret"></span>
+        </button>
+        <ul class="search-context dropdown-menu dropdown-inverse">
+          <li><a href="#">Citizen</a></li>
+          <li><a href="#">Citizen Status</a></li>
+          <li><a href="#">Announcements</a></li>
+          <li><a href="#">Public Messages</a></li>
+          <li><a href="#">Private Messages</a></li>
+        </ul>
+        <div id="search-box" class="flexContainer">
+          <input type="text" class="form-control search-input" placeholder="Search...." id="searchText">
+          <div id="userStatus" style="display: none;">
+            <select id="statusOptions" class="status-options">
+              <option value="">Choose Status</option>
+              <option value="1">Emergency</option>
+              <option value="2">Help</option>
+              <option value="3">OK</option>
+              <option value="4">No Status</option>
+            </select>
+          </div>
+          <div>
+            <button class="btn btn-default search-category" type="submit" id ="submitSearch"><span class="glyphicon glyphicon-search"></span></button>
+          </div>
+          <div class="cancel-search">
+          <a href="/community"><span>Cancel</span></a>
+          </div>
+        </div>
+        
+      </div>  
+  </div>
+    </nav>
+</header><!-- /o-header -->
+
+
+
+	    
+
+
+  <div id="search-results" class="search-result">
+
+    <div id="search-list">
+    </div>
+
+  </div>
+
+  <nav id="search-pagination" style="display:none;">
+    <ul class="pagination">
+      <li>
+          <span aria-hidden="true">&laquo;</span>
+      </li>
+      <li>
+          <span aria-hidden="true">&raquo;</span>
+      </li>
+    </ul>
+  </nav>
+

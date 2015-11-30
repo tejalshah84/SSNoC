@@ -69,6 +69,7 @@ router.post('/', function(req, res){
 				}).then(function() {
 					req.session.user = result;
 					req.session.isNewUser = false;
+					req.session.newUserCount = 1;
 					goOnline(result);
 					res.redirect('/community');
 				});
@@ -108,8 +109,8 @@ router.post('/signup', function(req, res){
 					password: pwd_hash,
 					firstname: "",
 					lastname: "",
-					statusid: 3,
-					roleid: 3,
+					statusid: 4,
+					roleid: 4,
 					lastlogintime: date
 				}).then(function() {
 			    models.user
@@ -117,6 +118,7 @@ router.post('/signup', function(req, res){
 			      .then(function (user) {
 							req.session.user = user;
 							req.session.isNewUser = true;
+							req.session.newUserCount = 0;
 							goOnline(user);
 							res.redirect('/community');
 			      });
@@ -130,50 +132,34 @@ router.post('/signup', function(req, res){
 });
 
 router.get('/community', ifSignIn, function(req, res) {
-	
-		models.user.findAll().then(function (user) {	
-			var users = user;
-			models.chathistory.findAll().then(function (msg) {	
-        var chathistory = msg;
-				
-				// render the welcome page
-			  	res.render('community', { 
-						user: req.session.user,
-						isNewUser: req.session.isNewUser,
-						chatHistory: chathistory, 
-						userDirectory : users,
-						onlineUsers: onlineUsers.getOnlineUsers()
-						});
-			});
-		});
-		
-	
-});
-//req.params.id
 
-router.get('/chat/:id', ifSignIn, function(req, res) {	
-		if(req.params.id == req.session.user.id){
-			res.redirect('/community');
+		++req.session.newUserCount;
+
+		if (req.session.newUserCount>1){
+			req.session.isNewUser = false;
 		}
-		models.user.findAll().then(function (user) {	
-			var users = user;	
-		models.privatechathistory.findAll({
-		where: {
-		chatauthor_id: {
-			$in: [req.session.user.id, req.params.id]
-		},
-		chattarget_id:{ 	  
-			$in: [req.session.user.id, req.params.id]}
-		}
-	}).then(function (msg) {
-  	res.render('chat', { 
-			user: req.session.user,
-			userDirectory : users,
-			chatHistory: msg,
-			targetName: req.params.id
-			}); 
+		console.log(req.session.isNewUser);
+		// render the welcome page
+		res.render('community', { 
+		user: req.session.user,
+		isNewUser: req.session.isNewUser,
+		newUserCount: req.session.newUserCount,				
 		});
-		});
+});
+
+
+router.get('/chat/:id', ifSignIn, function(req, res) {
+	
+	req.params.id = Number(req.params.id);
+	
+	if(req.params.id == req.session.user.id){
+		res.redirect('/community');
+	}
+		
+  	res.render('privatechat', { 
+		user: req.session.user,
+		targetName: req.params.id
+	}); 
 });
 
 router.get('/searchpage', ifSignIn, function(req, res) {

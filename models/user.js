@@ -67,7 +67,6 @@ module.exports = function(sequelize){
 				user.hasMany(models.announcement, {foreignKey: 'publisher_userid'});
 				user.hasMany(models.chathistory, {foreignKey: 'chatauthor_id'});
 				user.hasMany(models.privatechathistory, {foreignKey: 'chattarget_id'});
-				user.hasMany(models.privatechathistory, {foreignKey: 'chatauthor_id'});
 				user.hasMany(models.missingperson, {foreignKey: 'reporter_userid'});
 				user.hasMany(models.missingperson, {foreignKey: 'missing_userid'});
 			},

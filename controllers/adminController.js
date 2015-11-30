@@ -13,7 +13,7 @@ var models = require('.././models');
 router.get('/', function(req, res) {
 	if (req.session && req.session.user) { 
 		models.user.findAll().then(function (user) {
-		  	res.render('minitor', { 
+		  	res.render('monitor', { 
 					user: req.session.user,
 					userDirectory : user,
 					onlineUsers: onlineUsers.getOnlineUsers()

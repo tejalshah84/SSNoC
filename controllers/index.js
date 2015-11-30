@@ -29,10 +29,10 @@ module.exports = function(app){
 
   
 	router.use('/', joinCommunityController);
-  	router.use('/api', apiController);
+  router.use('/api', apiController);
 	router.use('/admin', adminController);
-  	router.use('/announcements', announcementsController);
-  	router.use('/messages', messagesController);
+  router.use('/announcements', announcementsController);
+  router.use('/messages', messagesController);
  	router.use('/privatechats', privatechatsController);
 	router.use('/search', searchController);
 	router.use('/test_messages', test_messagesController);	
@@ -42,15 +42,15 @@ module.exports = function(app){
 	
 	
 	// ROUTING
-  app.use(router);
+ 	app.use(router);
 
-  router.get('/', function(req, res) {
-    res.status(200).send('Hello, this is SSNoC API!');
-  });
+  	router.get('/', function(req, res) {
+    	res.status(200).send('Hello, this is SSNoC API!');
+  	});
 
-  router.get('*', function(req, res) {
-    res.status(404).end();
-  });
+  	router.get('*', function(req, res) {
+    	res.status(404).end();
+  	});
 
   return router;
 };

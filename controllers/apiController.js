@@ -57,18 +57,11 @@ router.post('/messages/announcement', function(req, res){
 
 router.get('/messages/announcement/latest', function(req, res) {
 	models.announcement.findAll({
-		  order:'id DESC', 
+		include: [{model: models.user, attributes: ['id','username']}],
+		  order: [['id','DESC']], 
 		  limit: 1
 	}).then(function (announce) {
-		models.user.findById(models, announce[0].publisher_userid, function(user){
-			var data = {
-				"id": announce[0].id,
-				"publisher": user.username,
-				"content": announce[0].content,
-				"createdAt": announce[0].createdAt
-			}
-			res.json(data);
-		});
+		res.json(announce[0]);
 	});
 });
 
@@ -92,8 +85,13 @@ router.get('/messages/announcement/:id', function(req, res) {
 
 // Public Messages
 router.get('/messages/wall', function(req, res){
-	models.chathistory.findAll().then(function (msg) {
-		  res.json(msg);
+	models.chathistory.findAll({					
+		include: [{model: models.user, attributes: ['id','username']}],
+		order: [['id','ASC']]
+	}).then(function (msg) {
+		res.json(msg);
+	}).catch(function (err){
+		console.log(err)
 	});
 });
 

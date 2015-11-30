@@ -1,16 +1,14 @@
 var Sequelize = require('sequelize');
 
 module.exports = function(sequelize){
-	var announce = sequelize.define('announcement', {
+	var announcement = sequelize.define('announcement', {
 	  id:{
 	    type: Sequelize.INTEGER,
 	      primaryKey: true,
 	      autoIncrement: true
 	  },
-	  publisher_userid: {
-	    type: Sequelize.INTEGER,
-	    allowNull: true,
-	    defaultValue: null
+		publisher_userid: {
+	    type: Sequelize.INTEGER
 	  },
 	  content: {
 	    type: Sequelize.TEXT,
@@ -27,12 +25,12 @@ module.exports = function(sequelize){
 	  freezeTableName: true, // Model tableName will be the same as the model name
 		classMethods:{
 			associate: function(models){
-				announce.belongsTo(models.user, {foreignKey: 'publisher_userid', targetKey: 'id'});
+				announcement.belongsTo(models.user, {foreignKey: 'publisher_userid', targetKey: 'id'});		
 			}
 		}
 	});
 
 
 	
-	return announce;
+	return announcement;
 };
