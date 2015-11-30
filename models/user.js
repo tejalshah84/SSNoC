@@ -53,7 +53,13 @@ module.exports = function(sequelize){
 	  updatedAt: {
 	    type: Sequelize.DATE,
 			defaultValue: null
+	  },
+	  
+	  accountStatus: {
+	    type: Sequelize.INTEGER,
+		  	defaultValue: 1
 	  }
+	  
 	}, {
 	  freezeTableName: true, // Model tableName will be the same as the model name
 		classMethods:{

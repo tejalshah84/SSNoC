@@ -53,6 +53,12 @@ router.post('/', function(req, res){
 			// If the username isn't in the DB, reset the session and redirect the user to signup an account
 			res.render('signin',{error: "Username not found!"});
 		}else{  // If the user is in the DB, retrieve password and compare it	
+			
+			if(result.accountStatus==0)//If accountStatus is InActive, user could not signin
+				{
+					res.render('signin',{error: "Account is InActive!"});
+				}
+			
 			var pwd_hash = result.password;
 			var comparison = bcrypt.compareSync(req.body.password, pwd_hash);
 			if(comparison){ //If pwd is correct, update new login time to DB and enter the welcome page	

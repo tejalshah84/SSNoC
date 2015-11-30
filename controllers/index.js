@@ -24,19 +24,21 @@ module.exports = function(app){
 	var usersController = require('./usersController');
 	var missingPeopleController = require('./missingPeopleController');
 	var apiController = require('./apiController');
+	var profileController = require('./profileController');
 	
 
   
 	router.use('/', joinCommunityController);
-  router.use('/api', apiController);
+  	router.use('/api', apiController);
 	router.use('/admin', adminController);
-  router.use('/announcements', announcementsController);
-  router.use('/messages', messagesController);
-  router.use('/privatechats', privatechatsController);
+  	router.use('/announcements', announcementsController);
+  	router.use('/messages', messagesController);
+ 	router.use('/privatechats', privatechatsController);
 	router.use('/search', searchController);
 	router.use('/test_messages', test_messagesController);	
 	router.use('/users', usersController);
 	router.use('/missing', missingPeopleController);
+	router.use('/profile', profileController);
 	
 	
 	// ROUTING
