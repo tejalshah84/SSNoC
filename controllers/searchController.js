@@ -27,8 +27,15 @@ router.get('/', function(req, res) {
 		  
 			}).then(function (users) {
 
+			if(users.length ===0){
+
+				res.json({error: "No results matching the search criteria"})
+			}
+			else{	
+
 			  var result = util.divideUsers(users);
 			  res.json(result);
+			}
 		});
 	}
 	else if(searchCriteria === "Citizen Status"){
@@ -39,8 +46,16 @@ router.get('/', function(req, res) {
 		    statusid: searchText
 		  }
 		  }).then(function (users) {
+
+		  	if(users.length ===0){
+
+				res.json({error: "No results matching the search criteria"})
+			}
+			else{	
+
 		  	  var result = util.divideUsers(users);
 			  res.json(result);
+			}
 		});
 
 	}
@@ -111,7 +126,7 @@ router.get('/', function(req, res) {
 			}
 		}
 		else {
-				res.json({error: "Incorrect Search Text"})
+				res.json({error: "Search text contains stop words"})
 		}
 
 	}

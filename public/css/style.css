@@ -10,6 +10,14 @@ html, body{
 	    overflow-x: hidden;
 }
 
+.full-height{
+	height: 100%;
+}
+
+.full-width{
+	width: 100%;
+}
+
 .clickable {
     cursor: pointer;
 }
@@ -52,15 +60,24 @@ html, body{
 	color:green !important;
 }
 .messages_item{
-	background: #eee;
+	
 }
 .chat_author{
-	padding-right:10px;
-	font-weight:bold;
+	font-weight: bold;
+    font-size: 14px;
+    float: left;
 }
 
 .chat_timestamp{
 	float:right;
+	font-size: 10px;
+    font-style: italic;
+    margin-top: 5px;
+    margin-bottom: 0
+}
+
+.chat-messsage{
+	font-size: 14px;
 }
 .badge{
 	margin-left:10px;
@@ -84,13 +101,17 @@ html, body{
 
 .searchlist_item {
 	padding: 10px; 
-	-webkit-box-shadow: 1px 1px 5px 0px rgba(204,204,204,1); 
-	-moz-box-shadow: 1px 1px 5px 0px rgba(204,204,204,1); 
-	box-shadow: 1px 1px 5px 0px rgba(204,204,204,1);
-	border: 1px solid green;
+	border: 1px solid #CCCCCC;
 }
 .srch_username {
-	float: left;
+	font-weight: bold;
+	font-size: 14px;
+	margin-bottom: 0
+}
+
+.srchlocation{
+	margin: 0;
+	font-size: 11px;
 }
 
 .nav-actions{
@@ -119,16 +140,31 @@ html, body{
 }
 
 .alert{
-	padding: 10px 20px; 
+	padding: 6px 20px; 
 	margin-bottom: 0px;
+	height: 50px;
 }
 
-.btn-success{
+.announcement-text{
+	font-size: 12px;
+	font-weight: bold;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.announcement-by{
+	font-size: 10px;
+	font-style: italic;
+	text-align: right;
+}
+
+.btn-success, .btn-primary{
 	background-color: #1C405E;
 	border-color: #ABC8E2;
 }
 
-.btn-success:hover{
+.btn-success:hover, .btn-success:active, .btn-success:focus, .btn-success:active:focus,.btn-primary:hover, .btn-primary:active, .btn-primary:focus{
 	background-color: #4777A6;
 	border-color: #ABC8E2;
 }
@@ -137,3 +173,113 @@ html, body{
 	background-color: #C4D7ED;
 }
 
+.public-wall-container{
+	height: calc(100% - 100px);
+}
+
+.public-wall-content{
+	height: calc(100% - 52px);
+	overflow: auto;
+}
+
+.post-message{
+	padding: 10px 15px;
+    border-top: 1px solid #c7c7c7;
+    border-radius: 0;
+    background-color: #F2F2E5;
+}
+
+blockquote{
+	border-left: none;
+	border-bottom: 1px solid #eee;
+    padding: 10px 20px;
+    margin: 0
+}
+
+.search-result-block{
+	border-left: none;
+    padding: 10px 20px;
+    margin: 0
+}
+
+.search-result{
+	 height: calc(100% - 50px);
+    overflow: auto;
+
+}
+
+.search-options{
+	border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    width: 108px;
+    padding: 6px;
+    font-size: 10px;
+}
+
+.search-category{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 3px 8px;
+    height: 28px;
+}
+
+.cancel-search{
+	padding: 4px 5px;
+    height: 28px;
+    font-size: 12px;
+}
+
+.cancel-search a {
+	color: #6d6d6d;	
+}
+
+.cancel-search a:hover, .cancel-search a:focus, .cancel-search a:active {
+	color: white;
+	text-decoration: none	
+}
+
+.search-input{
+	width: 120px;
+    display: block;
+    height: 28px;
+    border-radius: 0;
+    font-size: 12px;
+    padding: 6px;
+}
+
+
+.status-options{
+	padding: 4px;
+    width: 120px;
+    border-color: #ccc;
+    height: 28px;
+    font-size: 12px;
+}
+
+
+.icon-margin{
+	padding-right: 10px;
+}
+
+.c-menu--push-right .c-menu__item{
+	text-align: left;
+	border-bottom: none;
+	border-top: 1px solid #ABC8E2 !important;
+}
+
+.error-message{
+	background-color: red;
+    color: white;
+    text-align: center;
+}
+
+.nav-title{
+	text-align: center;
+    font-size: 16px;
+    color: #6d6d6d;
+    margin: 14px 0;
+}

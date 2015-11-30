@@ -27,9 +27,9 @@ function getUserStatus(num){
 function dateForamt(date){
 	var d = new Date(date);
     var month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    var date = d.getDate() + " " + month[d.getMonth()] + ", " +  d.getFullYear();
-    var time = d.toLocaleTimeString().toLowerCase();
-    return (date + " at " + time); 
+    var date = d.getDate() + " " + month[d.getMonth()] + " " +  d.getFullYear();
+    var time = d.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
+    return (date + ", " + time); 
 }
 
 

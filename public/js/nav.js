@@ -38,22 +38,22 @@ var pushRightBtn = document.querySelector('#c-button--push-right');
 var menu = {    
 
   'home': "<li class=\"c-menu__item\">" +
-  "<a href=\"/community\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-home\" aria-hidden=\"true\"></span> Home</a></li>",
+  "<a href=\"/community\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-home icon-margin\" aria-hidden=\"true\"></span> Home</a></li>",
 
     'missing': "<li class=\"c-menu__item\">" +
-    "<a href=\"/missing/deck\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-question-sign\" aria-hidden=\"true\"></span> Missing People</a></li>",
+    "<a href=\"/missing/deck\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-info-sign icon-margin\" aria-hidden=\"true\"></span> Missing People</a></li>",
 
     'announcement': "<li class=\"c-menu__item\">" +
-    "<a data-toggle=\"modal\" data-target=\"#postAnnouncementModal\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-volume-up\" aria-hidden=\"true\"></span> Post Announcement</a></li>",
+    "<a data-toggle=\"modal\" data-target=\"#postAnnouncementModal\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-volume-up icon-margin\" aria-hidden=\"true\"></span> Post Announcement</a></li>",
 
     'userprofile': "<li class=\"c-menu__item\">" +
-    "<a href=\"#\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-cog\" aria-hidden=\"true\"></span> Admin User Profile</a></li>",
+    "<a href=\"#\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-cog icon-margin\" aria-hidden=\"true\"></span> Admin User Profile</a></li>",
         
     'monitorperform': "<li class=\"c-menu__item\">" +
-    "<a href=\"/admin\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-equalizer\" aria-hidden=\"true\"></span> Measure Performance</a></li>",
+    "<a href=\"/admin\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-equalizer icon-margin\" aria-hidden=\"true\"></span> Measure Performance</a></li>",
         
     'signout': "<li class=\"c-menu__item\">" +
-    "<a href=\"/signout\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-log-out\" aria-hidden=\"true\"></span> Signout</a></li>"
+    "<a href=\"/signout\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-log-out icon-margin\" aria-hidden=\"true\"></span> Signout</a></li>"
 }
 
 

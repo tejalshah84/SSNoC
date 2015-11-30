@@ -17,7 +17,6 @@ $(window).load(function() {
 	getUserDirectory();
 	
 	if ($('#isnewuser').text() == 'true'){
-		console.log('in modal if');
 		$('#welcomeModal').modal('show');
 	}
 	if($('#push_notification').length > 0){
@@ -66,7 +65,6 @@ socket.on('user left', function (data) {
 
 //Emit Public Chat Message
 $('#submitMessage').on('click', function(){
-	console.log('emitting public chat');
     if($('.inputMessage').val() !== ''){
        	socket.emit('new message', {
           	chatauthor_id: current_user,
@@ -82,7 +80,6 @@ $('#submitMessage').on('click', function(){
    
 //Receive Public Chat Message
 socket.on('new message', function (data) {
-	console.log(data);
    addChatMessage(data);
 });
 
@@ -199,7 +196,6 @@ function getUserDirectory(){
 
 //Display User Directory Function
 function displayUserDirectory(users){		 
-	console.log(users.offline);
 	$('#online_list').empty();
 	$('#offline_list').empty();
 	var users_online = users.online;
@@ -241,7 +237,7 @@ function retrieveLatestAnnouncement(){
 //Display Lastest Announcement
 function displayLatestAnnouncement(data){		
 	$('#new_announce_post').empty();
-  	var post = "<strong>"+data.content+"</strong>"+"   - posted by: "+data.publisher+" at "+dateForamt(data.createdAt);
+  	var post = "<div class=\"announcement-text\">"+data.content+"</div>"+ "<div class=\"announcement-by\">by " +data.publisher +" at "+ dateForamt(data.createdAt) + "</div>";
   	$('#new_announce_post').append(post);
   	$('#announcement').show();
     if($('#postAnnouncementModal').length > 0){
@@ -271,10 +267,9 @@ function getChatHistory(){
 //Load Public Chat History on Page
 function loadChatHistory(data){
 	data.forEach(function(msg){
-		var chatContent = "<blockquote><p><span class=\"chat_author\">"+msg.user.username+": </span>"+	
-							msg.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(msg.timestamp)+"</small></span></p></blockquote>";
+		var chatContent = "<blockquote><p><div class=\"chat_author\">"+msg.user.username+"</div><div class=\"chat_timestamp\"><small>"+dateForamt(msg.timestamp)+"</small></div><div class=\"clear-float\"></div><div class=\"chat-messsage\">"+	
+							msg.chatmessage+"</div></p></blockquote>";
 		var item = "<li class=\"messages_item\">"+chatContent+"</li>";
-		console.log(item);
 		$('#messages').append(item);			
 	});
 	scrollListBtm();		
@@ -282,9 +277,9 @@ function loadChatHistory(data){
 
 //Adds the individual public chat message to the public wall
 function addChatMessage (data) {
-	var chatContent = "<blockquote><p><span class=\"chat_author\">"+data.chatauthor+": </span>"+	
-					data.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(data.timestamp)+"</small></span></p></blockquote>";					
-	var item = "<li class=\"messages_item\">"+chatContent+"</li>";
+	var chatContent = "<blockquote><p><div class=\"chat_author\">"+data.chatauthor+"</div><div class=\"chat_timestamp\"><small>"+dateForamt(data.timestamp)+"</small></div><div class=\"clear-float\"></div><div class=\"chat-messsage\">"+	
+							data.chatmessage+"</div></p></blockquote>";
+		var item = "<li class=\"messages_item\">"+chatContent+"</li>";
 	$('#messages').append(item);
 	scrollListBtm();				 
 }
@@ -311,12 +306,11 @@ function getPrivChatHistory(element){
  	});	
 }
 
-
 //Load Public Chat History on Page
 function loadPrivChatHistory(data){
 	data.forEach(function(msg){
-		var chatContent = "<blockquote><p><span class=\"chat_author\">"+msg.userauthor_id.username+": </span>"+	
-						msg.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(msg.timestamp)+"</small></span></p></blockquote>";
+		var chatContent = "<blockquote><p><div class=\"chat_author\">"+msg.userauthor_id.username+"</div><div class=\"chat_timestamp\"><small>"+dateForamt(msg.timestamp)+"</small></div><div class=\"clear-float\"></div><div class=\"chat-messsage\">"+	
+							msg.chatmessage+"</div></p></blockquote>";
 		var item = "<li id=\"priv_messages_item\">"+chatContent+"</li>";
 		$('#privMsgList').append(item);
 	});
@@ -326,8 +320,8 @@ function loadPrivChatHistory(data){
 //Adds the individual private chat message to the private chat window and updates badge number
 function addPrivChatMessage (data) {
 		   
-	var chatContent = "<blockquote><p><span class=\"chat_author\">"+data.chatauthor+": </span>"+	
-						data.chatmessage+"<span class=\"chat_timestamp\"><small>"+dateForamt(data.timestamp)+"</small></span></p></blockquote>";					
+	var chatContent = "<blockquote><p><div class=\"chat_author\">"+data.chatauthor+"</div><div class=\"chat_timestamp\"><small>"+dateForamt(data.timestamp)+"</small></div><div class=\"clear-float\"></div><div class=\"chat-messsage\">"+	
+							data.chatmessage+"</div></p></blockquote>";					
 	var item = "<li class=\"priv_messages_item\">"+chatContent+"</li>";
 	$('#privMsgList').append(item);
 	scrollListBtm();	

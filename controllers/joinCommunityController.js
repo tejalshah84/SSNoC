@@ -103,8 +103,8 @@ router.post('/signup', function(req, res){
 					password: pwd_hash,
 					firstname: "",
 					lastname: "",
-					statusid: 3,
-					roleid: 3,
+					statusid: 4,
+					roleid: 4,
 					lastlogintime: date
 				}).then(function() {
 			    models.user
