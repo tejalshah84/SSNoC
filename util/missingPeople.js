@@ -5,9 +5,13 @@ var models = require('.././models');
 
 
 exports.uploadImage = function(req, filename, path, callback){
+	if (!req.file){
+  	console.log("No image uploaded");
+		callback();
+	}else{
 	fs.readFile(req.file.path, function (err, data) {
 		if(!filename){
-			console.log("There was an error")
+			console.log("There was an error");
 		} else {
 		  var newPath = path + "/" + filename;
 			console.log("path = "+newPath);
@@ -17,6 +21,7 @@ exports.uploadImage = function(req, filename, path, callback){
 		  });
 		}
 	});
+	}
 };
 
 
@@ -40,17 +45,23 @@ exports.createMissingPerson = function(data, filename, current_user, callback){
 
 exports.foundMissingPerson = function(person_id, data, callback){
 	console.log("people# "+person_id);
-	models.missingperson.findOne({
-		where:{
-			id: person_id
-		}
-	}).then(function (person) {
-		console.log('*** '+ person.firstname);
-		person.update({
-		  missing: 0
-		}).then(function() {
-			
-			callback(person);
-		});
-	});
+	
+	models.missingperson.update(
+			  {
+				  missing: 0, 
+					location: data.location,
+					note: data.note, 
+					lastseen: data.lastseen
+			  },
+			  {
+			    where: { id: person_id }
+			  })
+			  .then(function (person) { 
+					console.log("here.......!");
+					console.log(person);
+				  callback(person);
+			  })
+			  .error(function (e) {
+				  console.log(e);
+			  });
 };

@@ -34,7 +34,7 @@ $(function() {
     } );
 
     $el.on( "touchend mouseup", function () {
-			
+			event.preventDefault();
       touchDown = false;
       originalPosition = null;
     } );

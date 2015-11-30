@@ -20,6 +20,22 @@ $(function() {
 	
 	
 	// --------------- Iteration 4 -----------------------//
+	var $f_firstname = $('#new_missing_person.firstname').val();
+	var $f_lastname = $('#new_missing_person.lastname').val();
+	
+	function validateNewPersonForm(){
+		if ($f_firstname == null || $f_firstname == "" || !/\S/.test($f_firstname)) { 
+			alert("Please enter person's firstname");
+			$f_firstname.focus();
+			return false; 
+		}
+
+		if ($f_lasttname == null || $f_lastname == "" || !/\S/.test($f_lastname)) { 
+			alert("Please enter person's lastname");
+			$f_lastname.focus();
+			return false; 
+		}
+	}
 	
 	
 	// this is the id of the form

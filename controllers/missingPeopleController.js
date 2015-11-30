@@ -60,10 +60,10 @@ router.post('/:id/found', function(req, res) {
 	console.log(req.body);
 	
 	services.foundMissingPerson(req.params.id, req.body, function(person){
-		console.log(person['dataValues']);
+		console.log(person);
 		models.user.findOne({
 			  where: {
-			    id: person['dataValues'].reporter_userid
+			    id: person
 				}
 		}).then(function (result) {
 			var data = {"id": result.id, "reporter_userid": result.username, "person": person, "founder": req.session.user.username};
@@ -80,10 +80,17 @@ router.post('/:id/found', function(req, res) {
 router.post('/', upload.single('file'), function(req, res) {
 	console.log(req);
 		var path = __dirname + "/../public/uploads";
-		services.uploadImage(req,req.file.originalname,path, function() {
-			var person = services.createMissingPerson(req.body, req.file.originalname, req.session.user,function(person) {
+		if(!req.file){
+			console.log("????");
+			var filename = null;
+		}else{
+			var filename = req.file.originalname;
+		}
+		
+		services.uploadImage(req,filename,path, function() {
+			var person = services.createMissingPerson(req.body, filename, req.session.user,function(person) {
 	  		console.log('--------------');
-				console.log(person['dataValues']);
+				console.log(person);
 					res.redirect('/missing/deck');
 			});
 		});
