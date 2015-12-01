@@ -20,14 +20,15 @@ var person = {
 };
 
 ///////////////////////////////////////////////////////////////
+setup(function (done){
+	server.close();
+	done();
+});
 
 
 suite('Missing Person API', function(){
 	
-	setup(function (done){
-		server.close();
-		done();
-	});
+	
 	
 	test('Getting all missing person', function(done){
 	    request
@@ -38,14 +39,13 @@ suite('Missing Person API', function(){
 					should.not.exist(err);
 					done();
 				});
-				
-				
 	});
 			
 	test('Getting a particular missing person', function(done){
 	    request
 	    	.get('/missing/'+person.id)
 				.expect('Content-Type', /json/)
+				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
 					done();
@@ -56,6 +56,7 @@ suite('Missing Person API', function(){
   	request
   		.get('/missing/missing')
 			.expect('Content-Type', /json/)
+			.expect(200) 
 			.end(function(err, res){
 				should.not.exist(err);
 				done();
@@ -67,6 +68,7 @@ suite('Missing Person API', function(){
 		request
 			.get('/missing/found')
 			.expect('Content-Type', /json/)
+			.expect(200) 
 			.end(function(err, res){
 				should.not.exist(err);
 				done();
