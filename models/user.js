@@ -11,40 +11,48 @@ module.exports = function(sequelize){
 	    primaryKey: true,
 	    allowNull: false,
 	    defaultValue: null,
-	    unique: true
+	    unique: true,
+			field: 'username'
 	  },
 	  password: {
 	    type: Sequelize.STRING,
 	    allowNull: false,
-	    defaultValue: null
+	    defaultValue: null,
+			field: 'password'
 	  },
 	  firstname: {
 	    type: Sequelize.TEXT,
 	    allowNull: true,
-	    defaultValue: null
+	    defaultValue: null,
+			field: 'firstname'
 	  },
 	  lastname: {
 	    type: Sequelize.TEXT,
 	    allowNull: true,
-	    defaultValue: null
+	    defaultValue: null,
+			field: 'lastname'
 	  },
 	  location: {
 	    type: Sequelize.TEXT,
 	    allowNull: true,
-	    defaultValue: null
+	    defaultValue: null,
+			field: 'location'
 	  },
 	  statusid: {
 	    type: Sequelize.INTEGER,
-			allowNull: true
+			allowNull: true,
+			field: 'statusid'
 	  },
 	  roleid: {
 	    type: Sequelize.INTEGER,
 	    allowNull: true,
-	    defaultValue: null
+	    defaultValue: null,
+			field: 'roleid'
 	  },
 	  lastlogintime: {
 	    type: Sequelize.DATE,
-			defaultValue: null
+			defaultValue: null,
+			field: 'lastlogintime'
 	  },
 	  createdAt: {
 	    type: Sequelize.DATE,
@@ -57,7 +65,8 @@ module.exports = function(sequelize){
 	  
 	  accountStatus: {
 	    type: Sequelize.INTEGER,
-		  	defaultValue: 1
+		  defaultValue: 1,
+			field: 'accountStatus'
 	  }
 	  
 	}, {
@@ -91,6 +100,27 @@ module.exports = function(sequelize){
 					next(null);
 				});
 
+			},
+			createUser: function(models, data, next){				
+				models.user.create({ 
+					username: data.username, 
+					password: data.password,
+					firstname: "",
+					lastname: "",
+					statusid: 4,
+					roleid: 4,
+					lastlogintime: new Date()
+				}).then(function(user) {
+					console.log("New User Created!");
+			    next(user);
+			  });
+			},
+			destroyUser: function(models, id, next){
+				models.user.findOne({ where: { id: id}}).then(function(user){
+					return user.destroy();
+				}).then(function(e){
+					next();
+				});
 			}
 		}
 	});

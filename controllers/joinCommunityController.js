@@ -8,6 +8,7 @@ var onlineUsers = require('.././lib/onlineUsers.js');
 
 var bcrypt = require('bcryptjs');// Load the bcrypt module
 var salt = bcrypt.genSaltSync(10);// Generate a salt
+var util = require('.././util/util.js');
 
 
 var models = require('.././models');
@@ -16,14 +17,7 @@ var models = require('.././models');
 // -------------------------------------------------------------------------------------//
 
 
-var ifSignIn = function (req, res, next) {
-	if (req.session && req.session.user) { 
-		console.log('~~~~~~~~~~~~~~~ Session exist!!!');
-		next();
-	}else{
-		res.redirect('/signin');
-	}  
-}
+
 
 /* show signin page*/
 router.get('/', function(req, res) {
@@ -34,7 +28,7 @@ router.get('/signin', function(req, res, next) {
 	res.render('signin', { error: ""});
 });
 
-router.get('/signout', ifSignIn, function(req, res){ 
+router.get('/signout', util.ifSignIn, function(req, res){ 
 		onlineUsers.removeOnlineUsers(req.session.user.id);
 		req.session.destroy();
 		res.redirect('/signin');
@@ -88,50 +82,27 @@ router.get('/signup', function(req, res, next) {
 router.post('/signup', function(req, res){
 	var username = req.body.username;
 	if(badUsername.contains(username)){
-		res.render('signup',{error: "Username not valid!"});				
+		res.render('signup', {error: "Username not valid!"});				
 	}else{
-		models.user.findOne({
-		  where: {
-		    username: username
-		  }
-		}).then(function (result) {
+		models.user.findByUsername(models, username, function (result) {
 			if(result){
-				res.render('signup',{error: "Username already exists!"});				
+				res.render('signup', {error: "Username already exists!"});				
 			}else{
-				// Hash the password with the salt
-				var pwd_hash = bcrypt.hashSync(req.body.password, salt);
-			  var date = new Date();
-			//  var logintime = date.toLocaleTimeString();
-	
+				var pwd_hash = bcrypt.hashSync(req.body.password, salt);	// Hash the password with the salt
 				req.session.username = username;
-				models.user.create({ 
-					username: username, 
-					password: pwd_hash,
-					firstname: "",
-					lastname: "",
-					statusid: 4,
-					roleid: 4,
-					lastlogintime: date
-				}).then(function() {
-			    models.user
-			      .findOne({where: {username: username}})
-			      .then(function (user) {
-							req.session.user = user;
-							req.session.isNewUser = true;
-							req.session.newUserCount = 0;
-							goOnline(user);
-							res.redirect('/community');
-			      });
+				models.user.createUser(models, {"username": username, "password": pwd_hash}, function(user) {
+					req.session.user = user;
+					req.session.isNewUser = true;
+					req.session.newUserCount = 0;
+					goOnline(user);
+					res.redirect('/community');
 			  });
 			}
-			
 		});
-	
-}
-  
+	}  
 });
 
-router.get('/community', ifSignIn, function(req, res) {
+router.get('/community', util.ifSignIn, function(req, res) {
 
 		++req.session.newUserCount;
 
@@ -148,7 +119,7 @@ router.get('/community', ifSignIn, function(req, res) {
 });
 
 
-router.get('/chat/:id', ifSignIn, function(req, res) {
+router.get('/chat/:id', util.ifSignIn, function(req, res) {
 	
 	req.params.id = Number(req.params.id);
 	
@@ -162,7 +133,7 @@ router.get('/chat/:id', ifSignIn, function(req, res) {
 	}); 
 });
 
-router.get('/searchpage', ifSignIn, function(req, res) {
+router.get('/searchpage', util.ifSignIn, function(req, res) {
 	res.render('searchpage',{
 		user: req.session.user
 	  });	

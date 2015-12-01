@@ -2,7 +2,14 @@ var onlineUsers = require('.././lib/onlineUsers.js');
 var checkwords = require('.././lib/reservedNames.js');
 
 
-
+exports.ifSignIn = function (req, res, next) {
+	if (req.session && req.session.user) { 
+		console.log('~~~~~~~~~~~~~~~ Session exist!!!');
+		next();
+	}else{
+		res.redirect('/signin');
+	}  
+}
 
 
 exports.checkSearchWords = function(text){
