@@ -21,13 +21,18 @@ var person = {
 
 ///////////////////////////////////////////////////////////////
 
-
+	suiteSetup(function (done){
+		server.close(done);
+//		return done();
+	});
 suite('Missing Person API', function(){
 	
-	setup(function (done){
-		server.close();
-		return done();
-	});
+	
+	
+//	suiteTeardown(function (done){
+//		server.close(done);
+//		return done();
+//	});
 	
 	
 	test('Getting all missing person', function(done){
@@ -36,7 +41,7 @@ suite('Missing Person API', function(){
 				.expect('Content-Type', /json/)
 				.expect(200) 
 				.end(function(err, res){
-					return done();
+					done();
 				});
 	});
 			
@@ -46,7 +51,7 @@ suite('Missing Person API', function(){
 				.expect('Content-Type', /json/)
 				.expect(200) 
 				.end(function(err, res){
-					return done();
+					done();
 				});
 	});
 	
@@ -56,7 +61,7 @@ suite('Missing Person API', function(){
 			.expect('Content-Type', /json/)
 			.expect(200) 
 			.end(function(err, res){
-				return done();
+				done();
 			});
 
 	});
@@ -67,7 +72,7 @@ suite('Missing Person API', function(){
 			.expect('Content-Type', /json/)
 			.expect(200) 
 			.end(function(err, res){
-				return done();
+				done();
 			});
 	});		
 			
