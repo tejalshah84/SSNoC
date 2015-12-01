@@ -11,6 +11,15 @@ exports.checkUserAccess = function(req){
 	
 };
 
+exports.checkAccountStatus = function(req){
+	
+	
+	if(req.session.user.accountStatus != 0) {console.log("checkAccountStatus1"+req.session.user.accountStatus);return 1;}
+	else if(req.session.user.accountStatus == 0) 
+		{console.log("checkAccountStatus0"+req.session.user.accountStatus);return 0;}
+	
+};
+
 
 
 exports.checkSearchWords = function(text){
@@ -62,6 +71,62 @@ exports.convertText = function (arr){
 		return text +'%';
 	}
 };
+
+
+//---------devide InActive/ Active Users-----------
+
+
+ exports.divideActiveUsers = function(users){
+	 var users_listA = {'active':{}};
+	   
+		users.forEach(function(user){
+			if (user.accountStatus != 0) {
+				users_listA['active'][user.id] = {
+					'username': user.username,
+					'firstname': user.firstname,
+					'lastname': user.lastname, 
+				       'status_id': user.statusid, 
+				       'location': user.location,
+					'accountStatus': user.accountStatus,
+				       'lastlogin': user.lastlogintime};
+			}
+		});
+
+   users_listA.active = sortUsers(users_listA.active);
+  // users_listA.inactive = sortUsers(users_listA.inactive);
+
+   
+	return users_listA;
+};
+
+
+ exports.divideInActiveUsers = function(users){
+	 var users_listB = {'inactive': {}};
+	   
+		users.forEach(function(user){
+			if (user.accountStatus == 0) {
+				users_listB['inactive'][user.id] = {
+					'username': user.username,
+					'firstname': user.firstname,
+					'lastname': user.lastname, 
+				       'status_id': user.statusid, 
+				       'location': user.location,
+					'accountStatus': user.accountStatus,
+				       'lastlogin': user.lastlogintime};
+			}
+		});
+
+   users_listB.inactive = sortUsers(users_listB.inactive);
+
+   
+	return users_listB;
+};
+//---------devide InActive/ Active Users-----------
+
+
+
+
+
 
  exports.divideUsers = function(users){
 	 var users_list = {'online':{}, 'offline': {}};
