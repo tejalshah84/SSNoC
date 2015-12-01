@@ -17,16 +17,12 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 app.io = io;
 
-http.listen(8888, function(){
+var server = http.listen(8888, function(){
 	console.log('listening on *:8888');
 });
 
 
-if(!module.parent){ 
-	http.listen(8888, function(){
-		console.log('listening on *:8888');
-	});
-}
+
 
 
 // use ejs-locals for all ejs templates:
@@ -105,5 +101,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-module.exports = app;
+module.exports = {
+    server : server,
+    app : app
+};

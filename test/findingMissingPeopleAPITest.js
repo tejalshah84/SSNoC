@@ -1,6 +1,6 @@
-var app = require("../app.js");
-//var server = require("../app.js").server;
-var request = require("supertest").agent(app.listen());
+var app = require("../app.js").app;
+var server = require("../app.js").server;
+var request = require("supertest").agent(server);
 
 //////////////////////////////////
 
@@ -19,11 +19,11 @@ var person = {
 
 suite('Missing Person API', function(){
 	
-	/*setup(function (done){
+	setup(function (done){
 	        // Create any objects that we might need
 		server.close();
 		        done();
-	    });*/
+	    });
 	
 	test('Getting all missing person', function(done){
 	    request

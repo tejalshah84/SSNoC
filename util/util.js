@@ -1,7 +1,15 @@
 var onlineUsers = require('.././lib/onlineUsers.js');
 var checkwords = require('.././lib/reservedNames.js');
 
-
+exports.checkUserAccess = function(req){
+	
+	console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~checkUserAccess");
+	
+	if(req.session.user.roleid == 1) return 1;
+	else if(req.session.user.roleid == 2) return 2;
+	else if(req.session.user.roleid == 3) return 3;
+	
+};
 
 
 
