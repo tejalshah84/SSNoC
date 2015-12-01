@@ -23,11 +23,9 @@ var person = {
 
 	suiteSetup(function (done){
 		server.close(done);
-//		return done();
 	});
+
 suite('Missing Person API', function(){
-	
-	
 	
 //	suiteTeardown(function (done){
 //		server.close(done);
@@ -41,6 +39,7 @@ suite('Missing Person API', function(){
 				.expect('Content-Type', /json/)
 				.expect(200) 
 				.end(function(err, res){
+					should.not.exist(err);
 					done();
 				});
 	});
