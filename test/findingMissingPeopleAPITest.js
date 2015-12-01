@@ -37,7 +37,7 @@ suite('Missing Person API', function(){
 				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
-					done();
+					return done();
 				});
 	});
 			
@@ -48,7 +48,7 @@ suite('Missing Person API', function(){
 				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
-					done();
+					return done();
 				});
 	});
 	
@@ -59,7 +59,7 @@ suite('Missing Person API', function(){
 			.expect(200) 
 			.end(function(err, res){
 				should.not.exist(err);
-				done();
+				return done();
 			});
 
 	});
@@ -71,7 +71,7 @@ suite('Missing Person API', function(){
 			.expect(200) 
 			.end(function(err, res){
 				should.not.exist(err);
-				done();
+				return done();
 			});
 	});		
 			
