@@ -238,31 +238,18 @@ function getUserDirectory(){
  		data: {},
  		success: function(data) {
  			displayUserDirectory(data);
+ 			displayUserProfile(data);
+
  		},
  		error: function(e) {
  		}
  	});	
 }
 
-//Display User Directory Function
-function displayUserDirectory(users){		 
-	$('#online_list').empty();
-	$('#offline_list').empty();
-	var users_online = users.online;
-	$('#current_status').removeClass().addClass(status_logo[users_online[current_username].status_id]);
-	delete users_online[current_username];
-	$.each(users_online, function(index, element) {
-		var statusLogo = getUserStatus(element.status_id); 
-	 	var item = "<a id =\""+element.id+"\" href=\"/chat/"+element.id+"\" style=\"color: white;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+index+"</a>";
-		 	$('#online_list').append("<li id='targetName' style=\"padding: 5px 0;\">"+item+"</li>");	 		
-	});
-	$.each(users.offline, function(index, element) {
-		var statusLogo = getUserStatus(element.status_id); 
-		var item = " <a id =\""+element.id+"\" href=\"/chat/"+element.id+"\" style=\"color: #a7a6a4;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+index+"</a>";
-			$('#offline_list').append("<li style=\"padding: 5px 0;\">"+item+"</li>");
-	});
-	
 	/*---------- Admin Profile Use Case-------------------*/
+
+function displayUserProfile(users){
+	
  	$.each(users.offline, function(index, element) {
 		var item = index;
 		$('#user_list1').append('<option value=' + item + '>' + item + '</option>');
@@ -282,7 +269,29 @@ function displayUserDirectory(users){
 			$('#accountStatus').val(data['accountStatus']);
 		});
  	});
+	
+}
 	/*---------- Admin Profile Use Case-------------------*/
+
+//Display User Directory Function
+function displayUserDirectory(users){		 
+	$('#online_list').empty();
+	$('#offline_list').empty();
+	var users_online = users.online;
+	$('#current_status').removeClass().addClass(status_logo[users_online[current_username].status_id]);
+	delete users_online[current_username];
+	$.each(users_online, function(index, element) {
+		var statusLogo = getUserStatus(element.status_id); 
+	 	var item = "<a id =\""+element.id+"\" href=\"/chat/"+element.id+"\" style=\"color: white;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+index+"</a>";
+		 	$('#online_list').append("<li id='targetName' style=\"padding: 5px 0;\">"+item+"</li>");	 		
+	});
+	$.each(users.offline, function(index, element) {
+		var statusLogo = getUserStatus(element.status_id); 
+		var item = " <a id =\""+element.id+"\" href=\"/chat/"+element.id+"\" style=\"color: #a7a6a4;\"><span class=\"statuslogo\">"+statusLogo+"</span>"+index+"</a>";
+			$('#offline_list').append("<li style=\"padding: 5px 0;\">"+item+"</li>");
+	});
+	
+	
 	
  }
 
