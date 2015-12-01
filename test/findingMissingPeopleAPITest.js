@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var agent = require('superagent');
 
-var PORT = process.env.PORT | 8888;
+/*var PORT = process.env.PORT | 8888;
 var HOST = 'http://localhost:'+PORT;
 
 // Initiate Server
@@ -23,8 +23,9 @@ var server = app.listen(app.get('port'), serverInitialized)
     app.set('port', PORT);
     server = app.listen(app.get('port'), serverInitialized)
   }
-});
+});*/
 
+var HOST = 'http://localhost:'+8888;
 //////////////////////////////////
 
 var person = { 
