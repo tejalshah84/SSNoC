@@ -1,9 +1,7 @@
-var expect = require('expect.js');
-var app = require('../app.js');
-var request = require('supertest');
+var app = require("../app.js");
+//var server = require("../app.js").server;
+var request = require("supertest").agent(app.listen());
 
-
-var HOST = 'http://localhost:'+8888;
 //////////////////////////////////
 
 var person = { 
@@ -21,9 +19,14 @@ var person = {
 
 suite('Missing Person API', function(){
 	
+	/*setup(function (done){
+	        // Create any objects that we might need
+		server.close();
+		        done();
+	    });*/
 	
 	test('Getting all missing person', function(done){
-	    request(app)
+	    request
 	    	.get('/missing')
 				.expect(200)
 				.expect('Content-Type', /json/)
