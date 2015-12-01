@@ -1,6 +1,8 @@
 var app = require("../app.js").app;
 var server = require("../app.js").server;
 var request = require("supertest").agent(server);
+var should = require('should');
+
 
 ///////////////////////////////////////////////////////////////
 
@@ -33,26 +35,31 @@ suite('Missing Person API', function(){
 				.expect('Content-Type', /json/)
 				.expect(200) 
 				.end(function(err, res){
-				 				//	console.log("*****************");
-				 				//	console.log(JSON.stringify(res));
-				 					done();
-				 				});
+					should.not.exist(err);
+					done();
+				});
 				
 				
 	});
 			
-/*	test('Getting a particular missing person', function(done){
+	test('Getting a particular missing person', function(done){
 	    request
 	    	.get('/missing/'+person.id)
 				.expect('Content-Type', /json/)
-				.expect(200, done); 
+				.end(function(err, res){
+					should.not.exist(err);
+					done();
+				});
 	});
 	
 	test('Getting missing people', function(done){
   	request
   		.get('/missing/missing')
 			.expect('Content-Type', /json/)
-			.expect(200, done);
+			.end(function(err, res){
+				should.not.exist(err);
+				done();
+			});
 
 	});
 	
@@ -60,8 +67,11 @@ suite('Missing Person API', function(){
 		request
 			.get('/missing/found')
 			.expect('Content-Type', /json/)
-			.expect(200, done);
+			.end(function(err, res){
+				should.not.exist(err);
+				done();
+			});
 	});		
-			*/
+			
 });
  
