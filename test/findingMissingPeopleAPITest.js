@@ -20,14 +20,14 @@ var person = {
 };
 
 ///////////////////////////////////////////////////////////////
-setup(function (done){
-	server.close();
-	done();
-});
 
 
 suite('Missing Person API', function(){
 	
+	setup(function (done){
+		server.close();
+		return done();
+	});
 	
 	
 	test('Getting all missing person', function(done){
