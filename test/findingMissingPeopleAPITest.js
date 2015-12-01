@@ -1,29 +1,7 @@
 var expect = require('expect.js');
-var agent = require('superagent');
+var app = require('../app.js');
+var request = require('supertest');
 
-/*var PORT = process.env.PORT | 8888;
-var HOST = 'http://localhost:'+PORT;
-
-// Initiate Server
-var debug = require('debug')('Node-API-Testing');
-var app = require('../app');
-
-app.set('port', PORT);
-app.set('testing', true);
-
-var serverInitialized = function() {
-  debug('Express server listening on port ' + PORT);
-};
-
-var server = app.listen(app.get('port'), serverInitialized)
-.on('error', function(err){
-  if(err.code === 'EADDRINUSE'){
-    PORT++;
-    HOST = 'http://localhost:'+PORT;
-    app.set('port', PORT);
-    server = app.listen(app.get('port'), serverInitialized)
-  }
-});*/
 
 var HOST = 'http://localhost:'+8888;
 //////////////////////////////////
@@ -43,10 +21,23 @@ var person = {
 
 suite('Missing Person API', function(){
 	
-		
+	
 	test('Getting all missing person', function(done){
+	    request(app)
+	    	.get('/missing')
+				.expect(200)
+				.expect('Content-Type', /json/)
+				.end(function(err, res){
+				//	console.log("*****************");
+				//	console.log(JSON.stringify(res));
+					done();
+				});
+	});
+			
+	/*test('Getting all missing person', function(done){
 	    agent.get(HOST+'/missing')
-	    .end(function(err, res){
+	    
+			
 	      expect(err).to.not.be.ok();
 	      expect(res).to.have.property('statusCode');
 	      expect(res).to.have.property('body');
@@ -55,8 +46,8 @@ suite('Missing Person API', function(){
 	      done();
 	    });
 	  });
-		
-		test('Getting a particular missing person', function(done){
+		*/
+/*		test('Getting a particular missing person', function(done){
 		        agent.get(HOST+'/missing/'+person.id)
 		        .end(function(err, res){
 		          expect(res.body).to.have.property('firstname');
@@ -89,6 +80,6 @@ suite('Missing Person API', function(){
 					          expect(res.body).to.be.an('object');
 					          done();
 						      });
-						    });				
+						    });		*/		
 });
  

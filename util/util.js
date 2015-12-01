@@ -2,6 +2,9 @@ var onlineUsers = require('.././lib/onlineUsers.js');
 var checkwords = require('.././lib/reservedNames.js');
 
 
+
+
+
 exports.checkSearchWords = function(text){
 
 	var mytext = text;
