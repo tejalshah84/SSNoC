@@ -22,6 +22,13 @@ http.listen(8888, function(){
 });
 
 
+if(!module.parent){ 
+	http.listen(8888, function(){
+		console.log('listening on *:8888');
+	});
+}
+
+
 // use ejs-locals for all ejs templates:
 app.engine('ejs', engine);
 app.set('views', path.join(__dirname, 'views'));
