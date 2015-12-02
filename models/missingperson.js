@@ -82,6 +82,23 @@ module.exports = function(sequelize){
 			associate: function(models){
 				person.belongsTo(models.user, {foreignKey: 'reporter_userid', targetKey: 'id'});
 				person.belongsTo(models.user, {foreignKey: 'missing_userid', targetKey: 'id'});
+			},
+			createMissingPerson: function(models, data, filename, current_user, callback){
+				models.missingperson.create({ 
+					reporter_userid: current_user.id,
+					firstname: data.firstname,
+					lastname: data.lastname,
+					age: data.age,
+					height: data.height,
+					weight: data.weight,
+					location: data.location,
+					lastseen: data.lastseen,
+					description: data.description, 
+					picture: filename
+				}).then(function(person) {		
+					//console.log("Missing person created!");
+					callback(person['dataValues']);
+				});
 			}
 		}
 	});

@@ -53,6 +53,42 @@ suite('Route Test', function(){
 					done();
 				});
 	});
+	
+	test('3. Request to /admin is made before signin and is redirected', function(done){
+	    request
+	    	.get('/admin')
+				.expect(302) 
+        .expect('Location', '/signin')
+				//.expect('Content-Type', 'text/plain')
+				.end(function(err, res){
+					should.not.exist(err);
+					done();
+				});
+	});
+	
+	test('4. Request to /profile is made before signin and is redirected', function(done){
+	    request
+	    	.get('/profile')
+				.expect(302) 
+        .expect('Location', '/signin')
+				//.expect('Content-Type', 'text/plain')
+				.end(function(err, res){
+					should.not.exist(err);
+					done();
+				});
+	});
+	
+	test('5. Request to /missing/deck is made before signin and is redirected', function(done){
+	    request
+	    	.get('/missing/deck')
+				.expect(302) 
+        .expect('Location', '/')
+				//.expect('Content-Type', 'text/plain')
+				.end(function(err, res){
+					should.not.exist(err);
+					done();
+				});
+	});
 			
 	
 			

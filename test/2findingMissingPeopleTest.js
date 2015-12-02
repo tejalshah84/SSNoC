@@ -36,7 +36,7 @@ suite('Finding Missing People Test', function(){
 	
 	
 	test('Create New Missing Person', function(done){ 
-			services.createMissingPerson(new_person, '', current_user, function(person) {
+			models.missingperson.createMissingPerson(models, new_person, '', current_user, function(person) {
 				missing_person = person; 
 				expect(200);
 				expect(missing_person.firstname).to.be.eql(new_person.firstname);

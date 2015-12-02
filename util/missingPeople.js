@@ -20,7 +20,7 @@ exports.uploadImage = function(req, filename, path, callback){
 };
 
 
-exports.createMissingPerson = function(data, filename, current_user, callback){
+/*exports.createMissingPerson = function(data, filename, current_user, callback){
 	models.missingperson.create({ 
 		reporter_userid: current_user.id,
 		firstname: data.firstname,
@@ -37,7 +37,7 @@ exports.createMissingPerson = function(data, filename, current_user, callback){
 		callback(person['dataValues']);
 	});
 };
-
+*/
 exports.foundMissingPerson = function(person_id, data, callback){
 //	console.log("people# "+person_id);
 	models.missingperson.findOne({

@@ -20,7 +20,7 @@ var ifSignIn = function (req, res, next) {
 	}else{
 		res.redirect('/');
 	}  
-}
+};
 
 
 // GET all messages
@@ -78,10 +78,10 @@ router.post('/:id/found', function(req, res) {
 
 //create new missing people profile
 router.post('/', upload.single('file'), function(req, res) {
-	console.log(req);
 		var path = __dirname + "/../public/uploads";
 		services.uploadImage(req,req.file.originalname,path, function() {
-			var person = services.createMissingPerson(req.body, req.file.originalname, req.session.user,function(person) {
+			//var person = services.createMissingPerson(req.body, req.file.originalname, req.session.user,function(person) {
+			var person = models.missingperson.createMissingPerson(models, req.body, req.file.originalname, req.session.user,function(person) {	
 	  		console.log('--------------');
 				console.log(person['dataValues']);
 					res.redirect('/missing/deck');
