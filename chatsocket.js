@@ -59,24 +59,14 @@ io.on('connection', function(socket){
 			models.user.findOne({
 				where: {id: data.chatauthor_id}
 			}).then(function(user) {
-    			models.privatechathistory.create({ 
-		          	chatauthor_id: data.chatauthor_id,
-		          	chattarget_id: data.chattarget_id,
-		          	chatmessage: data.chatmessage, 
-		            timestamp: data.timestamp
-       			}).then(function() {
-       				console.log(privateRooms[data.chatauthor_id]);
-						console.log("----- taget's socketid: "+onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']);
-							
-				//create.createPrivateMessage(data, function(){
+    			create.createPrivateMessage(data, function(){
 							io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']]).emit('private chat',{
 
        							chatauthor_id: data.chatauthor_id,
        							chatauthor: data.chatauthor,
        							chatmessage: data.chatmessage,
     							timestamp: data.timestamp
-    				});
-       		//});   	
+    				});   	
 				});			
     	 		});  
 
