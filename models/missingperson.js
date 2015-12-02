@@ -99,7 +99,14 @@ module.exports = function(sequelize){
 					//console.log("Missing person created!");
 					callback(person['dataValues']);
 				});
-			}
+			},
+			destroyMissingPerson: function(models, id, next){
+				models.missingperson.findOne({ where: { id: id}}).then(function(user){
+					return user.destroy();
+				}).then(function(e){
+					next();
+				});
+			},
 		}
 	});
 	return person;

@@ -19,17 +19,7 @@ $('.btn-emit-push-notification').on('click', function(){
 });
 
 
-socket.on('new notification', function (data) {
-  console.log("new notification need to be appended!");
-	
- var re = new RegExp(/^.*\//);
- var redirect = re.exec(window.location.href);
- var content = data.chatauthor+" has found the person that you're looking for! "+'<a href=\'/chat/'+data.chatauthor+'\'> See more! </a>';
- var view = "<div class=\"alert alert-warning alert-dismissible\" role=\"alert\" style=\"top:0; position:absolute;z-index:1000000;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong class=\"notification_content\">"+content+"</strong></div>";
-	$('#push_notification').append(view);
-	
-	
-});
+
 
 
 $('.modal').on('shown.bs.modal', function() {
@@ -470,7 +460,7 @@ $('.find_person').on('click', function() {
 		},
 		success: function(data) {
 			var chatmsg = "Hey, I found "+data.person.firstname+" around "+$('#found_report_lastseen').val()+" at "+$('#found_report_location').val();
-			var data = {"id": data.id, "reporter_userid": data.reporter_userid, "founder": data.founder, "chatmessage": chatmsg};
+			var data = {"reporter_userid": data.reporter_userid, "founder": data.founder,"founder_id": data.founder_id, "chatmessage": chatmsg};
 				emitPushNotification(data);
 			var re = new RegExp(/^.*\//);
 			var redirect = re.exec(window.location.href);
@@ -518,7 +508,7 @@ $('.btn-emit-push-notification').on('click', function(){
 socket.on('new notification', function (data) {
 	var re = new RegExp(/^.*\//);
 	var redirect = re.exec(window.location.href);
-	var content = data.chatauthor+" has found the person that you're looking for! "+'<a href=\'/chat/'+data.chatauthor+'\'> See more! </a>';
+	var content = data.chatauthor+" has found the person that you're looking for! "+'<a href=\'/chat/'+data.chatauthor_id+'\'> See more! </a>';
 	var view = "<div class=\"alert alert-warning alert-dismissible\" role=\"alert\" style=\"top:0; position:absolute;z-index:1000000;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong class=\"notification_content\">"+content+"</strong></div>";
 	$('#push_notification').append(view);
 });

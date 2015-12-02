@@ -89,16 +89,17 @@ io.on('connection', function(socket){
     	date = new Date();
 			console.log(onlineUsers.getOnlineUsers());	
     	models.privatechathistory.create({ 
-          	chatauthor: data.founder,
-          	chattarget: data.reporter_userid,
-          	chatmessage: data.chatmessage, 
-            timestamp: date
+		          	chatauthor_id: data.founder_id,
+		          	chattarget_id: data.reporter_userid,
+		          	chatmessage: data.chatmessage, 
+								timestamp: new Date()
+          	
        		}).then(function() {
 		
 			//create.createPrivateMessage(data, function(){		
-						io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']]).emit('new notification', {
-							chatauthor: data.chatauthor_id,
-							chatauthor_id: 3
+						io.sockets.to([onlineUsers.getOnlineUsers()[data.reporter_userid]['socket_id']]).emit('new notification', {
+							chatauthor: data.founder,
+							chatauthor_id: data.founder_id
 						});
 			});			
        		//});   	

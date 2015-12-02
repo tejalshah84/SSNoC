@@ -5,18 +5,23 @@ var models = require('.././models');
 
 
 exports.uploadImage = function(req, filename, path, callback){
-	fs.readFile(req.file.path, function (err, data) {
-		if(!filename){
-			console.log("There was an error")
-		} else {
-		  var newPath = path + "/" + filename;
-			console.log("path = "+newPath);
-		  fs.writeFile(newPath, data, function (err){
-		  	console.log("ok!!!");
-				callback();
-		  });
-		}
-	});
+	if(!req.file){
+		callback();
+	}else{
+		fs.readFile(req.file.path, function (err, data) {
+			if(!filename){
+				console.log("There was an error")
+			} else {
+			  var newPath = path + "/" + filename;
+				console.log("path = "+newPath);
+			  fs.writeFile(newPath, data, function (err){
+			  	console.log("ok!!!");
+					callback();
+			  });
+			}
+		});
+	}
+	
 };
 
 

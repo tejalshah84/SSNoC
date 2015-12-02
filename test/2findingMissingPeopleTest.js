@@ -52,4 +52,10 @@ suite('Finding Missing People Test', function(){
 		});
 	});
 	
+	suiteTeardown(function (done){
+		models.missingperson.destroyMissingPerson(models, missing_person.id, function(){
+				done();
+		});
+	});					
+	
 });

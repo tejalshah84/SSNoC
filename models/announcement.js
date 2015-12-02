@@ -26,7 +26,14 @@ module.exports = function(sequelize){
 		classMethods:{
 			associate: function(models){
 				announcement.belongsTo(models.user, {foreignKey: 'publisher_userid', targetKey: 'id'});		
-			}
+			},
+			destroyAnnouncement: function(models, id, next){
+				models.announcement.findOne({ where: { id: id}}).then(function(result){
+					return result.destroy();
+				}).then(function(e){
+					next();
+				});
+			},
 		}
 	});
 

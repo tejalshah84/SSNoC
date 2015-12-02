@@ -34,6 +34,9 @@ exports.checkAccountStatus = function(req){
 	
 };
 
+exports.isInteger = function(x) {
+	return x % 1 === 0;
+}
 
 
 exports.checkSearchWords = function(text){
