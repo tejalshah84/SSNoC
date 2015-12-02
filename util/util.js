@@ -21,6 +21,10 @@ exports.ifSignIn = function (req, res, next) {
 	}  
 };
 
+exports.goOnline = function (user) {
+	onlineUsers.addoOnlineUsers(user);
+};
+
 exports.checkAccountStatus = function(req){
 	
 	

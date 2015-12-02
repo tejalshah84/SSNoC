@@ -23,14 +23,11 @@ var new_user = {
 var createdUser;
 
 ///////////////////////////////////////////////////////////////
-/**/
 
 
 suite('Join Community Test', function(){
-	
-	
-	
-	test('1. Create new user and save it into the datavase', function(done){ 
+		
+	test('1. Create new user and save it into the database', function(done){ 
 	//	userModel.create(new_user).then(function(user){
 		models.user.createUser(models, new_user, function(user) {	
 			createdUser = user; 
@@ -40,11 +37,23 @@ suite('Join Community Test', function(){
 	  });
 	});
 	
-	teardown(function (done){
-		models.user.destroyUser(models, createdUser.id, function(){
-				done();
-		});		
+	test('2. Go Online function', function(done){ //Eileen
+		done();
 	});
 	
+	test('3. Divide User function', function(done){ //Eileen
+		done();
+	});
 	
+	test('3. Update user after signing in', function(done){ //Denise
+		//test the update function created in User model
+		//check against last login time
+		done();
+	});
+});
+
+suiteTeardown(function (done){
+	models.user.destroyUser(models, createdUser.id, function(){
+			done();
+	});		
 });

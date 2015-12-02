@@ -21,7 +21,7 @@ module.exports = function(app){
 	var privatechatsController = require('./privatechatsController');
 	var searchController = require('./searchController');
 	var test_messagesController = require('./test_messagesController');
-	var usersController = require('./usersController');
+//	var usersController = require('./usersController');
 	var missingPeopleController = require('./missingPeopleController');
 	var apiController = require('./apiController');
 	var profileController = require('./profileController');
@@ -29,14 +29,14 @@ module.exports = function(app){
 
   
 	router.use('/', joinCommunityController);
-  	router.use('/api', apiController);
+  router.use('/api', apiController);
 	router.use('/admin', adminController);
-  	router.use('/announcements', announcementsController);
-  	router.use('/messages', messagesController);
+  router.use('/announcements', announcementsController);
+  router.use('/messages', messagesController);
  	router.use('/privatechats', privatechatsController);
 	router.use('/search', searchController);
 	router.use('/test_messages', test_messagesController);	
-	router.use('/users', usersController);
+//	router.use('/users', usersController);
 	router.use('/missing', missingPeopleController);
 	router.use('/profile', profileController);
 	

@@ -28,7 +28,7 @@ db.serialize(function() {
               console.log("Error occured while creating chat_history table");
           }
           else{
-              console.log("chat_history table initialized");
+              //console.log("chat_history table initialized");
           }
       });
  /* var stmt = db.prepare("INSERT INTO user (username,password,firstname,lastname,online,status,role,lastLoginTime) VALUES (?,?,?,?,?,?,?,?)");

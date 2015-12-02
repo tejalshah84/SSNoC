@@ -10,14 +10,10 @@ var bcrypt = require('bcryptjs');// Load the bcrypt module
 var salt = bcrypt.genSaltSync(10);// Generate a salt
 var util = require('.././util/util.js');
 
-
 var models = require('.././models');
 
 
 // -------------------------------------------------------------------------------------//
-
-
-
 
 /* show signin page*/
 router.get('/', function(req, res) {
@@ -64,7 +60,7 @@ router.post('/', function(req, res){
 					req.session.user = result;
 					req.session.isNewUser = false;
 					req.session.newUserCount = 1;
-					goOnline(result);
+					util.goOnline(result);
 					res.redirect('/community');
 				});
 			}else{
@@ -94,7 +90,7 @@ router.post('/signup', function(req, res){
 					req.session.user = user;
 					req.session.isNewUser = true;
 					req.session.newUserCount = 0;
-					goOnline(user);
+					util.goOnline(user);
 					res.redirect('/community');
 			  });
 			}
@@ -103,46 +99,36 @@ router.post('/signup', function(req, res){
 });
 
 router.get('/community', util.ifSignIn, function(req, res) {
-
 		++req.session.newUserCount;
-
-		if (req.session.newUserCount>1){
+		if (req.session.newUserCount > 1 ){
 			req.session.isNewUser = false;
 		}
 		console.log(req.session.isNewUser);
-		// render the welcome page
-		res.render('community', { 
-		user: req.session.user,
-		isNewUser: req.session.isNewUser,
-		newUserCount: req.session.newUserCount,				
+		res.render('community', { // render the welcome page
+			user: req.session.user,
+			isNewUser: req.session.isNewUser,
+			newUserCount: req.session.newUserCount,				
 		});
 });
 
 
-router.get('/chat/:id', util.ifSignIn, function(req, res) {
-	
-	req.params.id = Number(req.params.id);
-	
+router.get('/chat/:id', util.ifSignIn, function(req, res) {	
+	req.params.id = Number(req.params.id);	
 	if(req.params.id == req.session.user.id){
 		res.redirect('/community');
-	}
-		
-  	res.render('privatechat', { 
+	}	
+  res.render('privatechat', { 
 		user: req.session.user,
 		targetName: req.params.id
 	}); 
 });
+
 
 router.get('/searchpage', util.ifSignIn, function(req, res) {
 	res.render('searchpage',{
 		user: req.session.user
 	  });	
 });
-
-
-function goOnline(user){
-	onlineUsers.addoOnlineUsers(user);
-}
 
 
 

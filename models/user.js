@@ -111,7 +111,6 @@ module.exports = function(sequelize){
 					roleid: 4,
 					lastlogintime: new Date()
 				}).then(function(user) {
-					console.log("New User Created!");
 			    next(user);
 			  });
 			},
@@ -121,6 +120,9 @@ module.exports = function(sequelize){
 				}).then(function(e){
 					next();
 				});
+			},
+			updateUser: function(models, data, next){		
+				//To be finished by Denise	
 			}
 		}
 	});

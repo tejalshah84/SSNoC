@@ -33,19 +33,19 @@ exports.createMissingPerson = function(data, filename, current_user, callback){
 		description: data.description, 
 		picture: filename
 	}).then(function(person) {		
-		console.log("Missing person created!");
+		//console.log("Missing person created!");
 		callback(person['dataValues']);
 	});
 };
 
 exports.foundMissingPerson = function(person_id, data, callback){
-	console.log("people# "+person_id);
+//	console.log("people# "+person_id);
 	models.missingperson.findOne({
 		where:{
 			id: person_id
 		}
 	}).then(function (person) {
-		console.log('*** '+ person.firstname);
+//		console.log('*** '+ person.firstname);
 		person.update({
 		  missing: 0
 		}).then(function() {

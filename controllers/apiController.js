@@ -13,7 +13,7 @@ var onlineUsers = require('.././lib/onlineUsers.js');
 //Retrieve all users
 router.get('/users', function(req, res) {
 	models.user.all(models, function(users){
-		res.json(users);
+		res.type('json').status(200).send(users);
 	});
 });
 
@@ -21,7 +21,7 @@ router.get('/users', function(req, res) {
 router.get('/users/online', function(req, res) {
 	models.user.findAll().then(function (users) {
 		var list = util.divideUsers(users);
-		res.json(list);
+		res.type('json').status(200).send(list);
 	});
 });
 

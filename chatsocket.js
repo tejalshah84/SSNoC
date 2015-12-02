@@ -20,7 +20,7 @@ io.on('connection', function(socket){
 	console.log('***************************');
 
 	
-	//socket change status
+	//need to be refactored
   socket.on('change status', function(data) {
 		models.user.findOne({
 		  where: {
@@ -82,14 +82,12 @@ io.on('connection', function(socket){
 
     });
 		
-		
+		//needs to be done
     socket.on('push notification',function(data){
 			console.log("Received push notification request!");
 			console.log(data);
     	date = new Date();
-			console.log(onlineUsers.getOnlineUsers());
-			
-			
+			console.log(onlineUsers.getOnlineUsers());	
     	models.privatechathistory.create({ 
           	chatauthor: data.founder,
           	chattarget: data.reporter_userid,
@@ -125,7 +123,7 @@ io.on('connection', function(socket){
 
 	   });
   
-	 
+	 //done
     socket.on('new message', function(data) {
 			models.user.findOne({where: {id: data.chatauthor_id}
 			}).then(function(user) {

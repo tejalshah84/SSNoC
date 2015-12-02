@@ -22,38 +22,38 @@ var person = {
 ///////////////////////////////////////////////////////////////
 
 
-
-suite('Route Test', function(){
+suite('User API', function(){
 	
-//	suiteTeardown(function (done){
-//		server.close(done);
-//		return done();
-//	});
-	
-	
-	test('1. Request to / is made and answered', function(done){
+	test('1. Getting all users', function(done){
 	    request
-	    	.get('/')
+	    	.get('/api/users')
+				.expect('Content-Type', /json/)
 				.expect(200) 
-				//.expect('Content-Type', 'text/html')
 				.end(function(err, res){
 					should.not.exist(err);
 					done();
 				});
 	});
 	
-	test('2. Request to /community is made before signin and is redirected', function(done){
+	test('2. Getting a particular users', function(done){
 	    request
-	    	.get('/community')
-				.expect(302) 
-        .expect('Location', '/signin')
-				//.expect('Content-Type', 'text/plain')
+	    	.get('/api/users/1')
+				.expect('Content-Type', /json/)
+				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
 					done();
 				});
 	});
-			
+	
+	test('3. Create a user', function(done){
+	  done();
+	});
+	
+	test('4. Update a user', function(done){ //Denise
+	  done();
+	});
+	
 	
 			
 });

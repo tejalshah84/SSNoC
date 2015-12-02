@@ -5,6 +5,7 @@ var Sequelize = require('sequelize');
 var sequelize = new Sequelize('database', 'username', 'password', {
   host: 'localhost',
   dialect: 'sqlite',
+	logging: false,
   // SQLite only
   storage: "./db/ssnoc.db"
 });
