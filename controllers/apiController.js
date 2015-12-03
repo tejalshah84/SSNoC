@@ -27,7 +27,7 @@ router.get('/users/online', function(req, res) {
 
 //Retrieve a user's record
 router.get('/users/:user', function(req, res) {
-	if(isInteger(req.params.user)){
+	if(util.isInteger(req.params.user)){
 		models.user.findById(models, req.params.user, function(user){
  	 		res.type('json').status(200).send(user);
 		});
@@ -51,7 +51,7 @@ router.get('/users/chatbuddies/:user', function(req, res) {
 //Post an announcements 
 router.post('/messages/announcement', function(req, res){
 	create.createAnnouncement(req.body, function(){
-		res.type('json').status(200);
+		res.type('json').status(200).send();
 	})
 });
 
@@ -128,7 +128,7 @@ router.get('/messages/privatechat/:sender', function(req, res){
 
 //Retrieve all private messages between sender and receiver
 router.get('/messages/privatechat/:sender/:receiver', function(req, res){
-	if(!isInteger(req.params.sender)){
+	if(!util.isInteger(req.params.sender)){
 	models.privatechathistory.findAll({
 	  attributes: ['id','chatauthor_id', 'chattarget_id','chatmessage', 'timestamp', 'createdAt'],
 	   include: [{model: models.user, as: 'usertarget_id', attributes: ['username'],where: {username: req.params.receiver}},
@@ -175,8 +175,6 @@ router.post('/messages/privatechat/sender/receiver', function(req, res){
 	})
 });
 
-function isInteger(x) {
-	return x % 1 === 0;
-}
+
 
 module.exports = router;

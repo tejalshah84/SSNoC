@@ -52,10 +52,17 @@ module.exports = function(sequelize){
 			      	chattarget_id: data.chattarget_id,
 			      	chatmessage: data.chatmessage, 
 			        timestamp: new Date()
-				}).then(function(privatechathistory) {
-			    next(privatechathistory);
+				}).then(function(privMsg) {
+			    next(privMsg);
 			  });
-			}
+			},
+			/*destroyPrivMsg: function(models, id, next){
+				models.privatechathistory.findAll({ where: { id: id}}).then(function(privMsg){
+					return privMsg.destroy();
+				}).then(function(e){
+					next();
+				});
+			}*/
 		}
 	});
 

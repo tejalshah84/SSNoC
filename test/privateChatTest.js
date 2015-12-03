@@ -30,12 +30,12 @@ var createdPrivMsg;
 suite('Private Chat Functionality Test', function(){
 		
 	test('1. Create private chat message into the database', function(done){ 
-		 	//models.privatechathistory.create(models, new_privmsg, function(privatechathistory) {	
-				//	createdPrivMsg = privatechathistory; 
-					//expect(200);
-					//expect(createdPrivMsg.chatmessage).to.be.eql(new_privmsg.chatmessage);
+		 models.privatechathistory.createPrivMessage(models, new_privmsg, function(privMsg) {	
+					createdPrivMsg = privMsg; 
+					expect(200);
+					expect(createdPrivMsg.chatmessage).to.be.eql(new_privmsg.chatmessage);
 					done();
-			//  });
+			  });
 			});
 
 	
@@ -43,5 +43,11 @@ suite('Private Chat Functionality Test', function(){
 		done();
 	});
 });
+
+//suiteTeardown(function (done){
+	//models.user.destroyPrivMsg(models, createdPrivMsg.id, function(){
+		//	done();
+//	});		
+//});
 
 
