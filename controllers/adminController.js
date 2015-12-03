@@ -36,7 +36,7 @@ router.get('/active', function(req, res) {
 	});
 });
 
-
+// GET all inactive users
 router.get('/inactive', function(req, res) {
 	console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
 	models.user.findAll().then(function (users) {
