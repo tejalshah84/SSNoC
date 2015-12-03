@@ -128,13 +128,27 @@ module.exports = function(sequelize){
 	     		  	{
 	     		    	   	where: { username: data.username }
 	     		  	})
-				.then(function(user) {
+				.then(function(user) { console.log("mmodel:"+user.accountStatus);
 			    next(user);
 			  });
 			},
 			////////////////////////////////////////////
 			
 			
+			//loginTimeUpdate//
+			loginTimeUpdate: function(models, data, next){				
+				models.user.update(
+				{ 
+					lastlogintime: new Date()
+				},
+	     		  	{
+	     		    	   	where: { username: data.username }
+	     		  	})
+				.then(function(user) {
+			    next(user);
+			  });
+			},
+			/////
 			destroyUser: function(models, id, next){
 				models.user.findOne({ where: { id: id}}).then(function(user){
 					return user.destroy();

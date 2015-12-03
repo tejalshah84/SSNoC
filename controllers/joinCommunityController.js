@@ -54,7 +54,18 @@ router.post('/', function(req, res){
 			if(comparison){ //If pwd is correct, update new login time to DB and enter the welcome page	
 				var date = new Date();//Get user login time
 				//var logintime = date.toLocaleTimeString();
-				result.update({
+				
+				
+				models.user.loginTimeUpdate(models, {"username": result.username}, function(user) {
+					req.session.user = result;
+					req.session.isNewUser = false;
+					req.session.newUserCount = 1;
+					util.goOnline(result);
+					res.redirect('/community');
+			  });
+				
+				
+				/*result.update({
 				  lastlogintime: date
 				}).then(function() {
 					req.session.user = result;
@@ -62,7 +73,7 @@ router.post('/', function(req, res){
 					req.session.newUserCount = 1;
 					util.goOnline(result);
 					res.redirect('/community');
-				});
+				});*/
 			}else{
 				res.render('signin',{error: "Password is incorrect!"});
 			}		
