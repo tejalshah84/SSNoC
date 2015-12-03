@@ -2,6 +2,7 @@
 var server = require("../app.js").server;
 var request = require("supertest").agent(server);
 var should = require('should');
+var expect = require('expect.js');
 
 
 ///////////////////////////////////////////////////////////////
@@ -40,6 +41,10 @@ suite('Missing Person API', function(){
 				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res).to.have.property('body');
+					expect(res.statusCode).to.equal(200);
+					expect(res.body).to.be.an('array');
 					done();
 				});
 	});

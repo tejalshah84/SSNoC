@@ -55,8 +55,9 @@ var models = require('./models');
 var onlineUsers = require('./lib/onlineUsers.js');
 var measurePerformance = require('./lib/measurePerformance.js');
 
-var socket_server = require('socket.io').listen(http);
-require('./chatsocket')(socket_server);
+//var socket_server = require('socket.io').listen(http);
+//require('./chatsocket')(socket_server);
+require('./chatsocket')(io);
 
 
 

@@ -1,6 +1,17 @@
 var onlineUsers = require('.././lib/onlineUsers.js');
 var checkwords = require('.././lib/reservedNames.js');
 
+
+exports.isMinitor = function(req, res, next){
+	if(req.session.user.roleid == 1){
+		next();
+	}else{
+		res.redirect('/community');
+	}
+};
+
+
+
 exports.checkUserAccess = function(req){
 
 	console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~checkUserAccess");

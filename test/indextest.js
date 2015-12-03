@@ -54,9 +54,9 @@ suite('Route Test', function(){
 				});
 	});
 	
-	test('3. Request to /admin is made before signin and is redirected', function(done){
+	test('3. Request to /performance is made before signin and is redirected', function(done){
 	    request
-	    	.get('/admin')
+	    	.get('/performance')
 				.expect(302) 
         .expect('Location', '/signin')
 				//.expect('Content-Type', 'text/plain')

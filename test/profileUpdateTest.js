@@ -31,7 +31,6 @@ var user = {
 
 
 suite('Profile Update Test', function(){
-		
 	
 		test('1. ProfileUpdate', function(done){
 			request(url)

@@ -138,7 +138,15 @@ io.on('connection', function(socket){
 		   });		
 		});
     });
+		
+	// when the user disconnects.. perform this
+	  socket.on('disconnect', function () {
+			 console.log('user disconnected');
+	    // remove the username from global usernames list
+	  });
 });
+
+
 
 
 };

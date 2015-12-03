@@ -50,7 +50,7 @@ var menu = {
     "<a href=\"/profile\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-cog icon-margin\" aria-hidden=\"true\"></span> Admin User Profile</a></li>",
         
     'monitorperform': "<li class=\"c-menu__item\">" +
-    "<a href=\"/admin\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-equalizer icon-margin\" aria-hidden=\"true\"></span> Measure Performance</a></li>",
+    "<a href=\"/performance\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-equalizer icon-margin\" aria-hidden=\"true\"></span> Measure Performance</a></li>",
         
     'signout': "<li class=\"c-menu__item\">" +
     "<a href=\"/signout\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-log-out icon-margin\" aria-hidden=\"true\"></span> Signout</a></li>"

@@ -28,6 +28,7 @@ $('#start_testing_get').on('click', function(){
 $('#start_testing_post').on('click', function(){	 
 	restart();
 	setTimeout(startUseCase_POST, 1);
+	setTimeout(startUseCase_GET, 1);
 });
  
 $('#stop_testing').on('click', function(){
@@ -83,7 +84,7 @@ function startUseCase_POST(){
 
 function endUseCase(){
 	$.ajax({
-		url: '/admin/end_testing',
+		url: '/performance/end_testing',
 		type: 'GET',
 		success: function(data) {
 			console.log("Test db has been dropped! Use Case Ends.");	
