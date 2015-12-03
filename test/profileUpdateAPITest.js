@@ -13,7 +13,6 @@ var should = require('should');
 suite('Admin Profile API', function(){
 	
 	
-	
 	test('1. admin active', function(done){
 	    request
 	    	.get('/admin/active')

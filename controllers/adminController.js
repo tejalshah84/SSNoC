@@ -29,16 +29,14 @@ router.get('/', function(req, res) {
 
 // GET all active users 
 router.get('/active', function(req, res) {
-	console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
 	models.user.findAll().then(function (users) {
 		var list = util.divideActiveUsers(users);
 		res.json(list);
 	});
 });
 
-
+// GET all inactive users
 router.get('/inactive', function(req, res) {
-	console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
 	models.user.findAll().then(function (users) {
 		var list = util.divideInActiveUsers(users);
 		res.json(list);

@@ -114,15 +114,47 @@ module.exports = function(sequelize){
 			    next(user);
 			  });
 			},
+			
+			
+			//////////////////// adminUpdate for Admin Use Case ////////////////////////
+			adminUpdate: function(models, data, next){				
+				models.user.update(
+				{ 
+					username: data.username, 
+					password: data.password,
+					roleid: data.roleid,
+					accountStatus: data.accountStatus
+				},
+	     		  	{
+	     		    	   	where: { username: data.username }
+	     		  	})
+				.then(function(user) { console.log("mmodel:"+user.accountStatus);
+			    next(user);
+			  });
+			},
+			////////////////////////////////////////////
+			
+			
+			//loginTimeUpdate//
+			loginTimeUpdate: function(models, data, next){				
+				models.user.update(
+				{ 
+					lastlogintime: new Date()
+				},
+	     		  	{
+	     		    	   	where: { username: data.username }
+	     		  	})
+				.then(function(user) {
+			    next(user);
+			  });
+			},
+			/////
 			destroyUser: function(models, id, next){
 				models.user.findOne({ where: { id: id}}).then(function(user){
 					return user.destroy();
 				}).then(function(e){
 					next();
 				});
-			},
-			updateUser: function(models, data, next){		
-				//To be finished by Denise	
 			}
 		}
 	});
