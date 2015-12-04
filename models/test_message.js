@@ -1,3 +1,6 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
 var Sequelize = require('sequelize');
 var db = {};
 

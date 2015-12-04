@@ -1,3 +1,6 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
 var Sequelize = require('sequelize');
 
 
@@ -63,7 +66,7 @@ module.exports = function(sequelize){
 				}).then(function (messages) {
 					  next(messages);
 				}).catch(function(e){
-					next(null)
+					next(null);
 				});
 			}
 		}

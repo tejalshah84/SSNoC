@@ -1,3 +1,7 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
+
 var express = require('express');
 var router = express.Router();
 var sequelize = require('.././sequelize');
@@ -51,7 +55,7 @@ router.get('/users/chatbuddies/:user', function(req, res) {
 router.post('/messages/announcement', function(req, res){
 	models.announcement.createAnnouncement(models, req.body, function(announcement){
 		res.type('json').status(200).send(announcement);
-	})
+	});
 });
 
 router.get('/messages/announcement/latest', function(req, res) {
@@ -190,7 +194,7 @@ router.get('/messages/privateMessages', function(req, res){
 router.post('/messages/privatechat/sender/receiver', function(req, res){
 	models.privatechathistory.createPrivMessage(models,req.body, function(){
 		res.type('json').status(200);
-	})
+	});
 });
 
 

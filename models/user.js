@@ -1,3 +1,6 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
 var Sequelize = require('sequelize');
 
 module.exports = function(sequelize){
@@ -175,10 +178,10 @@ module.exports = function(sequelize){
 			  		},
 			   		order:'username ASC'
 				}).then(function(users){
-					next(users)
+					next(users);
 				}).catch(function(e){
-					next(null)
-				})
+					next(null);
+				});
 			},
 			searchByStatus: function (models, searchText, next){
 				models.user.findAll({
@@ -187,10 +190,10 @@ module.exports = function(sequelize){
 				    	statusid: searchText
 				  	}
 				}).then(function (users) {
-					next(users)
+					next(users);
 				}).catch(function(e){
-					next(null)
-				})
+					next(null);
+				});
 			}
 		}
 	});

@@ -1,3 +1,6 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
 var express = require('express');
 var router = express.Router();
 var onlineUsers = require('.././lib/onlineUsers.js');
@@ -35,7 +38,7 @@ var isAdmin = function (req, res, next) {
 	}else{
 		res.redirect('/community');
 	}  
-}
+};
 
 
 router.get('/profile', isAdmin, function(req, res, next) {

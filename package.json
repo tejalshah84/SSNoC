@@ -31,6 +31,7 @@
     "mocha-junit-reporter": "^1.8.0",
     "should": "^7.1.1",
     "superagent": "^1.4.0",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+		"grunt-contrib-jshint": "~0.10.0"
   }
 }

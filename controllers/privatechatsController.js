@@ -1,3 +1,6 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
 var express = require('express');
 var router = express.Router();
 var sequelize = require('.././sequelize');

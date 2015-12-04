@@ -1,3 +1,6 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
 var Sequelize = require('sequelize');
 
 module.exports = function(sequelize){
@@ -84,7 +87,7 @@ module.exports = function(sequelize){
 				}).then(function (privmessages) {
 				   next(privmessages);
 				}).catch(function(e){
-					next(null)
+					next(null);
 				});
 			}
 		}

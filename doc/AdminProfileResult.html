@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+.failed {color: red; background-color: #ffcccc;}
+.passed {color: green; background-color: #ccffcc;}
+.done {color: #404040; background-color: #ccffcc;}
+.comment {color: #404040; background-color: #d0d0d0;}
+body, table { font-family: Verdana, Arial, sans-serif; font-size: 12pt; }
+table { border-collapse: collapse; border: 1px solid #ccc; }
+th, td { padding-left: 0.3em; padding-right: 0.3em; border: 1px solid #ccc; }
+#suiteSummaryTable thead { font-size: 14pt; font-weight: 800; }
+.test_case thead { font-size: 14pt; font-weight: 400; }
+</style>
+</head>
+<body>
+<table id="suiteSummaryTable" class="selenium">
+<thead><tr class="passed"><td>Test Suite</td></tr></thead>
+<tbody>
+<tr><td>Test cases: 4 total / <span class="passed">4</span> passed / <span class="failed">0</span> failed</td></tr>
+<tr><td>Commands: 53 total / <span class="passed">52</span> passed / <span class="failed">0</span> failed / <span class="skipped">1</span> skipped</td></tr>
+</tbody></table><br>
+<table id="suiteTable" class="selenium">
+<thead><tr><td>Index of test cases</td></tr></thead>
+<tbody>
+<tr class="passed"><td><a href="#test0">Get User Profile</a></td></tr>
+<tr class="passed"><td><a href="#test1">Change Username</a></td></tr>
+<tr class="passed"><td><a href="#test2">Change User Role</a></td></tr>
+<tr class="passed"><td><a href="#test3">Inactivate User</a></td></tr>
+
+</tbody></table>
+
+<br><hr><br><a name="test0"></a><table class="test_case"><thead><tr><td colspan="4">Test case: Get User Profile</td></tr></thead><tbody><tr class="done">
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=uname</td>
+	<td>EileenW</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=pword</td>
+	<td>test</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>//input[@value='Login']</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>css=span.glyphicon.glyphicon-menu-hamburger</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Admin User Profile</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>select</td>
+	<td>id=user_list1</td>
+	<td>label=TejalS</td>
+	<td>Option with label 'TejalS' not found</td>
+</tr>
+<tr class="passed">
+	<td>verifyElementPresent</td>
+	<td>name=new_username</td>
+	<td>TejalS</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>verifyElementPresent</td>
+	<td>id=role</td>
+	<td>2</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+
+<br><hr><br><a name="test1"></a><table class="test_case"><thead><tr><td colspan="4">Test case: Change Username</td></tr></thead><tbody><tr class="done">
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=uname</td>
+	<td>EileenW</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=pword</td>
+	<td>test</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>//input[@value='Login']</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>css=span.glyphicon.glyphicon-menu-hamburger</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Admin User Profile</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>select</td>
+	<td>id=user_list1</td>
+	<td>label=TejalS</td>
+	<td>Option with label 'TejalS' not found</td>
+</tr>
+<tr class="passed">
+	<td>verifyElementPresent</td>
+	<td>name=new_username</td>
+	<td>TejalS</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>verifyElementPresent</td>
+	<td>id=role</td>
+	<td>2</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>name=new_username</td>
+	<td>Tejal</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-success</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>//div[@id='c-button--push-left']/span</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>verifyElementPresent</td>
+	<td>id=5</td>
+	<td>Tejal</td>
+	<td>false</td>
+</tr>
+
+</tbody></table>
+
+<br><hr><br><a name="test2"></a><table class="test_case"><thead><tr><td colspan="4">Test case: Change User Role</td></tr></thead><tbody><tr class="done">
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=uname</td>
+	<td>EileenW</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=pword</td>
+	<td>test</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>//input[@value='Login']</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>css=span.glyphicon.glyphicon-menu-hamburger</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Admin User Profile</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>select</td>
+	<td>id=user_list1</td>
+	<td>label=Tejal</td>
+	<td>Option with label 'TejalS' not found</td>
+</tr>
+<tr class="passed">
+	<td>verifyElementPresent</td>
+	<td>name=new_username</td>
+	<td>TejalS</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>verifyElementPresent</td>
+	<td>id=role</td>
+	<td>2</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>select</td>
+	<td>id=role</td>
+	<td>label=4</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-success</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>select</td>
+	<td>id=user_list1</td>
+	<td>label=Tejal</td>
+	<td>Option with label 'TejalS' not found</td>
+</tr>
+<tr class="passed">
+	<td>verifyElementPresent</td>
+	<td>name=new_username</td>
+	<td>Tejal</td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>verifyElementPresent</td>
+	<td>id=role</td>
+	<td>4</td>
+	<td></td>
+</tr>
+<tr class="">
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+
+</tbody></table>
+
+<br><hr><br><a name="test3"></a><table class="test_case"><thead><tr><td colspan="4">Test case: Inactivate User</td></tr></thead><tbody><tr class="done">
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=uname</td>
+	<td>EileenW</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=pword</td>
+	<td>test</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>//input[@value='Login']</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>click</td>
+	<td>css=span.glyphicon.glyphicon-menu-hamburger</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>link=Admin User Profile</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>select</td>
+	<td>id=user_list1</td>
+	<td>label=Tejal</td>
+	<td>Option with label 'TejalS' not found</td>
+</tr>
+<tr class="done">
+	<td>select</td>
+	<td>id=accountStatus</td>
+	<td>label=0</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>css=button.btn.btn-success</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>openWindow</td>
+	<td>/</td>
+	<td>w2</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>selectWindow</td>
+	<td>name=w2</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>selectWindow</td>
+	<td>name=w2</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=uname</td>
+	<td>Tejal</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>type</td>
+	<td>id=pword</td>
+	<td>test</td>
+	<td></td>
+</tr>
+<tr class="done">
+	<td>clickAndWait</td>
+	<td>//input[@value='Login']</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr class="passed">
+	<td>verifyElementPresent</td>
+	<td>css=strong</td>
+	<td>Account is InActive!!</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+
+</body></html>

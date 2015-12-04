@@ -1,3 +1,6 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
 var express = require('express');
 var router = express.Router();
 
@@ -44,7 +47,7 @@ router.post('/', function(req, res){
 			res.render('signin',{error: "Username not found!"});
 		}else{  // If the user is in the DB, retrieve password and compare it	
 			
-			if(result.accountStatus==0)//If accountStatus is InActive, user could not signin
+			if(result.accountStatus===0)//If accountStatus is InActive, user could not signin
 				{
 					res.render('signin',{error: "Account is InActive!"});
 				}

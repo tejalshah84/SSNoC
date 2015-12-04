@@ -1,3 +1,6 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
 var express = require('express');
 var router = express.Router();
 var sequelize = require('.././sequelize');
@@ -23,7 +26,7 @@ var requestLimit = function (req, res, next){
 	}else{
 		next();
 	}
-}
+};
 
 
 // GET all test messages

@@ -1,3 +1,6 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
 var fs = require('fs'),
   path = require('path'),
   Sequelize = require('sequelize'),

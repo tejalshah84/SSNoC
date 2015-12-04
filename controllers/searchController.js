@@ -1,3 +1,6 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
 var express = require('express');
 var router = express.Router();
 var sequelize = require('.././sequelize');
@@ -21,13 +24,13 @@ router.get('/', function(req, res) {
 				res.status(500).send("Internal Error occured while fetching data");
 			}
 			else if(users.length ===0){
-				res.type('json').status(200).send({error: "No results matching the search criteria"})
+				res.type('json').status(200).send({error: "No results matching the search criteria"});
 			}
 			else{
 			  var result = util.divideUsers(users);
 			  res.type('json').status(200).send(result);
 			}
-		})
+		});
 	}
 	else if(searchCriteria === "Citizen Status"){
 
@@ -37,7 +40,7 @@ router.get('/', function(req, res) {
 				res.status(500).send("Internal Error occured while fetching data");
 			}
 			else if(users.length ===0){
-				res.type('json').status(200).send({error: "No results matching the search criteria"})
+				res.type('json').status(200).send({error: "No results matching the search criteria"});
 			}
 			else{	
 		  	  var result = util.divideUsers(users);
@@ -57,12 +60,12 @@ router.get('/', function(req, res) {
 			if(searchCriteria === "Announcements"){
 				models.announcement.searchAnnouncements(models, searchtxt, pageCount, function(announcements){
 					res.type('json').status(200).send(announcements);
-				})
+				});
 			}
 			else if (searchCriteria === "Public Messages"){
 				models.chathistory.searchMessages(models, searchtxt, pageCount, function(messages){
 					res.type('json').status(200).send(messages);
-				})
+				});
 			}
 			else if (searchCriteria === "Private Messages"){
 
@@ -70,11 +73,11 @@ router.get('/', function(req, res) {
 
 				models.privatechathistory.searchPrivateMessages(models, searchtxt, pageCount, curr_user, function(messages){
 					res.type('json').status(200).send(messages);
-				})	
+				});
 			}
 		}
 		else {
-				res.json({error: "Search text contains only stop words"})
+			res.json({error: "Search text contains only stop words"});
 		}
 
 	}

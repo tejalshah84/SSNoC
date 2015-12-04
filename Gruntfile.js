@@ -33,19 +33,40 @@ module.exports = function(grunt) {
                     mochaOptions: ['--ui', 'tdd'] // any extra options for mocha
                 }
             }
-        }
+        },
+				jshint: {
+				          files: ['controllers/*.js', 'models/*.js'],
+				            options: {
+				               globalstrict: true,
+				              // options here to override JSHint defaults
+				              globals: {
+				                jQuery: true,
+				                console: false,
+				                module: false,
+				                document: true,
+				                global: false,
+				                require: false,
+				                node: true,
+				                strict: false,
+				                process: false,
+				                exports: false,
+				                __dirname: false
+				              }
+				            }
+				        }
     });
 
     // Load the plugin that provides the "uglify" task.
     // grunt.loadNpmTasks('grunt-mocha'); Client Side testing
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-mocha-istanbul');
+		 grunt.loadNpmTasks('grunt-contrib-jshint');
 
     // Default task(s).
-    grunt.registerTask('default', ['mochaTest:local', 'mocha_istanbul']);
+    grunt.registerTask('default', ['mochaTest:local', 'mocha_istanbul', 'jshint']);
 
     //Test
-    grunt.registerTask('test', ['mochaTest:local','mocha_istanbul']);
+    grunt.registerTask('test', ['mochaTest:local','mocha_istanbul', 'jshint']);
 
     // Shippable
     grunt.registerTask('shippable', ['mochaTest:shippable', 'mocha_istanbul']);
