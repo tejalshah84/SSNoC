@@ -44,26 +44,65 @@ router.get('/inactive', function(req, res) {
 });
 
 
+// Activate a user
 router.get('/active/:user', function(req, res) {
+	
+	
 	if(isInteger(req.params.user)){
-		console.log('first if');
 		
-		models.user.findById(models, req.params.user, function(user){
- 	 		res.type('json').status(200).send(user);
-		});
-	}else{
-		console.log('first else');
-		
-		if(util.checkAccountStatus(req) == 1){
-			console.log('second if'+util.checkAccountStatus(req));
-			
-			models.user.findByUsername(models, req.params.user, function(user){
-			res.type('json').status(200).send(user);
+			models.user.findById(models, req.params.user, function(user){
+				models.user.adminUpdate(models, {"username": user.username, "password": user.password, "roleid":user.roleid, "accountStatus":1}, function(user) {
+					
+					models.user.findById(models, req.params.user, function(user){
+			 	 		res.type('json').status(200).send(user);
+					});
+					  });
 			});
-	}
-		else res.json("Not Active User");
-	} 
+		}else{		
+			
+				models.user.findByUsername(models, req.params.user, function(user){
+					models.user.adminUpdate(models, {"username": user.username, "password": user.password, "roleid":user.roleid, "accountStatus":1}, function(user) {
+						
+						models.user.findByUsername(models, req.params.user, function(user){
+				 	 		res.type('json').status(200).send(user);
+						});
+						
+						  });
+				});
+		}
+	
+	
 });
+
+// Deactivate a user
+router.get('/inactive/:user', function(req, res) {
+	
+	
+	if(isInteger(req.params.user)){
+		
+			models.user.findById(models, req.params.user, function(user){
+				models.user.adminUpdate(models, {"username": user.username, "password": user.password, "roleid":user.roleid, "accountStatus":0}, function(user) {
+					models.user.findById(models, req.params.user, function(user){
+			 	 		res.type('json').status(200).send(user);
+					});
+					  });
+			});
+		}else{		
+			
+				models.user.findByUsername(models, req.params.user, function(user){
+					models.user.adminUpdate(models, {"username": user.username, "password": user.password, "roleid":user.roleid, "accountStatus":0}, function(user) {
+						models.user.findByUsername(models, req.params.user, function(user){
+				 	 		res.type('json').status(200).send(user);
+						});
+						  });
+				});
+		}
+	
+	
+});
+
+
+
 
 function isInteger(x) {
 	return x % 1 === 0;
@@ -91,3 +130,21 @@ router.get('/end_testing', function(req, res) {
 
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

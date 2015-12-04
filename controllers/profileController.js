@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var onlineUsers = require('.././lib/onlineUsers.js');
-//var measurePerformance = require('.././lib/measurePerformance.js');
-//model
+
 var bcrypt = require('bcryptjs');// Load the bcrypt module
 var salt = bcrypt.genSaltSync(10);// Generate a salt
 var models = require('.././models');
@@ -28,7 +27,7 @@ router.get('/', function(req, res) {
   }
 });
 
-//
+
 var isAdmin = function (req, res, next) {
 	
 	if (util.checkUserAccess(req) == 2) { 
@@ -38,11 +37,6 @@ var isAdmin = function (req, res, next) {
 	}  
 }
 
-
-router.get('/profile', isAdmin, function(req, res, next) {
-	
-	res.render('profile', { error: ""});
-});
 
 
 
@@ -56,27 +50,6 @@ router.post('/update', function(req, res, next){
 					res.redirect('/profile');
 			  });
 			
-			
-			
-			
-		
-		
-		/*models.user.update(
-		  {
-			  username: req.body.new_username,
-			  password: pwd_hash,
-			  accountStatus: req.body.accountStatus,
-			  roleid: req.body.roleid
-		  },
-		  {
-		    where: { username: username }
-		  })
-		  .then(function (result) { 
-			  res.redirect('/profile');
-		  })
-		  .error(function (e) {
-			  console.log(e);
-		  });*/
 		
 
 
