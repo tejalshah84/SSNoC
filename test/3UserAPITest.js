@@ -33,6 +33,10 @@ suite('User API', function(){
 				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res).to.have.property('body');
+					expect(res.statusCode).to.equal(200);
+					expect(res.body).to.be.an('array');
 					for(var i=0; i<res.body.length; i++){
 						expect(res.body[i]).to.have.property('id');
 						expect(res.body[i]).to.have.property('username');
@@ -48,19 +52,15 @@ suite('User API', function(){
 				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res).to.have.property('body');
+					expect(res.statusCode).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body).to.have.property('id', 1);
+					expect(res.body).to.have.property('username');
 					done();
 				});
 	});
-	
-	test('3. Create a user', function(done){
-	  done();
-	});
-	
-	test('4. Update a user', function(done){ //Denise
-	  done();
-	});
-	
-	
 			
 });
  

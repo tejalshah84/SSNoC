@@ -34,11 +34,7 @@ router.get('/signout', util.ifSignIn, function(req, res){
 router.post('/', function(req, res){
 	var username = req.body.username;
 	
-	models.user.findOne({
-		  where: {
-		    username: username
-			}
-	}).then(function (result) {
+	models.user.findByUsername(models, username, function (result) {
 		if(!result){
 			// If the username isn't in the DB, reset the session and redirect the user to signup an account
 			res.render('signin',{error: "Username not found!"});
@@ -54,15 +50,17 @@ router.post('/', function(req, res){
 			if(comparison){ //If pwd is correct, update new login time to DB and enter the welcome page	
 				var date = new Date();//Get user login time
 				//var logintime = date.toLocaleTimeString();
-				result.update({
-				  lastlogintime: date
-				}).then(function() {
+				
+				
+				models.user.loginTimeUpdate(models, {"username": result.username}, function(user) {
 					req.session.user = result;
 					req.session.isNewUser = false;
 					req.session.newUserCount = 1;
 					util.goOnline(result);
 					res.redirect('/community');
-				});
+			  });
+				
+				
 			}else{
 				res.render('signin',{error: "Password is incorrect!"});
 			}		

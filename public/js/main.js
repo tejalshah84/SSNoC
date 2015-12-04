@@ -394,7 +394,6 @@ function loadPrivChatHistory(data){
 
 //Adds the individual private chat message to the private chat window and updates badge number
 function addPrivChatMessage (data) {
-		   
 	var chatContent = "<blockquote><p><div class=\"chat_author\">"+data.chatauthor+"</div><div class=\"chat_timestamp\"><small>"+dateForamt(data.timestamp)+"</small></div><div class=\"clear-float\"></div><div class=\"chat-messsage\">"+	
 							data.chatmessage+"</div></p></blockquote>";					
 	var item = "<li class=\"priv_messages_item\">"+chatContent+"</li>";
@@ -402,14 +401,17 @@ function addPrivChatMessage (data) {
 	scrollListBtm();	
 	
 	//updating user directory with msg badge numbers
-	var $badge = $("#"+data.chatauthor+" .badge");
-	if($("#"+data.chatauthor+" .badge").length > 0){
-		$("#"+data.chatauthor+" .badge").text(incrementNumMsg($("#"+data.chatauthor+" .badge")));
+	var $badge = $("#"+data.chatauthor_id+" .badge");
+	if($("#"+data.chatauthor_id+" .badge").length > 0){
+		$("#"+data.chatauthor_id+" .badge").text(incrementNumMsg($("#"+data.chatauthor_id+" .badge")));
 	}
 	else{
 		var msgNotification = "<span class=\"badge\">"+1+"</span>";
-		$("#"+data.chatauthor).append(msgNotification);			
-	}		
+		var patt = new RegExp(data.chatauthor_id);
+		if(!patt.test(window.location.href)){
+		$("#"+data.chatauthor_id).append(msgNotification);			
+		}
+		}		
 }
 
 //Update Private Chat Badge Number in User Directory

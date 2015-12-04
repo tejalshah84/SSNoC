@@ -55,28 +55,16 @@ io.on('connection', function(socket){
   
   
     socket.on('PrivateChatMsg',function(data){
- 
 			models.user.findOne({
 				where: {id: data.chatauthor_id}
 			}).then(function(user) {
-    			models.privatechathistory.create({ 
-		          	chatauthor_id: data.chatauthor_id,
-		          	chattarget_id: data.chattarget_id,
-		          	chatmessage: data.chatmessage, 
-		            timestamp: data.timestamp
-       			}).then(function() {
-       				console.log(privateRooms[data.chatauthor_id]);
-						console.log("----- taget's socketid: "+onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']);
-							
-				//create.createPrivateMessage(data, function(){
+				models.privatechathistory.createPrivMessage(models,data, function(){
 							io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']]).emit('private chat',{
-
        							chatauthor_id: data.chatauthor_id,
        							chatauthor: data.chatauthor,
        							chatmessage: data.chatmessage,
     							timestamp: data.timestamp
-    				});
-       		//});   	
+    				});   	
 				});			
     	 		});  
 
@@ -88,25 +76,20 @@ io.on('connection', function(socket){
 			console.log(data);
     	date = new Date();
 			console.log(onlineUsers.getOnlineUsers());	
-    	models.privatechathistory.create({ 
+    	/*models.privatechathistory.create({ 
 		          	chatauthor_id: data.founder_id,
 		          	chattarget_id: data.reporter_userid,
 		          	chatmessage: data.chatmessage, 
 								timestamp: new Date()
           	
-       		}).then(function() {
-		
-			//create.createPrivateMessage(data, function(){		
+       		}).then(function() {		*/
+			models.privatechathistory.createPrivMessage(models,data, function(){
 						io.sockets.to([onlineUsers.getOnlineUsers()[data.reporter_userid]['socket_id']]).emit('new notification', {
 							chatauthor: data.founder,
 							chatauthor_id: data.founder_id
 						});
 			});			
-       		//});   	
-					
-			
-			
-    	
+       		//});     	
     });
   
 	

@@ -13,7 +13,7 @@ var expect = require('expect.js');
 //var testStatus = require('.././chatsocket.js');
 
 suite('Usecase Test', function(){
-
+/*
 	test('Private Chat', function(done){
 		request(url)
 		.get('/chat/2')
@@ -31,6 +31,6 @@ suite('Usecase Test', function(){
 		done();
 		});
 		});
-	
+	*/
 	
 });

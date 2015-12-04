@@ -27,6 +27,17 @@ module.exports = function(sequelize){
 			associate: function(models){
 				announcement.belongsTo(models.user, {foreignKey: 'publisher_userid', targetKey: 'id'});		
 			},
+			createAnnouncement: function(models, data, next){
+				models.user.findById(models, data.publisher_userid, function(user){
+					models.announcement.create({ 
+						publisher_userid: user.id,
+						content: data.content,
+						createdAt: data.createdAt
+					}).then(function(announcement) {
+						next(announcement);
+					});
+				});	
+			},
 			destroyAnnouncement: function(models, id, next){
 				models.announcement.findOne({ where: { id: id}}).then(function(result){
 					return result.destroy();

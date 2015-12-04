@@ -50,8 +50,8 @@ router.get('/users/chatbuddies/:user', function(req, res) {
 
 //Post an announcements 
 router.post('/messages/announcement', function(req, res){
-	create.createAnnouncement(req.body, function(){
-		res.type('json').status(200).send();
+	models.announcement.createAnnouncement(models, req.body, function(announcement){
+		res.type('json').status(200).send(announcement);
 	})
 });
 
@@ -150,19 +150,23 @@ router.get('/messages/privatechat/:sender/:receiver', function(req, res){
 });
 
 //Retrieve a private wall message by ID
-/*router.get('/messages/privatechat/:id', function(req, res){
+router.get('/messages/privateMessage/:id', function(req, res){
 	models.privatechathistory.findAll({
 		  where: {
-		    id: req.params.id
-		  }
-		}).then(function (privmsg) {
-			  res.json(privmsg);
+			    id: req.params.id
+			  }
+	}).then(function (privm) {
+			  res.json(privm);
 		});
-});*/
+});
 
 //Retrieve all private chat messages between two users
-//router.get('/messages/privatechat/:sender_id/:receiver_id', function(req, res){
-//});
+router.get('/messages/privateMessages', function(req, res){
+	models.privatechathistory.findAll({
+	}).then(function (privm) {
+			  res.json(privm);
+		});
+});
 
 //Send a chat message to another user
 router.post('/messages/privatechat/sender/receiver', function(req, res){

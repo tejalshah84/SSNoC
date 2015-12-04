@@ -31,38 +31,30 @@ router.get('/', function(req, res) {
 	models.chathistory_test.chathistory.findAll().then(function (msg) {
 		  //res.json(msg);
 			measurePerformance.increGet(); 
-			res.json(msg);
+			res.type('json').status(200).send(msg);
 	});
 });
 
-//get message
-router.get('/:id', function(req, res) {
-	models.chathistory_test.chathistory.findAll({
-	  where: {
-	    id: req.params.id
-	  }
-	}).then(function (msg) {
-		  res.json(msg);
-	});
-});
+
 
 //create message
 router.post('/', requestLimit, function(req, res) {
-	createMsg(req,res);
+	createMsg(req.body,res);
 });
 
 
 
 
 
-function createMsg(req,res){
+function createMsg(data,res){
 	models.chathistory_test.chathistory.create({ 
-  	chatauthor: req.body.chatauthor,
-		chatmessage: req.body.chatmsg,
-    timestamp: req.body.timestamp
+  	chatauthor: data.chatauthor,
+		chatmessage: data.chatmsg,
+    timestamp: data.timestamp
 	}).then(function(msg) {
 		measurePerformance.increPost(); 
-		res.json(measurePerformance.getRequestNum());
+//		res.json(measurePerformance.getRequestNum());
+		res.type('json').status(200).send(msg);
 	});
 }
 

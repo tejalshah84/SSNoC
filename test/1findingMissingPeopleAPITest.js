@@ -28,11 +28,7 @@ var person = {
 
 suite('Missing Person API', function(){
 	
-//	suiteTeardown(function (done){
-//		server.close(done);
-//		return done();
-//	});
-	
+
 	
 	test('1. Getting all missing person', function(done){
 	    request
@@ -45,6 +41,10 @@ suite('Missing Person API', function(){
 					expect(res).to.have.property('body');
 					expect(res.statusCode).to.equal(200);
 					expect(res.body).to.be.an('array');
+					for(var i=0; i<res.body.length; i++){
+						expect(res.body[i]).to.have.property('firstname');
+						expect(res.body[i]).to.have.property('lastname');
+					} 
 					done();
 				});
 	});
@@ -56,6 +56,12 @@ suite('Missing Person API', function(){
 				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res).to.have.property('body');
+					expect(res.statusCode).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body).to.have.property('firstname');
+					expect(res.body).to.have.property('lastname');
 					done();
 				});
 	});
@@ -67,6 +73,15 @@ suite('Missing Person API', function(){
 			.expect(200) 
 			.end(function(err, res){
 				should.not.exist(err);
+				expect(res).to.have.property('statusCode');
+				expect(res).to.have.property('body');
+				expect(res.statusCode).to.equal(200);
+				expect(res.body).to.be.an('array');
+				for(var i=0; i<res.body.length; i++){
+					expect(res.body[i]).to.have.property('firstname');
+					expect(res.body[i]).to.have.property('lastname');
+					expect(res.body[i].missing).to.eql(1);
+				} 
 				done();
 			});
 
@@ -79,6 +94,15 @@ suite('Missing Person API', function(){
 			.expect(200) 
 			.end(function(err, res){
 				should.not.exist(err);
+				expect(res).to.have.property('statusCode');
+				expect(res).to.have.property('body');
+				expect(res.statusCode).to.equal(200);
+				expect(res.body).to.be.an('array');
+				for(var i=0; i<res.body.length; i++){
+					expect(res.body[i]).to.have.property('firstname');
+					expect(res.body[i]).to.have.property('lastname');
+					expect(res.body[i].missing).to.eql(0);
+				} 
 				done();
 			});
 	});		

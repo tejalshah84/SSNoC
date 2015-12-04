@@ -283,3 +283,31 @@ blockquote{
     color: #6d6d6d;
     margin: 14px 0;
 }
+#privMsgList {
+	background-color: white;
+	font-size: 15px;
+}
+
+#privMsgList li:nth-child(odd) {
+	background-color: white;
+}
+
+#privMsgList li:nth-child(even) {
+	background-color: #ddd;
+}
+
+#messages {
+	background-color: white;
+	font-size: 10px;
+	}
+
+#messages li:nth-child(odd) {
+	background-color: white;
+}
+
+#messages li:nth-child(even) {
+	background-color: #ddd;
+}
+.badge{
+	background:red;
+}
