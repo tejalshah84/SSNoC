@@ -82,7 +82,7 @@ suite('Route Test', function(){
 	    request
 	    	.get('/missing/deck')
 				.expect(302) 
-        .expect('Location', '/')
+        .expect('Location', '/signin')
 				//.expect('Content-Type', 'text/plain')
 				.end(function(err, res){
 					should.not.exist(err);
