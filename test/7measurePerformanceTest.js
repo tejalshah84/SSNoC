@@ -2,30 +2,10 @@ var express = require('express');
 var expect = require('expect.js');
 var request = require('supertest');
 var should = require('should');
-var indexRoutes = require('.././controllers/index.js');
 var models = require('.././models');
 var measurePerformance = require('.././lib/measurePerformance.js');
 
 ///////////////////////////////////////////////////////////////
-
-
-var current_user = {
-	'id': 4,
-	'username': 'EileenW'
-};
-
-var new_person = { 
-	'firstname': 'Dai',
-	'lastname': 'How',
-	'age': 26,
-	'height': 175,
-	'weight': 90,
-	'location': 'B19, CMU-SV',
-	'lastseen': new Date(),
-	'description': 'This is a description',
-	'missing': 1
-};
-
 
 
 ///////////////////////////////////////////////////////////////

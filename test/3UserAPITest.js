@@ -2,6 +2,8 @@ var app = require("../app.js").app;
 var server = require("../app.js").server;
 var request = require("supertest").agent(server);
 var should = require('should');
+var expect = require('expect.js');
+
 
 
 ///////////////////////////////////////////////////////////////
@@ -31,6 +33,10 @@ suite('User API', function(){
 				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
+					for(var i=0; i<res.body.length; i++){
+						expect(res.body[i]).to.have.property('id');
+						expect(res.body[i]).to.have.property('username');
+					}
 					done();
 				});
 	});

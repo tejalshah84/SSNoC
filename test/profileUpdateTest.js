@@ -16,7 +16,9 @@ var url = 'http://localhost:8888';
 
 ///////////////////////////////////////////////////////////////
 
-/*var current_user = {
+/*
+
+var current_user = {
 	'id': 4,
 	'username': 'EileenW'
 };
@@ -24,7 +26,9 @@ var url = 'http://localhost:8888';
 var user = { 
 	'username': 'abc',
 	'roleid': 2
-};*/
+};
+
+*/
 
 
 ///////////////////////////////////////////////////////////////

@@ -2,6 +2,8 @@
 var server = require("../app.js").server;
 var request = require("supertest").agent(server);
 var should = require('should');
+var expect = require('expect.js');
+
 
 
 ///////////////////////////////////////////////////////////////
@@ -32,10 +34,19 @@ suite('Announcement API', function(){
 	test('1. Getting all announcement', function(done){
 	    request
 	    	.get('/api/messages/announcement')
-				.expect('Content-Type', /json/)
-				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res.statusCode).to.equal(200);
+					expect('Content-Type', /json/)
+					expect(res).to.have.property('body');			
+					expect(res.body).to.be.an('array');
+					expect(res.body.length).to.be.above(5);
+					for(var i=0; i<res.body.length; i++){
+						expect(res.body[i]).to.have.property('id');
+						expect(res.body[i]).to.have.property('publisher_userid');
+						expect(res.body[i]).to.have.property('content');
+					}
 					done();
 				});
 	});
@@ -43,10 +54,14 @@ suite('Announcement API', function(){
 	test('2. Getting a particular announcement', function(done){
 	    request
 	    	.get('/api/messages/announcement/'+announcement.id)
-				.expect('Content-Type', /json/)
-				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res.statusCode).to.equal(200);
+					expect('Content-Type', /json/)
+					expect(res).to.have.property('body');			
+					expect(res.body).to.be.an('object');
+					expect(res.body.length).to.equal(1);
 					done();
 				});
 	});
