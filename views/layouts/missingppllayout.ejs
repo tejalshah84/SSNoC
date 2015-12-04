@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>SSNoC</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pushmenustyle.css" rel="stylesheet" >
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/missingPeople.css" rel="stylesheet">
+
+    <script>
+        var currentPersonCard = 1;
+        var lastPersonCard;
+        var firstPersonCard;
+    </script>
+
+  </head>
+
+  <body>
+
+    <!--Push Notification Start-->
+    <% include .././partials/push_notification%>
+     <!--Push Notification End-->
+
+
+    <!-- Left Side Bar Start -->
+    <% include .././partials/leftbar%>
+    <!-- Left Side Bar End -->
+
+    <!-- Right Side Bar Start -->
+    <% include .././partials/rightbar%>
+    <!-- Right Side Bar End -->
+
+    <div id="o-wrapper" class="o-wrapper"> 
+        <!--Top Nav and Announcement Bar Start-->
+        <% include .././partials/topnav%>
+        <!--Top Nav and Announcement Bar End-->
+
+        <!--Body Start -->
+        <div style="width:90%; margin: auto auto;"> <%- body %></div>
+        <!--Body End-->
+    </div>
+   
+    <div id="c-mask" class="c-mask"></div><!-- /c-mask -->
+
+    <!--scripts: jquery, bootstrap, socket-->
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+     <!--scripts: Navigation bars -->
+    <script src="../js/pushmenu.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/swipe.js"></script>
+     <script src="../js/swipeevent.js"></script>
+    <!--Scripts: Custom -->
+    <script src="../js/utility.js"></script>
+	<script src="../js/main.js"></script>
+    
+    <!--Load Post Announcement Partial-->
+    <%if (user.roleid == 3) { %>
+    <% include ../partials/announceMsg %>
+    <% } %>
+
+  </body>
+</html>

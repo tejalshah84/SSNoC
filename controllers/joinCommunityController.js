@@ -8,22 +8,12 @@ var onlineUsers = require('.././lib/onlineUsers.js');
 
 var bcrypt = require('bcryptjs');// Load the bcrypt module
 var salt = bcrypt.genSaltSync(10);// Generate a salt
-
+var util = require('.././util/util.js');
 
 var models = require('.././models');
 
 
 // -------------------------------------------------------------------------------------//
-
-
-var ifSignIn = function (req, res, next) {
-	if (req.session && req.session.user) { 
-		console.log('~~~~~~~~~~~~~~~ Session exist!!!');
-		next();
-	}else{
-		res.redirect('/signin');
-	}  
-}
 
 /* show signin page*/
 router.get('/', function(req, res) {
@@ -34,7 +24,7 @@ router.get('/signin', function(req, res, next) {
 	res.render('signin', { error: ""});
 });
 
-router.get('/signout', ifSignIn, function(req, res){ 
+router.get('/signout', util.ifSignIn, function(req, res){ 
 		onlineUsers.removeOnlineUsers(req.session.user.id);
 		req.session.destroy();
 		res.redirect('/signin');
@@ -64,14 +54,26 @@ router.post('/', function(req, res){
 			if(comparison){ //If pwd is correct, update new login time to DB and enter the welcome page	
 				var date = new Date();//Get user login time
 				//var logintime = date.toLocaleTimeString();
-				result.update({
+				
+				
+				models.user.loginTimeUpdate(models, {"username": result.username}, function(user) {
+					req.session.user = result;
+					req.session.isNewUser = false;
+					req.session.newUserCount = 1;
+					util.goOnline(result);
+					res.redirect('/community');
+			  });
+				
+				
+				/*result.update({
 				  lastlogintime: date
 				}).then(function() {
 					req.session.user = result;
 					req.session.isNewUser = false;
-					goOnline(result);
+					req.session.newUserCount = 1;
+					util.goOnline(result);
 					res.redirect('/community');
-				});
+				});*/
 			}else{
 				res.render('signin',{error: "Password is incorrect!"});
 			}		
@@ -87,105 +89,57 @@ router.get('/signup', function(req, res, next) {
 router.post('/signup', function(req, res){
 	var username = req.body.username;
 	if(badUsername.contains(username)){
-		res.render('signup',{error: "Username not valid!"});				
+		res.render('signup', {error: "Username not valid!"});				
 	}else{
-		models.user.findOne({
-		  where: {
-		    username: username
-		  }
-		}).then(function (result) {
+		models.user.findByUsername(models, username, function (result) {
 			if(result){
-				res.render('signup',{error: "Username already exists!"});				
+				res.render('signup', {error: "Username already exists!"});				
 			}else{
-				// Hash the password with the salt
-				var pwd_hash = bcrypt.hashSync(req.body.password, salt);
-			  var date = new Date();
-			//  var logintime = date.toLocaleTimeString();
-	
+				var pwd_hash = bcrypt.hashSync(req.body.password, salt);	// Hash the password with the salt
 				req.session.username = username;
-				models.user.create({ 
-					username: username, 
-					password: pwd_hash,
-					firstname: "",
-					lastname: "",
-					statusid: 3,
-					roleid: 3,
-					lastlogintime: date
-				}).then(function() {
-			    models.user
-			      .findOne({where: {username: username}})
-			      .then(function (user) {
-							req.session.user = user;
-							req.session.isNewUser = true;
-							goOnline(user);
-							res.redirect('/community');
-			      });
+				models.user.createUser(models, {"username": username, "password": pwd_hash}, function(user) {
+					req.session.user = user;
+					req.session.isNewUser = true;
+					req.session.newUserCount = 0;
+					util.goOnline(user);
+					res.redirect('/community');
 			  });
 			}
-			
 		});
-	
-}
-  
+	}  
 });
 
-router.get('/community', ifSignIn, function(req, res) {
-	
-		models.user.findAll().then(function (user) {	
-			var users = user;
-			models.chathistory.findAll().then(function (msg) {	
-        var chathistory = msg;
-				
-				// render the welcome page
-			  	res.render('community', { 
-						user: req.session.user,
-						isNewUser: req.session.isNewUser,
-						chatHistory: chathistory, 
-						userDirectory : users,
-						onlineUsers: onlineUsers.getOnlineUsers()
-						});
-			});
-		});
-		
-	
-});
-//req.params.id
-
-router.get('/chat/:id', ifSignIn, function(req, res) {	
-		if(req.params.id == req.session.user.id){
-			res.redirect('/community');
+router.get('/community', util.ifSignIn, function(req, res) {
+		++req.session.newUserCount;
+		if (req.session.newUserCount > 1 ){
+			req.session.isNewUser = false;
 		}
-		models.user.findAll().then(function (user) {	
-			var users = user;	
-		models.privatechathistory.findAll({
-		where: {
-		chatauthor_id: {
-			$in: [req.session.user.id, req.params.id]
-		},
-		chattarget_id:{ 	  
-			$in: [req.session.user.id, req.params.id]}
-		}
-	}).then(function (msg) {
-  	res.render('chat', { 
+		console.log(req.session.isNewUser);
+		res.render('community', { // render the welcome page
 			user: req.session.user,
-			userDirectory : users,
-			chatHistory: msg,
-			targetName: req.params.id
-			}); 
-		});
+			isNewUser: req.session.isNewUser,
+			newUserCount: req.session.newUserCount,				
 		});
 });
 
-router.get('/searchpage', ifSignIn, function(req, res) {
+
+router.get('/chat/:id', util.ifSignIn, function(req, res) {	
+	req.params.id = Number(req.params.id);	
+	if(req.params.id == req.session.user.id){
+		res.redirect('/community');
+	}	
+  res.render('privatechat', { 
+		user: req.session.user,
+		targetName: req.params.id
+	}); 
+});
+
+
+router.get('/searchpage', util.ifSignIn, function(req, res) {
 	res.render('searchpage',{
 		user: req.session.user
 	  });	
 });
-
-
-function goOnline(user){
-	onlineUsers.addoOnlineUsers(user);
-}
 
 
 

@@ -11,20 +11,25 @@ exports.createUser = function(data, callback){
 };
 
 exports.createPublicMessage = function(data, callback){
-	models.messages.create({ 
-		
+	models.chathistory.create({ 
+		chatauthor_id: data.chatauthor_id,
+		chatmessage: data.chatmessage,
+		timestamp:new Date()		
 	}).then(function(message) {		
 		console.log("New Message Created!");
 		callback(message['dataValues']);
 	});
 };
 
-exports.createPrivateMessage = function(data, callback){
-	models.messages.create({ 
-		
-	}).then(function(message) {		
-		console.log("New Message Created!");
-		callback(message['dataValues']);
+exports.createPrivMessage = function(data, callback){
+	models.privatechathistory.create({ 
+		/*		chatauthor_id: data.chatauthor_id,
+      	chattarget_id: data.chattarget_id,
+      	chatmessage: data.chatmessage, 
+        timestamp: new Date()*/
+	}).then(function(privMsg) {		
+		console.log("New Private Message Created!");
+		callback(privMsg['dataValues']);
 	});
 };
 

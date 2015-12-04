@@ -16,18 +16,21 @@ var models = require('.././models');
 //GET all private messages for a specific author
 router.get('/', function(req, res) {
 	models.privatechathistory.findAll({
-where: {
-chatauthor: {
-	$in: [req.query.chatauthor_id, req.query.chattarget_id]
-},
-chattarget:{ 	  
-$in: [req.query.chatauthor_id, req.query.chattarget_id]}
-}
-}).then(function (msg) {
-	console.log('RoomTest');
-	console.log(msg); 
-	res.json(msg); 
-});
+	where: {
+		chatauthor_id: {
+			$in: [req.query.chatauthor, req.query.chattarget]
+		},
+		chattarget_id:{ 	  
+			$in: [req.query.chatauthor, req.query.chattarget]}
+		},
+	include: [{model: models.user, as: 'usertarget_id', attributes: ['username']},
+				{model: models.user, as: 'userauthor_id', attributes: ['username']}],
+	order:'timestamp ASC',
+	}).then(function (msg) {
+		console.log('RoomTest');
+		console.log(msg); 
+		res.json(msg); 
+	});
 });
 
 //get message

@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
 	if(searchCriteria === "Citizen"){
 
 		models.user.findAll({
-		  attributes: ['username', 'firstname', 'lastname', 'statusid', 'roleid', 'location', 'lastlogintime'],
+		  attributes: ['id','username', 'firstname', 'lastname', 'statusid', 'roleid', 'location', 'lastlogintime'],
 		  where: {
 		    username: {
 		    	$like: '%'+ searchText +'%'
@@ -27,20 +27,35 @@ router.get('/', function(req, res) {
 		  
 			}).then(function (users) {
 
+			if(users.length ===0){
+
+				res.json({error: "No results matching the search criteria"})
+			}
+			else{	
+
 			  var result = util.divideUsers(users);
 			  res.json(result);
+			}
 		});
 	}
 	else if(searchCriteria === "Citizen Status"){
 
 		models.user.findAll({
-		  attributes: ['username', 'firstname', 'lastname', 'statusid', 'roleid', 'location','lastlogintime'],
+		  attributes: ['id','username', 'firstname', 'lastname', 'statusid', 'roleid', 'location','lastlogintime'],
 		  where: {
 		    statusid: searchText
 		  }
 		  }).then(function (users) {
+
+		  	if(users.length ===0){
+
+				res.json({error: "No results matching the search criteria"})
+			}
+			else{	
+
 		  	  var result = util.divideUsers(users);
 			  res.json(result);
+			}
 		});
 
 	}
@@ -56,13 +71,13 @@ router.get('/', function(req, res) {
 			if(searchCriteria === "Announcements"){
 
 				models.announcement.findAndCountAll({
-				  attributes: ['id','publisher_username', 'content', 'createdAt'],
+				  attributes: ['id','publisher_userid', 'content', 'createdAt'],
 				  where: {
 				    content: {
 				    	$like: searchtxt
 				    }
 				  },
-				  include: [{model: models.user, attributes: ['location','statusid']}],
+				  include: [{model: models.user, attributes: ['username','location','statusid']}],
 				  order:'announcement.createdAt DESC',
 				  offset: pageCount,
 				  limit: 10
@@ -73,13 +88,13 @@ router.get('/', function(req, res) {
 			else if (searchCriteria === "Public Messages"){
 
 				models.chathistory.findAndCountAll({
-				  attributes: ['id','chatauthor', 'chatmessage', 'timestamp', 'createdAt'],
+				  attributes: ['id','chatauthor_id', 'chatmessage', 'timestamp', 'createdAt'],
 				  where: {
 				    chatmessage: {
 				    	$like: searchtxt
 				    }
 				  },
-				  include: [{model: models.user, attributes: ['location','statusid']}],
+				  include: [{model: models.user, attributes: ['username','location','statusid']}],
 				  order:'timestamp DESC',
 				  offset: pageCount,
 				  limit: 10
@@ -89,19 +104,19 @@ router.get('/', function(req, res) {
 			}
 			else if (searchCriteria === "Private Messages"){
 				
-				var currUser = req.session.user.username;
+				var currUser = req.session.user.id;
 
 				models.privatechathistory.findAndCountAll({
-				  attributes: ['id','chatauthor', 'chattarget','chatmessage', 'timestamp', 'createdAt'],
+				  attributes: ['id','chatauthor_id', 'chattarget_id','chatmessage', 'timestamp', 'createdAt'],
 				  where: {
 				    chatmessage: {
 				    	$like: searchtxt
 				    },
-				    $or: [{chatauthor: currUser}, 
-				    	{chattarget: currUser}]
+				    $or: [{chatauthor_id: currUser}, 
+				    	{chattarget_id: currUser}]
 				  },
-				  include: [{model: models.user, as: 'usertarget', attributes: ['location', 'statusid']},
-				 		   {model: models.user, as: 'userauthor', attributes: ['location', 'statusid']}],
+				  include: [{model: models.user, as: 'usertarget_id', attributes: ['username','location', 'statusid']},
+				 		   {model: models.user, as: 'userauthor_id', attributes: ['username','location', 'statusid']}],
 				  order:'timestamp DESC',
 				  offset: pageCount,
 				  limit: 10
@@ -111,7 +126,7 @@ router.get('/', function(req, res) {
 			}
 		}
 		else {
-				res.json({error: "Incorrect Search Text"})
+				res.json({error: "Search text contains stop words"})
 		}
 
 	}

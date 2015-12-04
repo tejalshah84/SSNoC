@@ -1,45 +1,20 @@
-<div class="row">
+<div class="public-wall-container">
 <!-- private wall content -->
-	<div class="" style="margin: 0 auto;width:80%;padding-top:0px"  id="private_room">
-  <div class="clr" style="height:2vh;"></div>              
-	 
-     
-     <div style="height:68vh;overflow-y: auto; display:block" id="private_messages">	
-     		<span hidden id="targetUserName"><%= targetName%></span>	
-						               
-		<ul id="privMsgList"  style="list-style-type:none;-webkit-padding-start: 0px;">
-			<% chatHistory.forEach(function(msg){ %>
-							 <li class="priv_messages_item">
-							 <blockquote><p>
-								 <span class="chat_author"><%= userDirectory[msg.chatauthor_id-1].username%>: </span>
-										<%= msg.chatmessage%> 
-										<span class="chat_timestamp">
-											<small><%= msg.createdAt%></small>
-										</span>
-								</p></blockquote>
-							</li>
-					
-						  <%  });  %>
-		</ul>
-     </div>                 
-                                
-      <div class="clr" style="height:2vh;"></div>                                  
-		<!-- message text box-->
-		<div style="">
-		<div class="room" style=""> 
-			<form class="form" action="/message" method="post"> <!--POST to backend-->
-				<p hidden id="user"><%=user.username %></p>
-				<p hidden id="location"><%=user.location %></p>
-				<p hidden id="status"><%=user.statusid %></p>
-				<div class="input-group text-center">
-	
-					<input type="text" class="form-control input-lg privInputMessage" placeholder="Type here...">
-					<span class="input-group-btn">
-						<button class="btn btn-lg btn-primary" id="privSubmitMessage" type="button">OK</button>
-					</span>
-				</div>
-			</form> 
-		</div> 
-	</div>                         
-	</div>
+
+    <div class="public-wall-content"  id="private_messages">	
+     	<span hidden id="targetUserName"><%= targetName%></span>				               
+		<ul id="privMsgList"  style="list-style-type:none;-webkit-padding-start: 0px;"></ul>
+    </div>                                         
+	<!-- message text box-->
+	<div class="post-message"> 
+		<div class="input-group text-center">
+			<input type="text" class="form-control input-sm privInputMessage" placeholder="Message...">
+			<span class="input-group-btn">
+				<button class="btn btn-sm btn-success" id="privSubmitMessage" type="button">Send</button>
+			</span>
+		</div>
+	</div>     	                  
 </div>
+
+ 
+

@@ -1,22 +1,35 @@
- <% layout('./layouts/layout3') -%>
- <div class="clr" style="height:60px;"></div>
- <h3>Missing People
- <a href="/missing/new"><span style="float:right;"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span></a>
- </h3>
-<div>
+ <% layout('./layouts/missingppllayout') -%>
+   	<div class="clr" style="height:5px;"></div>
+  <h4>Missing People
+	
+  <a href="/missing/new"><span style="float:right;"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span></a>
+  <!--a href="/missing/new"><span style="float:right; padding-right: 20px;"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></span></a-->
+  </h4>
  
-  <div class="module btcf photo-wrap" style="background-color: #f2f2f2;  ">
-		<% include ./partials/people_deck %>	
-</div>
-<div class="controll-panel">
-	<div class="col-xs-5">
-  	<a class="btn btn-default btn-pass" style="cursor: hand;">PASS</a>
-	</div>
-	<div class="col-xs-2"></div>
-	<div class="col-xs-5">
-		<a data-toggle="modal" data-target="#citizenFoundModal" class="btn btn-warning file_found_report">FOUND</a>
-	</div>
-</div>
+ 
+ <% if (missingPeople.length <= 0) {%>
+ 	<div class="clr" style="height:60px;"></div>
+ 	<div style="background-color: #f2f2f2; padding: 10px 10px;">
+ 	<h4>No missing person reported :)</h4>
+ 	</div>
+ <% }else{%>
+	 
+ <div> 
+   <div class="module btcf photo-wrap" style="background-color: #f2f2f2;  ">
+ 		<% include ./partials/people_deck %>	
+ </div>
+	<div class="clr" style="height:0px;"></div>
+ 
+ <div class="controll-panel">
+ 	<div class="col-xs-5">
+   	<a class="btn btn-default btn-pass" style="cursor: hand;">PASS</a>
+ 	</div>
+ 	<div class="col-xs-2"></div>
+ 	<div class="col-xs-5">
+ 		<a data-toggle="modal" data-target="#citizenFoundModal" class="btn btn-warning file_found_report">FOUND</a>
+ 	</div>
+ </div>
 
 
-</div>
+ </div>
+ <% } %>

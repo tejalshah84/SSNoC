@@ -20,7 +20,7 @@ var ifSignIn = function (req, res, next) {
 	}else{
 		res.redirect('/');
 	}  
-}
+};
 
 
 // GET all messages
@@ -46,7 +46,7 @@ router.get('/deck', ifSignIn, function(req, res) {
 // new missing people
 router.get('/new',ifSignIn, function(req, res) {
 	models.user.findAll().then(function (user) {	
-	res.render('missing/new', { 
+	res.render('newmissing', { 
 		user: req.session.user,
 		userDirectory : user,
 		onlineUsers: onlineUsers.getOnlineUsers()
@@ -61,12 +61,9 @@ router.post('/:id/found', function(req, res) {
 	
 	services.foundMissingPerson(req.params.id, req.body, function(person){
 		console.log(person['dataValues']);
-		models.user.findOne({
-			  where: {
-			    id: person['dataValues'].reporter_userid
-				}
-		}).then(function (result) {
-			var data = {"id": result.id, "reporter_userid": result.username, "person": person, "founder": req.session.user.username};
+		
+		models.user.findById(models, person['dataValues'].reporter_userid, function (result) {
+			var data = { "reporter_userid": result.id, "person": person, "founder": req.session.user.username, "founder_id": req.session.user.id};
 			res.json(data);
 		});
 		
@@ -78,10 +75,17 @@ router.post('/:id/found', function(req, res) {
 
 //create new missing people profile
 router.post('/', upload.single('file'), function(req, res) {
-	console.log(req);
 		var path = __dirname + "/../public/uploads";
-		services.uploadImage(req,req.file.originalname,path, function() {
-			var person = services.createMissingPerson(req.body, req.file.originalname, req.session.user,function(person) {
+		var filename;
+		if(!req.file){
+			filename = '';
+		}else{
+			filename = req.file.originalname;
+		}
+		services.uploadImage(req,filename,path, function() {
+			filename = 'Minion.png';
+			//var person = services.createMissingPerson(req.body, req.file.originalname, req.session.user,function(person) {
+			var person = models.missingperson.createMissingPerson(models, req.body, filename, req.session.user,function(person) {	
 	  		console.log('--------------');
 				console.log(person['dataValues']);
 					res.redirect('/missing/deck');

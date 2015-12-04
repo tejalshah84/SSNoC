@@ -25,7 +25,7 @@ $(function() {
     }
 
     $el.on( "touchstart mousedown", function ( event ) {
-			event.preventDefault();
+		//	event.preventDefault();
       touchDown = true;
       originalPosition = {
         x: event.originalEvent.pageX,

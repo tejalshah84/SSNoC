@@ -11,26 +11,38 @@ $(function() {
 		console.log('current=> '+currentPersonCard);
 		console.log('first=> '+firstPersonCard);
 		console.log('last=> '+lastPersonCard);
+		$('.card-'+firstPersonCard).show().addClass('current');
 	});
 	
 	function getCurrentCard(){
-		return ($('.current > p').text());
+		return ($('.current > p.missingPeopleId').text());
 	}
 	
 	$('.btn-pass').on('click', function(){
 		
-		$('.card-'+currentPersonCard).addClass('rotate-left').delay(700).fadeOut(1);
-		$('.card-'+currentPersonCard).removeClass('current');
+		//$('.card-'+currentPersonCard).addClass('rotate-left').delay(700).fadeOut(1);
+		//$('.card-'+currentPersonCard).removeClass('current');
     
-		if ( $('.card-'+currentPersonCard).is(':first-child') ) {
-			currentPersonCard = firstPersonCard;
-			$('.card-'+(currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(300);
-			$('.card-'+currentPersonCard).addClass('current');
-		}else{
-			$('.card-'+(++currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(400);
-			$('.card-'+currentPersonCard).addClass('current');
-		}
-		console.log('current= '+getCurrentCard());
+		
+/*			$('.card-'+currentPersonCard).addClass('rotate-left').delay(700).fadeOut(1);
+			$('.card-'+currentPersonCard).removeClass('current');
+			currentPersonCard++;
+			$('.card-'+currentPersonCard).addClass('current');*/
+			$('.card-'+currentPersonCard).addClass('rotate-left').delay(700).fadeOut(1);
+			$('.card-'+currentPersonCard).removeClass('current');
+			if ( $('.card-'+currentPersonCard).is(':first-child') ) {
+				$('.card-'+firstPersonCard).removeClass('rotate-left rotate-right').fadeIn(400);
+				$('.card-'+firstPersonCard).addClass('current');
+			}else{
+				$('.card-'+currentPersonCard).prev().removeClass('rotate-left rotate-right').fadeIn(400);
+				$('.card-'+currentPersonCard).prev().addClass('current');
+			}
+			
+			
+		//	$('.card-'+(currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(400);
+
+		
+		console.log('current==> '+getCurrentCard());
 		currentPersonCard = getCurrentCard();
 	});
 	
@@ -39,36 +51,34 @@ $(function() {
 	  console.log( "Moving", direction.x);
 	 // console.log( "Touch moved by", offset.x, "horizontally ");
 		
-		if (offset.x < 150) { return; }
-		if (direction.x =="left") {
+	
+	
+		if (direction.x =="left" && offset.x < -50) {
 			console.log("left"); 
 			$('.card-'+currentPersonCard).addClass('rotate-right').delay(700).fadeOut(1);
 			$('.card-'+currentPersonCard).removeClass('current');
-		
-    
 			if ( $('.card-'+currentPersonCard).is(':last-child') ) {
-				currentPersonCard = lastPersonCard;
-				$('.card-'+(currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(300);
-				$('.card-'+currentPersonCard).addClass('current');
+				$('.card-'+lastPersonCard).removeClass('rotate-left rotate-right').fadeIn(400);
+				$('.card-'+lastPersonCard).addClass('current');
 			}else{
-				$('.card-'+(--currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(400);
-				$('.card-'+currentPersonCard).addClass('current');
-			}    
+				$('.card-'+currentPersonCard).next().removeClass('rotate-left rotate-right').fadeIn(400);
+				$('.card-'+currentPersonCard).next().addClass('current');
+			}
+			console.log('current= '+getCurrentCard());
+			currentPersonCard = getCurrentCard();
 		} 
-		if (direction.x == "right") { 
+		
+		if (direction.x == "right"  && offset.x > 50 ) { 
 			console.log("right"); 
 			$('.card-'+currentPersonCard).addClass('rotate-left').delay(700).fadeOut(1);
 			$('.card-'+currentPersonCard).removeClass('current');
-		
-    
 			if ( $('.card-'+currentPersonCard).is(':first-child') ) {
-				currentPersonCard = firstPersonCard;
-				$('.card-'+(currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(300);
-				$('.card-'+currentPersonCard).addClass('current');
+				$('.card-'+firstPersonCard).removeClass('rotate-left rotate-right').fadeIn(400);
+				$('.card-'+firstPersonCard).addClass('current');
 			}else{
-				$('.card-'+(++currentPersonCard)).removeClass('rotate-left rotate-right').fadeIn(400);
-				$('.card-'+currentPersonCard).addClass('current');
-			}    
+				$('.card-'+currentPersonCard).prev().removeClass('rotate-left rotate-right').fadeIn(400);
+				$('.card-'+currentPersonCard).prev().addClass('current');
+			}
 			console.log('current= '+getCurrentCard());
 			currentPersonCard = getCurrentCard();
 		}

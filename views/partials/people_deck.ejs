@@ -1,9 +1,10 @@
 <div id="card-deck">
+<% var c = 0;%>	
 <% missingPeople.forEach(function(person){ %>
-	<% if( person.id == 1){%>
+	<% if( c == 1000){%>
     <div class="buddy card-<%= person.id%> current" style="display: block;">
 	<% }else{%>
-		 <div class="buddy card-<%= person.id%>" style="display: block;">
+		 <div class="buddy card-<%= person.id%>" style="display: none;">
 	<% }%>
 			<p hidden class="missingPeopleId"><%=person.id %></p>
 			<div class="avatar"  style="display: block;">
@@ -45,4 +46,4 @@ max-height:100%;"/>
 <% }); %> 
 </div>
     
-		<% include .././missing/citizenFound %> 
+		<% include ./citizenFound %> 

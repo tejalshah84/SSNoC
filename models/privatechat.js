@@ -45,7 +45,24 @@ module.exports = function(sequelize){
 				privatechathistory.belongsTo(models.user, {as: 'usertarget_id', foreignKey: 'chattarget_id', targetKey: 'id'});
 				privatechathistory.belongsTo(models.user, {as: 'userauthor_id', foreignKey: 'chatauthor_id', targetKey: 'id'});
 				
-			}
+			},
+			createPrivMessage: function(models, data, next){				
+				models.privatechathistory.create({ 
+					chatauthor_id: data.chatauthor_id,
+			      	chattarget_id: data.chattarget_id,
+			      	chatmessage: data.chatmessage, 
+			        timestamp: new Date()
+				}).then(function(privMsg) {
+			    next(privMsg);
+			  });
+			},
+			/*destroyPrivMsg: function(models, id, next){
+				models.privatechathistory.findAll({ where: { id: id}}).then(function(privMsg){
+					return privMsg.destroy();
+				}).then(function(e){
+					next();
+				});
+			}*/
 		}
 	});
 

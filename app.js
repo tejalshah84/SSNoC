@@ -17,9 +17,12 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 app.io = io;
 
-http.listen(8888, function(){
+var server = http.listen(8888, function(){
 	console.log('listening on *:8888');
 });
+
+
+
 
 
 // use ejs-locals for all ejs templates:
@@ -57,11 +60,9 @@ require('./chatsocket')(socket_server);
 
 
 
-
-
 //importing models
 var Announce = require('./models/announcement.js');
-var Msg = require('./models/message.js');
+var Msg = require('./models/publicwall.js');
 
 
 
@@ -98,7 +99,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-
-
-module.exports = app;
+module.exports = {
+    server : server,
+    app : app
+};

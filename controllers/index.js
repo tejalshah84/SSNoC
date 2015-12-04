@@ -15,13 +15,13 @@ module.exports = function(app){
 
 	
 	var adminController = require('./adminController');
-	var announcementsController = require('./announcementsController');
+//	var announcementsController = require('./announcementsController');
 	var joinCommunityController = require('./joinCommunityController');
 	var messagesController = require('./messagesController');
 	var privatechatsController = require('./privatechatsController');
 	var searchController = require('./searchController');
 	var test_messagesController = require('./test_messagesController');
-	var usersController = require('./usersController');
+//	var usersController = require('./usersController');
 	var missingPeopleController = require('./missingPeopleController');
 	var apiController = require('./apiController');
 	var profileController = require('./profileController');
@@ -29,28 +29,28 @@ module.exports = function(app){
 
   
 	router.use('/', joinCommunityController);
-  	router.use('/api', apiController);
+  router.use('/api', apiController);
 	router.use('/admin', adminController);
-  	router.use('/announcements', announcementsController);
-  	router.use('/messages', messagesController);
+//  router.use('/announcements', announcementsController);
+  router.use('/messages', messagesController);
  	router.use('/privatechats', privatechatsController);
 	router.use('/search', searchController);
 	router.use('/test_messages', test_messagesController);	
-	router.use('/users', usersController);
+//	router.use('/users', usersController);
 	router.use('/missing', missingPeopleController);
 	router.use('/profile', profileController);
 	
 	
 	// ROUTING
-  app.use(router);
+ 	app.use(router);
 
-  router.get('/', function(req, res) {
-    res.status(200).send('Hello, this is SSNoC API!');
-  });
+  	router.get('/', function(req, res) {
+    	res.status(200).send('Hello, this is SSNoC API!');
+  	});
 
-  router.get('*', function(req, res) {
-    res.status(404).end();
-  });
+  	router.get('*', function(req, res) {
+    	res.status(404).end();
+  	});
 
   return router;
 };

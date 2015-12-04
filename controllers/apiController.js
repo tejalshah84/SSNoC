@@ -13,7 +13,7 @@ var onlineUsers = require('.././lib/onlineUsers.js');
 //Retrieve all users
 router.get('/users', function(req, res) {
 	models.user.all(models, function(users){
-		res.json(users);
+		res.type('json').status(200).send(users);
 	});
 });
 
@@ -21,13 +21,13 @@ router.get('/users', function(req, res) {
 router.get('/users/online', function(req, res) {
 	models.user.findAll().then(function (users) {
 		var list = util.divideUsers(users);
-		res.json(list);
+		res.type('json').status(200).send(list);
 	});
 });
 
 //Retrieve a user's record
 router.get('/users/:user', function(req, res) {
-	if(isInteger(req.params.user)){
+	if(util.isInteger(req.params.user)){
 		models.user.findById(models, req.params.user, function(user){
  	 		res.type('json').status(200).send(user);
 		});
@@ -43,39 +43,25 @@ router.put('/users/:id', function(req, res) {
 	 
 });
 
-
-
-
-//Retrieve all users with whom a user has privately chatted with
-router.put('/users/chatbuddies/:user', function(req, res) {
-	 
-});
-
+//Retrieve all users with whom a user has privately chat with
+router.get('/users/chatbuddies/:user', function(req, res) {
+});	
 //**************************** Messages ****************************//
-
-
 
 //Post an announcements 
 router.post('/messages/announcement', function(req, res){
 	create.createAnnouncement(req.body, function(){
-		res.type('json').status(200);
+		res.type('json').status(200).send();
 	})
 });
 
 router.get('/messages/announcement/latest', function(req, res) {
 	models.announcement.findAll({
-		  order:'id DESC', 
+		include: [{model: models.user, attributes: ['id','username']}],
+		  order: [['id','DESC']], 
 		  limit: 1
 	}).then(function (announce) {
-		models.user.findById(models, announce[0].publisher_userid, function(user){
-			var data = {
-				"id": announce[0].id,
-				"publisher": user.username,
-				"content": announce[0].content,
-				"createdAt": announce[0].createdAt
-			}
-			res.json(data);
-		});
+		res.json(announce[0]);
 	});
 });
 
@@ -97,45 +83,98 @@ router.get('/messages/announcement/:id', function(req, res) {
 	});
 });
 
-
-
-
-
 // Public Messages
 router.get('/messages/wall', function(req, res){
-	
+	models.chathistory.findAll({					
+		include: [{model: models.user, attributes: ['id','username']}],
+		order: [['id','ASC']]
+	}).then(function (msg) {
+		res.json(msg);
+	}).catch(function (err){
+		console.log(err)
+	});
 });
 
-//Retrieve a message by ID
-router.get('/messages/public/:id', function(req, res){
-	
-});
-
-//Retrieve all private chat messages between two users
-router.get('/messages/:sender/:receiver', function(req, res){
-	
-});
-
-//Send a chat message to another user
-router.post('/messages/:sender/:receiver', function(req, res){
-	
+//Retrieve a public wall message by ID
+router.get('/messages/wall/:id', function(req, res){
+	models.chathistory.findAll({
+		  where: {
+		    id: req.params.id
+		  }
+		}).then(function (msg) {
+			  res.json(msg);
+		});
 });
 
 //Post a message on public wall from a user
-router.post('/messages/:user', function(req, res){
-	
+router.post('/messages/wall', function(req, res){
+	//console.log(req.body);
+	create.createPublicMessage(req.body, function(){
+		res.type('json').status(200);
+	});
+});
+
+//Retrieve all private messages with all users with whom a user has privately done chat with
+router.get('/messages/privatechat/:sender', function(req, res){
+		models.privatechathistory.findAll({
+		  attributes: ['id','chatauthor_id', 'chattarget_id','chatmessage', 'timestamp', 'createdAt'],
+		   include: [{model: models.user, as: 'usertarget_id', attributes: ['username']},
+		            {model: models.user, as: 'userauthor_id', attributes: ['username'], 
+			        where: {username: req.params.sender}}],
+		}).then(function (privmessages) {
+		  res.json(privmessages);
+		});
+});
+
+//Retrieve all private messages between sender and receiver
+router.get('/messages/privatechat/:sender/:receiver', function(req, res){
+	if(!util.isInteger(req.params.sender)){
+	models.privatechathistory.findAll({
+	  attributes: ['id','chatauthor_id', 'chattarget_id','chatmessage', 'timestamp', 'createdAt'],
+	   include: [{model: models.user, as: 'usertarget_id', attributes: ['username'],where: {username: req.params.receiver}},
+	            {model: models.user, as: 'userauthor_id', attributes: ['username'], 
+		        where: {username: req.params.sender}}],
+	}).then(function (privmessages) {
+	  res.json(privmessages);
+	});
+	}else{
+		models.privatechathistory.findAll({
+			where: {
+			chatauthor_id: req.params.sender,
+			chattarget_id: req.params.receiver
+			}
+			}).then(function (msg) {
+				res.json(msg); 
+			});	
+	}
+});
+
+//Retrieve a private wall message by ID
+router.get('/messages/privateMessage/:id', function(req, res){
+	models.privatechathistory.findAll({
+		  where: {
+			    id: req.params.id
+			  }
+	}).then(function (privm) {
+			  res.json(privm);
+		});
+});
+
+//Retrieve all private chat messages between two users
+router.get('/messages/privateMessages', function(req, res){
+	models.privatechathistory.findAll({
+	}).then(function (privm) {
+			  res.json(privm);
+		});
+});
+
+//Send a chat message to another user
+router.post('/messages/privatechat/sender/receiver', function(req, res){
+	create.createPrivateMessage(req.body, function(){
+		res.type('json').status(200);
+	})
 });
 
 
-
-
-
-
-
-
-
-function isInteger(x) {
-	return x % 1 === 0;
-}
 
 module.exports = router;

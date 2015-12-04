@@ -8,8 +8,12 @@ var models = require('.././models');
 
 // GET all messages
 router.get('/', function(req, res) {
-	models.chathistory.findAll().then(function (msg) {
-		  res.json(msg);
+	models.chathistory.findAll({
+		attributes: ['id','chatauthor_id', 'chatmessage', 'timestamp', 'createdAt'],
+		include: [{model: models.user, attributes: ['username','location','statusid']}],
+		order:'timestamp ASC',
+	}).then(function (msg){
+		res.json(msg);
 	});
 });
 
