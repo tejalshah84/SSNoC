@@ -1,6 +1,8 @@
 var server = require("../app.js").server;
 var request = require("supertest").agent(server);
 var should = require('should');
+var expect = require('expect.js');
+
 
 
 
@@ -16,9 +18,19 @@ suite('Admin Profile API', function(){
 				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res).to.have.property('body');
+					expect(res.statusCode).to.equal(200);
+					expect(res.body).to.be.an('object');
+					for(var i=0; i<res.body.length; i++){
+						expect(res.body[i]).to.have.property('status_id');
+					}					
 					done();
 				});
 	});
+	
+	
+	
 	
 	test('2. admin Inactive', function(done){
 	    request
@@ -27,6 +39,13 @@ suite('Admin Profile API', function(){
 				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res).to.have.property('body');
+					expect(res.statusCode).to.equal(200);
+					expect(res.body).to.be.an('object');
+					for(var i=0; i<res.body.length; i++){
+						expect(res.body[i]).to.have.property('status_id');
+					}
 					done();
 				});
 	});
@@ -38,9 +57,16 @@ suite('Admin Profile API', function(){
 				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res).to.have.property('body');
+					expect(res.statusCode).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body).to.have.property('accountStatus', 1);
 					done();
 				});
 	});
+	
+	
 	
 	
 	test('4. Inactivate an user', function(done){
@@ -50,6 +76,11 @@ suite('Admin Profile API', function(){
 				.expect(200) 
 				.end(function(err, res){
 					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res).to.have.property('body');
+					expect(res.statusCode).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body).to.have.property('accountStatus', 0);
 					done();
 				});
 	});
