@@ -34,8 +34,12 @@ suite('Join Community Test', function(){
 	test('1. Create new user and save it into the database', function(done){ 
 		models.user.createUser(models, new_user, function(user) {	
 			createdUser = user; 
-			expect(200);
+			expect(createdUser);
+			expect(createdUser).to.exist;
+			expect(createdUser).to.be.an('object');
 			expect(createdUser.username).to.be.eql(new_user.username);
+			expect(createdUser.password).to.be.eql(new_user.password);
+			expect(createdUser.accountStatus).to.be.eql(1); //account is active by default
 			done();
 	  });
 	});

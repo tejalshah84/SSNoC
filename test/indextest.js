@@ -23,7 +23,7 @@ var person = {
 
 
 
-suite('Route Test', function(){
+suite('Route Test before signin in', function(){
 	
 //	suiteTeardown(function (done){
 //		server.close(done);
