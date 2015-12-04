@@ -112,14 +112,14 @@ socket.on('new message', function (data) {
 
 //Emit Private Chat Message
 $('#privSubmitMessage').on('click', function(){
-	var abc = $('.privInputMessage').val();
-    if(abc!== ''){
+	//var abc = $('.privInputMessage').val();
+    if($('.privInputMessage').val() !== ''){
 
     	var data = {
     		chatauthor_id: current_user,
     		chatauthor: current_username,
           	chattarget_id: target_user,
-          	chatmessage: abc,
+          	chatmessage: $('.privInputMessage').val(),
           	timestamp: new Date()
     	}
     	//Send private message

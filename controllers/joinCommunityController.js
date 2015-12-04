@@ -34,7 +34,11 @@ router.get('/signout', util.ifSignIn, function(req, res){
 router.post('/', function(req, res){
 	var username = req.body.username;
 	
-	models.user.findByUsername(models, username, function (result) {
+	models.user.findOne({
+		  where: {
+		    username: username
+			}
+	}).then(function (result) {
 		if(!result){
 			// If the username isn't in the DB, reset the session and redirect the user to signup an account
 			res.render('signin',{error: "Username not found!"});
@@ -59,7 +63,6 @@ router.post('/', function(req, res){
 					util.goOnline(result);
 					res.redirect('/community');
 			  });
-				
 				
 			}else{
 				res.render('signin',{error: "Password is incorrect!"});

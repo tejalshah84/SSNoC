@@ -10,7 +10,7 @@ var util = require('.././util/util.js');
 // -------------------------------------------------------------------------------------//
 
 
-
+//render the measure performance page
 router.get('/',util.ifSignIn, util.isMinitor, function(req, res) {
 		models.user.all().then(function (user) {
 		  	res.render('monitor', { 
@@ -21,7 +21,7 @@ router.get('/',util.ifSignIn, util.isMinitor, function(req, res) {
 				});
 });
 
-
+//start testing
 router.get('/start_testing', function(req, res) {
 		measurePerformance.restart();
 		measurePerformance.startTest();
@@ -30,6 +30,8 @@ router.get('/start_testing', function(req, res) {
 //		});
 });
 
+
+//end testing and drop the database
 router.get('/end_testing', function(req, res) {
 	measurePerformance.endTest();
 	models.chathistory_test.dropdb(models.chathistory_test.chathistory, function(){

@@ -26,7 +26,7 @@ var requestLimit = function (req, res, next){
 }
 
 
-// GET all messages
+// GET all test messages
 router.get('/', function(req, res) {
 	models.chathistory_test.chathistory.findAll().then(function (msg) {
 		  //res.json(msg);
@@ -37,7 +37,7 @@ router.get('/', function(req, res) {
 
 
 
-//create message
+//create test message
 router.post('/', requestLimit, function(req, res) {
 	createMsg(req.body,res);
 });

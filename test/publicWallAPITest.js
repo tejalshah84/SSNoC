@@ -3,7 +3,7 @@ var server = require("../app.js").server;
 var request = require("supertest").agent(server);
 var should = require('should');
 var models = require('.././models');
-
+var expect = require('expect.js');
 ///////////////////////////////////////////////////////////////
 var current_user = {
 		'id': 2,
@@ -35,6 +35,7 @@ suite('Public Chat API Test Suite', function(){
 		.expect('Content-Type', /json/)
 		.expect(200) 
 		.end(function(err, res){
+			expect(res.body).to.be.an('array');
 			should.not.exist(err);
 			done();
 		});
@@ -43,39 +44,75 @@ suite('Public Chat API Test Suite', function(){
 		
 	test('2. Getting public messages posted on wall by ID', function(done){
 	    request
-	    	.get('/api/messages/wall/'+[0-9])
+	    	.get('/api/messages/wall/10')
 				.expect('Content-Type', /json/)
 				.expect(200) 
 				.end(function(err, res){
+					expect(res.body).to.be.an('array');
+					for(var i=0; i<res.body.length; i++){
+					expect(res.body[i].id).to.be(10);
+					}
 					should.not.exist(err);
 					done();
 				});
 	});
 	
-	/*
-	test('3. Getting public messages posted by User', function(done){
+	
+	test('3. Getting public messages posted by User by id', function(done){
 	    request
-	    	.get('/api/messages/wall/'+current_user.username+'/'+target_user.username)
+	    	.get('/api/messages/wall/userMsgs/'+current_user.id)
 				.expect('Content-Type', /json/)
 				.expect(200) 
 				.end(function(err, res){
+					expect(res.body).to.be.an('array');
+					should.not.exist(err);
+					done();
+				});
+	});
+	
+	test('3A. Getting public messages posted by User by id', function(done){
+	    request
+	    	.get('/api/messages/wall/userMsgs/2')
+				.expect('Content-Type', /json/)
+				.expect(200) 
+				.end(function(err, res){
+					expect(res.body).to.be.an('array');
+					for(var i=0; i<res.body.length; i++){
+					expect(res.body[i].chatauthor_id).to.be(2);
+					}
 					should.not.exist(err);
 					done();
 				});
 	});
 	
 	
-	
-	test('4. Create private chat message into the database', function(done){ 
-		//	userModel.create(new_user).then(function(user){
-		models.privatechathistory.create(models, new_privmsg, function(privatechathistory) {	
-				createdPrivMsg = privatechathistory; 
-				expect(200);
-				expect(createdPrivMsg.chatmessage).to.be.eql(new_privmsg.chatmessage);
-				done();
-		  });
-		});
-*/
-			
+	test('4. Getting public messages posted by User by UserName', function(done){
+	    request
+	    	.get('/api/messages/wall/userMsgs/'+current_user.username)
+				.expect('Content-Type', /json/)
+				.expect(200) 
+				.end(function(err, res){
+					expect(res.body).to.be.an('array');
+					should.not.exist(err);
+					done();
+				});
+	});
+
+	test('4A. Getting public messages posted by User by UserName', function(done){
+	    request
+	    	.get('/api/messages/wall/userMsgs/AmrataK')
+				.expect('Content-Type', /json/)
+				.expect(200) 
+				.end(function(err, res){
+					expect(res.body).to.be.an('array');
+					for(var i=0; i<res.body.length; i++){
+						expect(res.body[i].chatauthor_id).to.be(2);
+						expect(res.body[i].user.username).to.be('AmrataK');
+						}
+						should.not.exist(err);
+					done();
+				});
+	});
+
 });
  

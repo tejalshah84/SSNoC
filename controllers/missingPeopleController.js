@@ -9,22 +9,15 @@ var fs = require('fs');
 
 //importing models
 var models = require('.././models');
+var util = require('.././util/util.js');
 
 // -------------------------------------------------------------------------------------//
 
 
-var ifSignIn = function (req, res, next) {
-	if (req.session && req.session.user) { 
-		console.log('~~~~~~~~~~~~~~~ Session exist!!!');
-		next();
-	}else{
-		res.redirect('/');
-	}  
-};
 
 
 // GET all messages
-router.get('/deck', ifSignIn, function(req, res) {
+router.get('/deck', util.ifSignIn, function(req, res) {
 	models.user.findAll().then(function (user) {	
 		var users = user;
 		models.missingperson.findAll({
@@ -44,7 +37,7 @@ router.get('/deck', ifSignIn, function(req, res) {
 });
 
 // new missing people
-router.get('/new',ifSignIn, function(req, res) {
+router.get('/new', util.ifSignIn, function(req, res) {
 	models.user.findAll().then(function (user) {	
 	res.render('newmissing', { 
 		user: req.session.user,
@@ -105,14 +98,14 @@ router.get('/uploads/:file', function (req, res){
 });
 // ------------------------- API ------------------------------------------------------------//
 
-// GET all messages
+// GET all missing people
 router.get('/', function(req, res) {
 	models.missingperson.findAll().then(function (people) {
 		  res.json(people);
 	});
 });
 
-// GET all missing people
+// GET all missing people that are missing
 router.get('/missing', function(req, res) {
 	models.missingperson.findAll({
 		where:{
@@ -133,7 +126,7 @@ router.get('/found', function(req, res) {
 	});
 });
 
-//get message
+//get a missig person
 router.get('/:id', function(req, res) {
 	models.missingperson.findOne({
 		where:{

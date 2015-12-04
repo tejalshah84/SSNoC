@@ -35,8 +35,17 @@ module.exports = function(sequelize){
 	}, {
 	  freezeTableName: true, // Model tableName will be the same as the model name
 		classMethods:{
-			associate: function(models){
+			associate: function(models){				
 				chathistory.belongsTo(models.user, {foreignKey: 'chatauthor_id', targetKey: 'id'});
+			},
+			createPubMessage: function(models, data, next){				
+				models.chathistory.create({ 
+					chatauthor_id: data.chatauthor_id,
+					chatmessage: data.chatmessage,
+					timestamp:new Date()		
+				}).then(function(pubMsg) {
+			    next(pubMsg);
+			  });
 			}
 		}
 	});
