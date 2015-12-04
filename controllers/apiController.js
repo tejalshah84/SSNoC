@@ -90,8 +90,6 @@ router.get('/messages/wall', function(req, res){
 		order: [['id','ASC']]
 	}).then(function (msg) {
 		res.json(msg);
-	}).catch(function (err){
-		console.log(err)
 	});
 });
 
@@ -106,10 +104,31 @@ router.get('/messages/wall/:id', function(req, res){
 		});
 });
 
+//Retrieve a public wall messages sent by id or username
+router.get('/messages/wall/userMsgs/:id', function(req, res){
+	if(!util.isInteger(req.params.id)){
+		models.chathistory.findAll({
+			attributes: ['id','chatauthor_id','chatmessage', 'timestamp', 'createdAt'],
+			include: [{model: models.user, attributes: ['username'],
+				        where: {username: req.params.id}}],
+			}).then(function (msg) {
+				  res.json(msg);
+			});
+	}else{	
+	models.chathistory.findAll({
+		  where: {
+		    chatauthor_id: req.params.id
+		  }
+		}).then(function (msg) {
+			  res.json(msg);
+		});
+	}
+});
+
+
 //Post a message on public wall from a user
 router.post('/messages/wall', function(req, res){
-	//console.log(req.body);
-	create.createPublicMessage(req.body, function(){
+	models.chathistory.createPubMessage(models, req.body, function(){
 		res.type('json').status(200);
 	});
 });
@@ -170,7 +189,7 @@ router.get('/messages/privateMessages', function(req, res){
 
 //Send a chat message to another user
 router.post('/messages/privatechat/sender/receiver', function(req, res){
-	create.createPrivateMessage(req.body, function(){
+	models.privatechathistory.createPrivMessage(models,req.body, function(){
 		res.type('json').status(200);
 	})
 });

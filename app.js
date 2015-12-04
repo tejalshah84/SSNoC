@@ -10,8 +10,6 @@ var bodyParser = require('body-parser');
 var models = require('./models');
 var db_s = require('./testdb');
 
-
-
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);

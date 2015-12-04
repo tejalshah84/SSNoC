@@ -44,17 +44,14 @@ io.on('connection', function(socket){
   });
 	
 
-	//Socket connections for Private Chat
+	//Fetching socket.id for Private Chat
   socket.on('setUsername',function(data){
-	  console.log('Fetching Target Socket id');
-	  console.log(data); 
-	  privateRooms[data.chatauthor]= socket.id;
-	 	console.log ("Checking Rooms sockets");
-	  console.log (privateRooms);
+	  	  privateRooms[data.chatauthor]= socket.id;
   });
   
   
-    socket.on('PrivateChatMsg',function(data){
+  //Socket trigger performing private msg DB insertion
+  socket.on('PrivateChatMsg',function(data){
 			models.user.findOne({
 				where: {id: data.chatauthor_id}
 			}).then(function(user) {
@@ -107,12 +104,14 @@ io.on('connection', function(socket){
 
 	   });
   
-	 //done
+	
+	  //Socket trigger performing public msg DB insertion//done
     socket.on('new message', function(data) {
 			models.user.findOne({where: {id: data.chatauthor_id}
 			}).then(function(user) {
 				console.log(user);
-				create.createPublicMessage(data, function(){
+				//create.createPublicMessage(data, function(){
+				models.chathistory.createPubMessage(models,data, function(){
 					io.sockets.emit('new message', {
    					chatauthor: user.username,
    					chatmessage: data.chatmessage,

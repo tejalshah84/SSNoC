@@ -9,7 +9,7 @@ exports.createUser = function(data, callback){
 		callback(user['dataValues']);
 	});
 };
-
+/*
 exports.createPublicMessage = function(data, callback){
 	models.chathistory.create({ 
 		chatauthor_id: data.chatauthor_id,
@@ -20,7 +20,7 @@ exports.createPublicMessage = function(data, callback){
 		callback(message['dataValues']);
 	});
 };
-
+*/
 exports.createPrivMessage = function(data, callback){
 	models.privatechathistory.create({ 
 		/*		chatauthor_id: data.chatauthor_id,
