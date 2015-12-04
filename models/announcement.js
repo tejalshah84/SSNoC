@@ -34,6 +34,35 @@ module.exports = function(sequelize){
 					next();
 				});
 			},
+			createAnnouncement: function(models, publishcontent, publishid, next){
+
+				models.announcement.create({
+					publisher_userid: publishid,
+					content: publishcontent
+				}).then(function(announcement){
+					next(announcement);
+				}).then(function(e){
+					next();
+				});
+			},
+			searchAnnouncements: function(models, searchtxt, pageCount, next){
+				models.announcement.findAndCountAll({
+				  attributes: ['id','publisher_userid', 'content', 'createdAt'],
+				  where: {
+				    content: {
+				    	$like: searchtxt
+				    }
+				  },
+				  include: [{model: models.user, attributes: ['username','location','statusid']}],
+				  order:'announcement.createdAt DESC',
+				  offset: pageCount,
+				  limit: 10
+				}).then(function (announcements) {
+					next(announcements);
+				}).catch(function(e){
+					next(null);
+				});
+			}
 		}
 	});
 

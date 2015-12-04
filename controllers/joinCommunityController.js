@@ -125,6 +125,7 @@ router.get('/chat/:id', util.ifSignIn, function(req, res) {
 
 
 router.get('/searchpage', util.ifSignIn, function(req, res) {
+	res.status(302);
 	res.render('searchpage',{
 		user: req.session.user
 	  });	

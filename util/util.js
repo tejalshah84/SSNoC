@@ -144,7 +144,6 @@ exports.convertText = function (arr){
 
 
 
-
  exports.divideUsers = function(users){
 	 var users_list = {'online':{}, 'offline': {}};
 	   
@@ -212,5 +211,4 @@ function insensitive(k1, k2) {
   var k2lower = k2.toLowerCase();
   return k1lower > k2lower? 1 : (k1lower < k2lower? -1 : 0);
 }
-
 

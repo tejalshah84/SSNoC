@@ -45,17 +45,16 @@ io.on('connection', function(socket){
 	
 
 	//Socket connections for Private Chat
-  socket.on('setUsername',function(data){
+ /* socket.on('setUsername',function(data){
 	  console.log('Fetching Target Socket id');
 	  console.log(data); 
 	  privateRooms[data.chatauthor]= socket.id;
 	 	console.log ("Checking Rooms sockets");
 	  console.log (privateRooms);
-  });
+  });*/
   
   
     socket.on('PrivateChatMsg',function(data){
- 
 			models.user.findOne({
 				where: {id: data.chatauthor_id}
 			}).then(function(user) {
@@ -65,20 +64,21 @@ io.on('connection', function(socket){
 		          	chatmessage: data.chatmessage, 
 		            timestamp: data.timestamp
        			}).then(function() {
-       				console.log(privateRooms[data.chatauthor_id]);
-						console.log("----- taget's socketid: "+onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']);
-							
-				//create.createPrivateMessage(data, function(){
+       						console.log(onlineUsers.getOnlineUsers());				
+       						var onlinetarget = 	(onlineUsers.getOnlineUsers().hasOwnProperty(data.chattarget_id))	
+       						if(onlinetarget){	
+       						console.log('testing priv chat');	
 							io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']]).emit('private chat',{
 
        							chatauthor_id: data.chatauthor_id,
        							chatauthor: data.chatauthor,
        							chatmessage: data.chatmessage,
     							timestamp: data.timestamp
-    				});
-       		//});   	
+    						});
+
+					}
 				});			
-    	 		});  
+    	 	});  
 
     });
 		

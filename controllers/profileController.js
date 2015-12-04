@@ -30,10 +30,9 @@ router.get('/', function(req, res) {
 
 //
 var isAdmin = function (req, res, next) {
-	console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Admin Admin Admin2');
+
 	
 	if (util.checkUserAccess(req) == 2) { 
-		console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Admin Admin Admin');
 		next();
 	}else{
 		res.redirect('/community');
