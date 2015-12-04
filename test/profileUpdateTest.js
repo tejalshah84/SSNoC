@@ -4,17 +4,32 @@ var request = require('supertest');
 var should = require('should');
 var indexRoutes = require('.././controllers/index.js');
 var models = require('.././models');
-var util = require('.././util/util.js');
 
 var services = require('../models/user.js');
 
 
 var userModel = require('.././models/user.js');
 var server = require("../app.js").server;
+var util = require('../util/util.js');
 var url = 'http://localhost:8888';
 
 
 ///////////////////////////////////////////////////////////////
+
+
+/*
+
+var current_user = {
+	'id': 4,
+	'username': 'EileenW'
+};
+
+var user = { 
+	'username': 'abc',
+	'roleid': 2
+};
+
+*/
 
 
 var userA = { 
@@ -22,27 +37,16 @@ var userA = {
 	'roleid': 2,
 	'accountStatus':1,
 	'password': 'test'
-	
 };
 
 var userUpdate;
 
-var userB = {
-	
-	'username': 'abcc',
-	'firstname': 'A',
-	'lastname': 'B', 
-	'status_id': 2, 
-	'location': 'sunnyvale',
-	'accountStatus': 1,
-	'lastlogin': new Date()
-};
+
 
 ///////////////////////////////////////////////////////////////
 
 
 suite('Profile Update Test', function(){
-		
 	
 		test('1. Profile Router Test', function(done){
 			request(url)
@@ -63,10 +67,26 @@ suite('Profile Update Test', function(){
 						done();
 				  });
 				  });	
-		
-	
-	
-	
 			
-	
+
+		  		test('3. Check User Access', function(done){ 
+			
+		  		  	util.checkUserAccess()
+		  			.expect('Content-Type')
+		  			.expect(200) 
+		  			done();
+		  	
+		  			});	
+			
+			
+		  		test('4. divideActiveUser', function(done){
+			
+		  			util.divideActiveUsers({}, function(person){
+		  			expect(200);
+		  			//expect(person['dataValues'].missing).to.be.eql(0);
+		  			done();	
+		  			});
+		  			});
+			
+
 });
