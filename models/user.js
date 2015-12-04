@@ -155,6 +155,38 @@ module.exports = function(sequelize){
 				}).then(function(e){
 					next();
 				});
+
+			},
+			updateUser: function(models, data, next){		
+				//To be finished by Denise	
+			},
+			searchUsername: function(models, searchText, next){
+
+				models.user.findAll({
+			  		attributes: ['id','username', 'firstname', 'lastname', 'statusid', 'roleid', 'location', 'lastlogintime'],
+			  		where: {
+			   			username: {
+			    				$like: '%'+ searchText +'%'
+			    		}
+			  		},
+			   		order:'username ASC'
+				}).then(function(users){
+					next(users)
+				}).catch(function(e){
+					next(null)
+				})
+			},
+			searchByStatus: function (models, searchText, next){
+				models.user.findAll({
+		  			attributes: ['id','username', 'firstname', 'lastname', 'statusid', 'roleid', 'location','lastlogintime'],
+				  	where: {
+				    	statusid: searchText
+				  	}
+				}).then(function (users) {
+					next(users)
+				}).catch(function(e){
+					next(null)
+				})
 			}
 		}
 	});

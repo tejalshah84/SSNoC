@@ -29,8 +29,7 @@ router.get('/', function(req, res) {
 });
 
 //
-var isAdmin = function (req, res, next) {
-	
+var isAdmin = function (req, res, next) {	
 	if (util.checkUserAccess(req) == 2) { 
 		next();
 	}else{
@@ -55,31 +54,6 @@ router.post('/update', function(req, res, next){
 		models.user.adminUpdate(models, {"username": username, "password": pwd_hash, "roleid":req.body.roleid, "accountStatus":req.body.accountStatus}, function(user) {
 					res.redirect('/profile');
 			  });
-			
-			
-			
-			
-		
-		
-		/*models.user.update(
-		  {
-			  username: req.body.new_username,
-			  password: pwd_hash,
-			  accountStatus: req.body.accountStatus,
-			  roleid: req.body.roleid
-		  },
-		  {
-		    where: { username: username }
-		  })
-		  .then(function (result) { 
-			  res.redirect('/profile');
-		  })
-		  .error(function (e) {
-			  console.log(e);
-		  });*/
-		
-
-
 });
 
 

@@ -45,7 +45,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['mochaTest:local', 'mocha_istanbul']);
 
     //Test
-    grunt.registerTask('test', ['mochaTest:local',  'mocha_istanbul']);
+    grunt.registerTask('test', ['mochaTest:local','mocha_istanbul']);
 
     // Shippable
     grunt.registerTask('shippable', ['mochaTest:shippable', 'mocha_istanbul']);

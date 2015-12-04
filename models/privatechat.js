@@ -46,6 +46,7 @@ module.exports = function(sequelize){
 				privatechathistory.belongsTo(models.user, {as: 'userauthor_id', foreignKey: 'chatauthor_id', targetKey: 'id'});
 				
 			},
+
 			createPrivMessage: function(models, data, next){				
 				models.privatechathistory.create({ 
 					chatauthor_id: data.chatauthor_id,
@@ -63,6 +64,29 @@ module.exports = function(sequelize){
 					next();
 				});
 			}*/
+
+			searchPrivateMessages: function(models, searchtxt, pageCount, currUser, next){
+
+				models.privatechathistory.findAndCountAll({
+				  attributes: ['id','chatauthor_id', 'chattarget_id','chatmessage', 'timestamp', 'createdAt'],
+				  where: {
+				    chatmessage: {
+				    	$like: searchtxt
+				    },
+				    $or: [{chatauthor_id: currUser}, 
+				    	{chattarget_id: currUser}]
+				  },
+				  include: [{model: models.user, as: 'usertarget_id', attributes: ['username','location', 'statusid']},
+				 		   {model: models.user, as: 'userauthor_id', attributes: ['username','location', 'statusid']}],
+				  order:'timestamp DESC',
+				  offset: pageCount,
+				  limit: 10
+				}).then(function (privmessages) {
+				   next(privmessages);
+				}).catch(function(e){
+					next(null)
+				});
+			}
 		}
 	});
 

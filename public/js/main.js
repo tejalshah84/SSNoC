@@ -3,6 +3,7 @@ $(function() {
 // Initialize varibles
 var connected = false;
 var current_user = Number($('#current_user').text());
+localStorage.setItem('userid', current_user);
 var current_username = $('#current_username').text();
 var current_roleid = Number($('#current_roleid').text());
 var target_user;
@@ -112,8 +113,13 @@ socket.on('new message', function (data) {
 
 //Emit Private Chat Message
 $('#privSubmitMessage').on('click', function(){
+
 	//var abc = $('.privInputMessage').val();
-    if($('.privInputMessage').val() !== ''){
+   
+
+	var abc = $('.privInputMessage').val();
+	console.log(target_user);
+    if(abc!== ''){
 
     	var data = {
     		chatauthor_id: current_user,
@@ -123,12 +129,13 @@ $('#privSubmitMessage').on('click', function(){
           	timestamp: new Date()
     	}
     	//Send private message
+    	
      	socket.emit('PrivateChatMsg', data);
    		//Setting username for Private Chat  
-      	socket.emit('setUsername', {
+      	/*socket.emit('setUsername', {
     	  	chatauthor: current_user,
     	  	chattarget: $('#targetName').text(),
-    	});
+    	});*/
         $('.privInputMessage').val('');
         addPrivChatMessage(data);
     }

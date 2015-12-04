@@ -1,12 +1,13 @@
 $(function() {
   // Initialize varibles
+  var curr_user = localStorage.getItem('userid');
   var searchCat = "";
   var searchTxt = "";
   var pageCount = 0;
   var totalPages = 0;
   
   
-
+//Toggles between search text area and search value drop-down
   $(".search-context li a").on('click', function(e){
 
 	  searchCat = $(this).text();
@@ -25,25 +26,32 @@ $(function() {
 	  }
 
 	});
-  
+
+
+  //Sets search criteria and search text value based on user input and fetches search results from server
   $('#submitSearch').on('click', function(){
 	  
-	  if(searchCat === "Citizen Status"){
-	  	searchTxt = $('#statusOptions').val();
-	  }else{
-	  	searchTxt = $('#searchText').val();
-	  }
-	 
+	if(searchCat === "Citizen Status"){
+	  searchTxt = $('#statusOptions').val();
+	}else{
+	  searchTxt = $('#searchText').val();
+	}
+	
+	if(searchTxt==="" || searchTxt === null || searchTxt === " "){
+	  $('#search-list').empty();
+	}
+	else{
 	  fetchSearchResults();
+	}
 
-	});
+  });
 
  /* $(".pagination li span").on('click', function(e){
   	pageCount = (totalPages-pageCount>10)? pageCount+10 : (totalPages-(pageCount+10)>0) 
 
   });*/
 
-
+//Fetches search results from DB and calls function to display the results
 function fetchSearchResults(){
 
 	$.ajax({
@@ -53,9 +61,12 @@ function fetchSearchResults(){
 			data: {
 				 searchCriteria:searchCat,
 				 searchText: searchTxt,
+				 authorid: curr_user,
 				 offset: pageCount
 			},
 	  		success: function(data) {
+
+	  			
 	  		    if (searchCat!=="Citizen" && searchCat!=="Citizen Status"){
 	  		    totalPages = data.count;
 	  			}
@@ -82,6 +93,7 @@ function fetchSearchResults(){
 }
 
 
+//Displays the search result on the screen. Depdending on search criteria the formatting varies.
 function displaySearchResults(data){
 
 	var resultString ='';

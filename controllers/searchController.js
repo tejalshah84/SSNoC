@@ -7,7 +7,7 @@ var util = require('.././util/util.js');
 var models = require('.././models');
 
 
-
+//Function that take search criteria and search text and fetches matching results from the appropriate
 router.get('/', function(req, res) {
 
 	var searchCriteria = req.query.searchCriteria;
@@ -16,117 +16,65 @@ router.get('/', function(req, res) {
 
 	if(searchCriteria === "Citizen"){
 
-		models.user.findAll({
-		  attributes: ['id','username', 'firstname', 'lastname', 'statusid', 'roleid', 'location', 'lastlogintime'],
-		  where: {
-		    username: {
-		    	$like: '%'+ searchText +'%'
-		    }
-		   },
-		   order:'username ASC'
-		  
-			}).then(function (users) {
-
-			if(users.length ===0){
-
-				res.json({error: "No results matching the search criteria"})
+		models.user.searchUsername(models, searchText, function(users){
+			if(users === null){
+				res.status(500).send("Internal Error occured while fetching data");
 			}
-			else{	
-
+			else if(users.length ===0){
+				res.type('json').status(200).send({error: "No results matching the search criteria"})
+			}
+			else{
 			  var result = util.divideUsers(users);
-			  res.json(result);
+			  res.type('json').status(200).send(result);
 			}
-		});
+		})
 	}
 	else if(searchCriteria === "Citizen Status"){
 
-		models.user.findAll({
-		  attributes: ['id','username', 'firstname', 'lastname', 'statusid', 'roleid', 'location','lastlogintime'],
-		  where: {
-		    statusid: searchText
-		  }
-		  }).then(function (users) {
+		models.user.searchByStatus(models, searchText, function(users){
 
-		  	if(users.length ===0){
-
-				res.json({error: "No results matching the search criteria"})
+		  	if(users === null){
+				res.status(500).send("Internal Error occured while fetching data");
+			}
+			else if(users.length ===0){
+				res.type('json').status(200).send({error: "No results matching the search criteria"})
 			}
 			else{	
-
 		  	  var result = util.divideUsers(users);
-			  res.json(result);
+			  res.type('json').status(200).send(result);
 			}
 		});
 
 	}
 	else {
 
-		var err = util.checkSearchWords(searchText);
+		var existsTxt = util.checkSearchWords(searchText);
 
-		if (err){
+		if (existsTxt){
 
-			var searchtxt = util.convertText(err);
-			//console.log(searchtxt);
+			var searchtxt = util.convertText(existsTxt);
 
 			if(searchCriteria === "Announcements"){
-
-				models.announcement.findAndCountAll({
-				  attributes: ['id','publisher_userid', 'content', 'createdAt'],
-				  where: {
-				    content: {
-				    	$like: searchtxt
-				    }
-				  },
-				  include: [{model: models.user, attributes: ['username','location','statusid']}],
-				  order:'announcement.createdAt DESC',
-				  offset: pageCount,
-				  limit: 10
-				  }).then(function (announcements) {
-					  res.json(announcements);
-				});
+				models.announcement.searchAnnouncements(models, searchtxt, pageCount, function(announcements){
+					res.type('json').status(200).send(announcements);
+				})
 			}
 			else if (searchCriteria === "Public Messages"){
-
-				models.chathistory.findAndCountAll({
-				  attributes: ['id','chatauthor_id', 'chatmessage', 'timestamp', 'createdAt'],
-				  where: {
-				    chatmessage: {
-				    	$like: searchtxt
-				    }
-				  },
-				  include: [{model: models.user, attributes: ['username','location','statusid']}],
-				  order:'timestamp DESC',
-				  offset: pageCount,
-				  limit: 10
-				  }).then(function (messages) {
-					  res.json(messages);
-				});
+				models.chathistory.searchMessages(models, searchtxt, pageCount, function(messages){
+					res.type('json').status(200).send(messages);
+				})
 			}
 			else if (searchCriteria === "Private Messages"){
-				
-				var currUser = req.session.user.id;
 
-				models.privatechathistory.findAndCountAll({
-				  attributes: ['id','chatauthor_id', 'chattarget_id','chatmessage', 'timestamp', 'createdAt'],
-				  where: {
-				    chatmessage: {
-				    	$like: searchtxt
-				    },
-				    $or: [{chatauthor_id: currUser}, 
-				    	{chattarget_id: currUser}]
-				  },
-				  include: [{model: models.user, as: 'usertarget_id', attributes: ['username','location', 'statusid']},
-				 		   {model: models.user, as: 'userauthor_id', attributes: ['username','location', 'statusid']}],
-				  order:'timestamp DESC',
-				  offset: pageCount,
-				  limit: 10
-				}).then(function (privmessages) {
-				  res.json(privmessages);
-				});
+				var curr_user = req.query.authorid;
+
+				models.privatechathistory.searchPrivateMessages(models, searchtxt, pageCount, curr_user, function(messages){
+					res.type('json').status(200).send(messages);
+				})	
 			}
 		}
 		else {
-				res.json({error: "Search text contains stop words"})
+				res.json({error: "Search text contains only stop words"})
 		}
 
 	}

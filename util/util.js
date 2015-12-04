@@ -1,3 +1,4 @@
+
 var onlineUsers = require('.././lib/onlineUsers.js');
 var checkwords = require('.././lib/reservedNames.js');
 
@@ -41,8 +42,46 @@ exports.isInteger = function(x) {
 }
 
 
-exports.checkSearchWords = function(text){
 
+
+
+
+exports.checkUserAccess = function(req){
+	if(req.session.user.roleid == 1) return 1;
+	else if(req.session.user.roleid == 2) return 2;
+	else if(req.session.user.roleid == 3) return 3;
+	
+};
+
+
+exports.ifSignIn = function (req, res, next) {
+	if (req.session && req.session.user) { 
+		next();
+	}else{
+		res.redirect('/signin');
+	}  
+};
+
+exports.goOnline = function (user) {
+	onlineUsers.addoOnlineUsers(user);
+};
+
+exports.checkAccountStatus = function(req){
+	
+	
+	if(req.session.user.accountStatus != 0) {return 1;}
+	else if(req.session.user.accountStatus == 0) 
+		{
+			return 0;}
+	
+};
+
+exports.isInteger = function(x) {
+	return x % 1 === 0;
+};
+
+
+exports.checkSearchWords = function(text){
 	var mytext = text;
 	var str = Array();
 	var check = mytext.trim().split(/\s+/);
@@ -66,8 +105,8 @@ exports.checkSearchWords = function(text){
 		return false;
 	}
 	else {
-		
-	    return str;
+		return str;
+
 	}
 
 };
@@ -146,7 +185,6 @@ exports.convertText = function (arr){
 
 
 
-
  exports.divideUsers = function(users){
 	 var users_list = {'online':{}, 'offline': {}};
 	   
@@ -214,5 +252,4 @@ function insensitive(k1, k2) {
   var k2lower = k2.toLowerCase();
   return k1lower > k2lower? 1 : (k1lower < k2lower? -1 : 0);
 }
-
 

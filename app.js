@@ -59,12 +59,6 @@ require('./chatsocket')(io);
 
 
 
-//importing models
-var Announce = require('./models/announcement.js');
-var Msg = require('./models/publicwall.js');
-
-
-
 var router = require('./controllers')(app);
 
 // catch 404 and forward to error handler

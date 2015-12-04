@@ -84,7 +84,6 @@ suite('Announcement API', function(){
 		request
 			.post('/api/messages/announcement')
 			.send(data)
-			.expect(200) 
 			.end(function(err, res){
 				should.not.exist(err);
 				expect(res).to.have.property('statusCode');

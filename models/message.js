@@ -37,6 +37,34 @@ module.exports = function(sequelize){
 		classMethods:{
 			associate: function(models){
 				chathistory.belongsTo(models.user, {as: 'chatauthor', foreignKey: 'chatauthor_id', targetKey: 'id'});
+			},
+			createPubMessage: function(models, data, next){				
+				models.chathistory.create({ 
+					chatauthor_id: data.chatauthor_id,
+					chatmessage: data.chatmessage,
+					timestamp:new Date()		
+				}).then(function(pubMsg) {
+			    next(pubMsg);
+			  });
+			},
+			searchMessages: function(models, searchtxt, pageCount, next){
+				
+				chathistory.findAndCountAll({
+				  attributes: ['id','chatauthor_id', 'chatmessage', 'timestamp', 'createdAt'],
+				  where: {
+				    chatmessage: {
+				    	$like: searchtxt
+				    }
+				  },
+				  include: [{model: models.user, attributes: ['username','location','statusid']}],
+				  order:'timestamp DESC',
+				  offset: pageCount,
+				  limit: 10
+				}).then(function (messages) {
+					  next(messages);
+				}).catch(function(e){
+					next(null)
+				});
 			}
 		}
 	});

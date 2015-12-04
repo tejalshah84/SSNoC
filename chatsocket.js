@@ -43,27 +43,41 @@ io.on('connection', function(socket){
   });
 	
 
+
 	//Fetching socket.id for Private Chat
   socket.on('setUsername',function(data){
 	  	  privateRooms[data.chatauthor]= socket.id;
   });
   
   
+  
+  
+
+  
   //Socket trigger performing private msg DB insertion
-  socket.on('PrivateChatMsg',function(data){
+    socket.on('PrivateChatMsg',function(data){
 			models.user.findOne({
 				where: {id: data.chatauthor_id}
 			}).then(function(user) {
-				models.privatechathistory.createPrivMessage(models,data, function(){
-							io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']]).emit('private chat',{
-       							chatauthor_id: data.chatauthor_id,
-       							chatauthor: data.chatauthor,
-       							chatmessage: data.chatmessage,
-    							timestamp: data.timestamp
-    				});   	
-				});			
-    	 		});  
-
+    			models.privatechathistory.create({ 
+		          	chatauthor_id: data.chatauthor_id,
+		          	chattarget_id: data.chattarget_id,
+		          	chatmessage: data.chatmessage, 
+		            timestamp: data.timestamp
+       			}).then(function() {
+       						console.log(onlineUsers.getOnlineUsers());				
+       						var onlinetarget = 	(onlineUsers.getOnlineUsers().hasOwnProperty(data.chattarget_id))	
+       						if(onlinetarget){	
+       							console.log('testing priv chat');	
+										io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']]).emit('private chat',{
+       								chatauthor_id: data.chatauthor_id,
+       								chatauthor: data.chatauthor,
+       								chatmessage: data.chatmessage,
+    									timestamp: data.timestamp
+    								});   	
+									}
+						});			
+    	 	});  
     });
 		
 		//needs to be done
@@ -92,7 +106,7 @@ io.on('connection', function(socket){
 		//done
 	  socket.on('new announcement', function(data) {
 			models.user.findById(models, data.publisher_userid, function(user){
-				create.createAnnouncement(data, function(){
+				models.announcement.createAnnouncement(models, data, function(){
 					io.sockets.emit('new annoucement', {
 		   			publisher_username: user.username,
 		   			content: data.content,

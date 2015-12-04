@@ -44,7 +44,7 @@ var menu = {
     "<a href=\"/missing/deck\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-info-sign icon-margin\" aria-hidden=\"true\"></span> Missing People</a></li>",
 
     'announcement': "<li class=\"c-menu__item\">" +
-    "<a data-toggle=\"modal\" data-target=\"#postAnnouncementModal\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-volume-up icon-margin\" aria-hidden=\"true\"></span> Post Announcement</a></li>",
+    "<a data-toggle=\"modal\" data-target=\"#postAnnouncementModal\" class=\"c-menu__link clickable\"><span class=\"glyphicon glyphicon-volume-up icon-margin\" aria-hidden=\"true\"></span> Post Announcement</a></li>",
 
     'userprofile': "<li class=\"c-menu__item\">" +
     "<a href=\"/profile\" class=\"c-menu__link\"><span class=\"glyphicon glyphicon-cog icon-margin\" aria-hidden=\"true\"></span> Admin User Profile</a></li>",
