@@ -24,6 +24,8 @@ module.exports = function(app){
 	var apiController = require('./apiController');
 	var profileController = require('./profileController');
 	var performanceController = require('./performanceController');
+	var statusController = require('./statusController');
+	
 	
 
   
@@ -37,6 +39,8 @@ module.exports = function(app){
 	router.use('/missing', missingPeopleController);
 	router.use('/profile', profileController);
 	router.use('/performance', performanceController);
+	router.use('/status', statusController);
+	
 	
 	
 	// ROUTING
