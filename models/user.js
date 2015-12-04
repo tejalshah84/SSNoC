@@ -148,7 +148,7 @@ module.exports = function(sequelize){
 			    next(user);
 			  });
 			},
-			/////
+			//destroy user record
 			destroyUser: function(models, id, next){
 				models.user.findOne({ where: { id: id}}).then(function(user){
 					return user.destroy();
@@ -157,8 +157,12 @@ module.exports = function(sequelize){
 				});
 
 			},
-			updateUser: function(models, data, next){		
-				//To be finished by Denise	
+			updateUserStatus: function(models, data, next){		 //udpate user status
+			
+				models.user.update({statusid: data.statusid}, {where: {id: data.userid}}).then(function(user) {
+					next(user);
+				});
+
 			},
 			searchUsername: function(models, searchText, next){
 

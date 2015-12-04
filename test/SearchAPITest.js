@@ -67,7 +67,7 @@ suite('Search API', function(){
 	    	.get('/search')
 	    	.query({
 				searchCriteria: "Announcements",
-				searchText: "yoyoyo",
+				searchText: "Please",
 				pageCount: 0
 			})
 	    	.end(function (err, res){

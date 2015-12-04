@@ -23,7 +23,7 @@ suite('Admin Profile API', function(){
 					expect(res.statusCode).to.equal(200);
 					expect(res.body).to.be.an('object');
 					for(var i=0; i<res.body.length; i++){
-						expect(res.body[i]).to.have.property('status_id');
+						expect(res.body[i]).to.have.property('accountStatus', 1);
 					}					
 					done();
 				});
@@ -44,7 +44,7 @@ suite('Admin Profile API', function(){
 					expect(res.statusCode).to.equal(200);
 					expect(res.body).to.be.an('object');
 					for(var i=0; i<res.body.length; i++){
-						expect(res.body[i]).to.have.property('status_id');
+						expect(res.body[i]).to.have.property('accountStatus', 0);
 					}
 					done();
 				});

@@ -21,20 +21,12 @@ io.on('connection', function(socket){
 	
 	//need to be refactored
   socket.on('change status', function(data) {
-		models.user.findOne({
-		  where: {
-		    id: data.userid
-		  }
-		}).then(function (result) {
-			result.update({
-			statusid: data.status_id
-		}).then(function() {
+		models.user.updateUserStatus(models, data, function(user){
 			io.sockets.emit('new status', {
 				userid: data.userid,
 				statusid: data.status_id
 			});	
 		});
-  	});
 	});
 
 	
@@ -75,6 +67,10 @@ io.on('connection', function(socket){
        								chatmessage: data.chatmessage,
     									timestamp: data.timestamp
     								});   	
+										io.sockets.to([onlineUsers.getOnlineUsers()[data.chattarget_id]['socket_id']]).emit('new notification chat',{
+       								chatauthor_id: data.chatauthor_id,
+       								chatauthor: data.chatauthor,
+    								}); 
 									}
 						});			
     	 	});  

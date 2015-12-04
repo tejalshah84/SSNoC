@@ -521,6 +521,14 @@ socket.on('new notification', function (data) {
 	var view = "<div class=\"alert alert-warning alert-dismissible\" role=\"alert\" style=\"top:0; position:absolute;z-index:1000000;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong class=\"notification_content\">"+content+"</strong></div>";
 	$('#push_notification').append(view);
 });
+
+socket.on('new notification chat', function (data) {
+	var re = new RegExp(/^.*\//);
+	var redirect = re.exec(window.location.href);
+	var content = data.chatauthor+" sends you a message! "+'<a href=\'/chat/'+data.chatauthor_id+'\'> See more! </a>';
+	var view = "<div class=\"alert alert-warning alert-dismissible\" role=\"alert\" style=\"top:0; position:absolute;z-index:1000000;\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button><strong class=\"notification_content\">"+content+"</strong></div>";
+	$('#push_notification').append(view);
+});
 	
 	
 $('.modal').on('shown.bs.modal', function() {
