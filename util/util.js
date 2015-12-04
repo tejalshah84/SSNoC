@@ -14,7 +14,6 @@ exports.isMinitor = function(req, res, next){
 
 exports.checkUserAccess = function(req){
 
-	console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~checkUserAccess");
 	
 	if(req.session.user.roleid == 1) return 1;
 	else if(req.session.user.roleid == 2) return 2;
@@ -25,7 +24,6 @@ exports.checkUserAccess = function(req){
 
 exports.ifSignIn = function (req, res, next) {
 	if (req.session && req.session.user) { 
-		console.log('~~~~~~~~~~~~~~~ Session exist!!!');
 		next();
 	}else{
 		res.redirect('/signin');
@@ -36,14 +34,7 @@ exports.goOnline = function (user) {
 	onlineUsers.addoOnlineUsers(user);
 };
 
-exports.checkAccountStatus = function(req){
-	
-	
-	if(req.session.user.accountStatus != 0) {console.log("checkAccountStatus1"+req.session.user.accountStatus);return 1;}
-	else if(req.session.user.accountStatus == 0) 
-		{console.log("checkAccountStatus0"+req.session.user.accountStatus);return 0;}
-	
-};
+
 
 exports.isInteger = function(x) {
 	return x % 1 === 0;

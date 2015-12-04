@@ -32,6 +32,7 @@ var user = {
 */
 
 
+
 var userA = { 
 	'username': 'abcdefg',
 	'roleid': 2,
@@ -40,6 +41,8 @@ var userA = {
 };
 
 var userUpdate;
+var listA;
+var listB;
 
 
 
@@ -69,24 +72,30 @@ suite('Profile Update Test', function(){
 				  });	
 			
 
-		  		test('3. Check User Access', function(done){ 
-			
-		  		  	util.checkUserAccess()
-		  			.expect('Content-Type')
-		  			.expect(200) 
-		  			done();
 		  	
-		  			});	
 			
 			
-		  		test('4. divideActiveUser', function(done){
-			
-		  			util.divideActiveUsers({}, function(person){
-		  			expect(200);
-		  			//expect(person['dataValues'].missing).to.be.eql(0);
-		  			done();	
-		  			});
-		  			});
-			
+		  test('3. divideActiveUser', function(done){
+
+			models.user.findAll().then(function (users) {
+						listA = util.divideActiveUsers(users);
+						expect(200);
+						expect(listA).to.be.an('object');
+						done();
+					});
+					});
+					
+					
+		  test('4. divideInActiveUser', function(done){
+
+		     	models.user.findAll().then(function (users) {
+		     				listB = util.divideInActiveUsers(users);
+						expect(listB).to.be.an('object');
+		     				expect(200);
+		     				done();
+		     			});
+		     			});
+								
+					
 
 });
