@@ -78,20 +78,6 @@ suite('Resource REST Testing', function(){
 		 });
 	});
 
-	test('Add Donation', function(done){
-
-		request(url)
-		.post('/resources/adddonation')
-		.send({
-			resourcetype: 3,
-			donation: 2
-		})
-		.end(function(err, res){
-			expect('Content-Type', 'text/html');
-			done();
-		});
-	});
-
 		
 	
 });

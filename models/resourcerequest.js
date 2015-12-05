@@ -138,7 +138,7 @@ module.exports = function(sequelize){
 									requested_date: new Date().toLocaleString(),
 									pickedup_ind: 'N'
 								}).then(function() {
-									next(null)
+									next()
 								}).catch(function (err){
 									next(err);
 								})

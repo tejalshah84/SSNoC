@@ -9,7 +9,6 @@ var indexRoutes = require('.././controllers/index.js');
 var url = 'http://localhost:8888';
 
 
-
 suite('Requests REST Testing', function(){
 	
 	test('My Requests List', function(done){
@@ -44,21 +43,6 @@ suite('Requests REST Testing', function(){
 		})
 	});
 
-
-	test('Add Request', function(done){
-
-		request(url)
-		.post('/requests/addrequest')
-		.send({
-			resourcetype: 3,
-			requested: 1,
-			requser: 5
-		})
-		.end(function(err, res){
-			expect('Content-Type', 'text/html');
-			done();
-		});
-	});
 	
 		
 	
