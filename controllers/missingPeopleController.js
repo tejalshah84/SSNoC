@@ -1,3 +1,7 @@
+'use strict';
+/* jshint shadow:true */
+/* jshint sub: true */
+
 var express = require('express');
 var router = express.Router();
 var onlineUsers = require('.././lib/onlineUsers.js');
@@ -9,22 +13,15 @@ var fs = require('fs');
 
 //importing models
 var models = require('.././models');
+var util = require('.././util/util.js');
 
 // -------------------------------------------------------------------------------------//
 
 
-var ifSignIn = function (req, res, next) {
-	if (req.session && req.session.user) { 
-		console.log('~~~~~~~~~~~~~~~ Session exist!!!');
-		next();
-	}else{
-		res.redirect('/');
-	}  
-}
 
 
 // GET all messages
-router.get('/deck', ifSignIn, function(req, res) {
+router.get('/deck', util.ifSignIn, function(req, res) {
 	models.user.findAll().then(function (user) {	
 		var users = user;
 		models.missingperson.findAll({
@@ -44,7 +41,7 @@ router.get('/deck', ifSignIn, function(req, res) {
 });
 
 // new missing people
-router.get('/new',ifSignIn, function(req, res) {
+router.get('/new', util.ifSignIn, function(req, res) {
 	models.user.findAll().then(function (user) {	
 	res.render('missing/new', { 
 		user: req.session.user,
@@ -60,13 +57,10 @@ router.post('/:id/found', function(req, res) {
 	console.log(req.body);
 	
 	services.foundMissingPerson(req.params.id, req.body, function(person){
-		console.log(person);
-		models.user.findOne({
-			  where: {
-			    id: person
-				}
-		}).then(function (result) {
-			var data = {"id": result.id, "reporter_userid": result.username, "person": person, "founder": req.session.user.username};
+		console.log(person['dataValues']);
+		
+		models.user.findById(models, person['dataValues'].reporter_userid, function (result) {
+			var data = { "reporter_userid": result.id, "person": person, "founder": req.session.user.username, "founder_id": req.session.user.id};
 			res.json(data);
 		});
 		
@@ -78,19 +72,19 @@ router.post('/:id/found', function(req, res) {
 
 //create new missing people profile
 router.post('/', upload.single('file'), function(req, res) {
-	console.log(req);
 		var path = __dirname + "/../public/uploads";
+		var filename;
 		if(!req.file){
-			console.log("????");
-			var filename = null;
+			filename = '';
 		}else{
-			var filename = req.file.originalname;
+			filename = req.file.originalname;
 		}
-		
 		services.uploadImage(req,filename,path, function() {
-			var person = services.createMissingPerson(req.body, filename, req.session.user,function(person) {
+			filename = 'Minion.png';
+			//var person = services.createMissingPerson(req.body, req.file.originalname, req.session.user,function(person) {
+			var person = models.missingperson.createMissingPerson(models, req.body, filename, req.session.user,function(person) {	
 	  		console.log('--------------');
-				console.log(person);
+				console.log(person['dataValues']);
 					res.redirect('/missing/deck');
 			});
 		});
@@ -108,14 +102,14 @@ router.get('/uploads/:file', function (req, res){
 });
 // ------------------------- API ------------------------------------------------------------//
 
-// GET all messages
+// GET all missing people
 router.get('/', function(req, res) {
 	models.missingperson.findAll().then(function (people) {
 		  res.json(people);
 	});
 });
 
-// GET all missing people
+// GET all missing people that are missing
 router.get('/missing', function(req, res) {
 	models.missingperson.findAll({
 		where:{
@@ -136,7 +130,7 @@ router.get('/found', function(req, res) {
 	});
 });
 
-//get message
+//get a missig person
 router.get('/:id', function(req, res) {
 	models.missingperson.findOne({
 		where:{

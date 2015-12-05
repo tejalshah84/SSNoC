@@ -1,31 +1,11 @@
+//var app = require("../app.js").app;
+var server = require("../app.js").server;
+var request = require("supertest").agent(server);
+var should = require('should');
 var expect = require('expect.js');
-var agent = require('superagent');
 
-var PORT = process.env.PORT | 8888;
-var HOST = 'http://localhost:'+PORT;
 
-// Initiate Server
-var debug = require('debug')('Node-API-Testing');
-var app = require('../app');
-
-app.set('port', PORT);
-app.set('testing', true);
-
-var serverInitialized = function() {
-  debug('Express server listening on port ' + PORT);
-};
-
-var server = app.listen(app.get('port'), serverInitialized)
-.on('error', function(err){
-  if(err.code === 'EADDRINUSE'){
-    PORT++;
-    HOST = 'http://localhost:'+PORT;
-    app.set('port', PORT);
-    server = app.listen(app.get('port'), serverInitialized)
-  }
-});
-
-//////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 var person = { 
 	'id': 1,
@@ -40,54 +20,94 @@ var person = {
 	'missing': 1
 };
 
+///////////////////////////////////////////////////////////////
+
+	suiteSetup(function (done){
+		server.close(done);
+	});
+
 suite('Missing Person API', function(){
 	
-		
-	test('Getting all missing person', function(done){
-	    agent.get(HOST+'/missing')
-	    .end(function(err, res){
-	      expect(err).to.not.be.ok();
-	      expect(res).to.have.property('statusCode');
-	      expect(res).to.have.property('body');
-	      expect(res.statusCode).to.equal(200);
-	      expect(res.body).to.be.an('array');
-	      done();
-	    });
-	  });
-		
-		test('Getting a particular missing person', function(done){
-		        agent.get(HOST+'/missing/'+person.id)
-		        .end(function(err, res){
-		          expect(res.body).to.have.property('firstname');
-		          expect(res.body).to.have.property('lastname');
-		          expect(res.body).to.have.property('age');
-		          expect(res.body.age).to.be.a('number');
-		          done();
-		        });
-		    });
-				
-				test('Getting missing people', function(done){
-				      agent.get(HOST+'/missing/missing')
-				      .end(function(err, res){
-			          expect(err).to.not.be.ok();
-			          expect(res).to.have.property('statusCode');
-			          expect(res).to.have.property('body');
-			          expect(res.statusCode).to.equal(200);
-			          expect(res.body).to.be.an('object');
-			          done();
-				      });
-				    });
+
 	
-						test('Getting missing people that are found', function(done){
-						      agent.get(HOST+'/missing/found')
-						      .end(function(err, res){
-					          expect(err).to.not.be.ok();
-					          expect(res).to.have.property('statusCode');
-					          expect(res).to.have.property('body');
-					          expect(res.statusCode).to.equal(200);
-					          expect(res.body).to.be.an('object');
-					          done();
-						      });
-						    });				
+	test('1. Getting all missing person', function(done){
+	    request
+	    	.get('/missing')
+				.expect('Content-Type', /json/)
+				.expect(200) 
+				.end(function(err, res){
+					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res).to.have.property('body');
+					expect(res.statusCode).to.equal(200);
+					expect(res.body).to.be.an('array');
+					for(var i=0; i<res.body.length; i++){
+						expect(res.body[i]).to.have.property('firstname');
+						expect(res.body[i]).to.have.property('lastname');
+					} 
+					done();
+				});
+	});
+			
+	test('2. Getting a particular missing person', function(done){
+	    request
+	    	.get('/missing/'+person.id)
+				.expect('Content-Type', /json/)
+				.expect(200) 
+				.end(function(err, res){
+					should.not.exist(err);
+					expect(res).to.have.property('statusCode');
+					expect(res).to.have.property('body');
+					expect(res.statusCode).to.equal(200);
+					expect(res.body).to.be.an('object');
+					expect(res.body).to.have.property('firstname');
+					expect(res.body).to.have.property('lastname');
+					done();
+				});
+	});
+	
+	test('3. Getting missing people', function(done){
+  	request
+  		.get('/missing/missing')
+			.expect('Content-Type', /json/)
+			.expect(200) 
+			.end(function(err, res){
+				should.not.exist(err);
+				expect(res).to.have.property('statusCode');
+				expect(res).to.have.property('body');
+				expect(res.statusCode).to.equal(200);
+				expect(res.body).to.be.an('array');
+				for(var i=0; i<res.body.length; i++){
+					expect(res.body[i]).to.have.property('firstname');
+					expect(res.body[i]).to.have.property('lastname');
+					expect(res.body[i].missing).to.eql(1);
+				} 
+				done();
+			});
+
+	});
+	
+	test('4. Getting missing people that are found', function(done){
+		request
+			.get('/missing/found')
+			.expect('Content-Type', /json/)
+			.expect(200) 
+			.end(function(err, res){
+				should.not.exist(err);
+				expect(res).to.have.property('statusCode');
+				expect(res).to.have.property('body');
+				expect(res.statusCode).to.equal(200);
+				expect(res.body).to.be.an('array');
+				for(var i=0; i<res.body.length; i++){
+					expect(res.body[i]).to.have.property('firstname');
+					expect(res.body[i]).to.have.property('lastname');
+					expect(res.body[i].missing).to.eql(0);
+				} 
+				done();
+			});
+	});		
+	
+	
+			
 });
  
